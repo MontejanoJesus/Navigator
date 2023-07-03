@@ -49,8 +49,10 @@ public class App {
         IDriverDAO driverDAO = new DriverDAO();
         Driver driver = new Driver();
         driver.setId(1L);
-        driver.setName("John");
-        driverDAO.insert(driver);
+        //driver.setName("John");
+        //driverDAO.insert(driver);
+        driver.setName("Bob");
+        driverDAO.delete(1L);
         logger.info("Driver inserted successfully!");
     }
 }
