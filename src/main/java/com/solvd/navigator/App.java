@@ -1,6 +1,9 @@
 package com.solvd.navigator;
 
 import com.solvd.navigator.connection.ConnectionPool;
+import com.solvd.navigator.dao.IDriverDAO;
+import com.solvd.navigator.dao.impl.mybatis.DriverDAO;
+import com.solvd.navigator.model.Driver;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
@@ -15,7 +18,8 @@ public class App {
     private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
 
     public static void main(String[] args) {
-        connectionPoolTest();
+        //  connectionPoolTest();
+        myBatisTest();
     }
 
     public static void connectionPoolTest(){
@@ -39,5 +43,14 @@ public class App {
         } catch (InterruptedException | SQLException | IOException e) {
             logger.error("Failed to acquire/release connection from the pool.", e);
         }
+    }
+
+    public static void myBatisTest(){
+        IDriverDAO driverDAO = new DriverDAO();
+        Driver driver = new Driver();
+        driver.setId(1L);
+        driver.setName("John");
+        driverDAO.insert(driver);
+        logger.info("Driver inserted successfully!");
     }
 }
