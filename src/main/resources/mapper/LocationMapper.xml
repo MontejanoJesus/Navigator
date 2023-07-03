@@ -23,4 +23,8 @@
     <update id="update" parameterType="com.solvd.navigator.model.Location">
         UPDATE Locations SET name = #{name} WHERE id = #{id}
     </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Locations WHERE id = #{id}
+    </delete>
 </mapper>

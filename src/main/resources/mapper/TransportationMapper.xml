@@ -6,10 +6,11 @@
 	<resultMap id="transportationResultMap" type="com.solvd.navigator.model.Transportation">
 		<id property="id" column="id"/>
   		<result property="name" column="name"/>
-		<association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">
-			<id property="id" column="driver_id"/>
-			<result property="name" column="name"/>
-		</association>
+<!--		<association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">-->
+<!--			<id property="id" column="driver_id"/>-->
+<!--			<result property="name" column="driver_name"/>-->
+<!--		</association>-->
+		<association property="driver" column="driver_id" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap"/>
 	</resultMap>
 
 	<select id="getById" parameterType="long" resultMap="transportationResultMap">

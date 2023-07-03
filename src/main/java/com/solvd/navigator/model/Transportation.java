@@ -33,11 +33,12 @@ public class Transportation {
 		this.driver = driver;
 	}
 
+	@Override
 	public String toString() {
-		return "Driver{" +
+		return "Transportation{" +
 				"id=" + id +
-				", name='" + name +
-				", driver='" + driver +
+				", name='" + name + '\'' +
+				", driver=" + driver.toString() +
 				'}';
 	}
 }
