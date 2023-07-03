@@ -16,19 +16,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ConnectionPool{
     private static ConnectionPool connectionPool;
 
-    private final int poolSize;
+    private final static int poolSize= 5;
     private final BlockingQueue<Connection> connections;
     private final Set<Connection> initializedConnections;
 
-    private ConnectionPool(int poolSize) {
-        this.poolSize = poolSize;
+    private ConnectionPool() {
         this.connections = new LinkedBlockingQueue<>(poolSize);
         this.initializedConnections = new HashSet<>();
     }
 
-    public synchronized static ConnectionPool getInstance(int poolSize) {
+    public synchronized static ConnectionPool getInstance() {
         if (connectionPool == null) {
-            connectionPool = new ConnectionPool(poolSize);
+            connectionPool = new ConnectionPool();
         }
         return connectionPool;
     }
