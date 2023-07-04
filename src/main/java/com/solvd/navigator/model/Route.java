@@ -4,8 +4,8 @@ public class Route {
     private Long id;
     private Location locationA;
     private Location locationB;
-    private Integer duration;
     private Transportation transportation;
+    private Integer duration;
     private Integer cost;
     private Integer distance;
 
