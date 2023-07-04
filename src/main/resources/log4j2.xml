@@ -15,5 +15,6 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="Logging"/>
         </Root>
+        <Logger name="com.solvd.navigator.App" level="INFO"/>
     </Loggers>
 </Configuration>
