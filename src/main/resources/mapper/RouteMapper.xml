@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.IRouteDAO">
+    <resultMap id="routeResultMap" type="com.solvd.navigator.model.Route">
+        <id property="id" column="id"/>
+        <result property="distance" column="distance"/>
+        <result property="duration" column="duration"/>
+        <result property="cost" column="cost"/>
+        <association property="locationA" javaType="com.solvd.navigator.model.Location" resultMap="com.solvd.navigator.dao.ILocationDAO.locationResultMap">
+            <id property="id" column="location_a_id"/>
+            <result property="name" column="name"/>
+        </association>
+        <association property="locationB" javaType="com.solvd.navigator.model.Location" resultMap="com.solvd.navigator.dao.ILocationDAO.locationResultMap">
+            <id property="id" column="location_b_id"/>
+            <result property="name" column="name"/>
+        </association>
+        <association property="transportation" javaType="com.solvd.navigator.model.Transportation" resultMap="com.solvd.navigator.dao.ITransportationDAO.transportationResultMap">
+            <id property="id" column="transportation_id"/>
+            <result property="name" column="name"/>
+            <association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">
+                <id property="id" column="driver_id"/>
+                <result property="name" column="name"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="routeResultMap">
+        SELECT * FROM Routes WHERE id = #{id}
+    </select>
+
+    <select id="getRouteByLocationsId" parameterType="long" resultMap="routeResultMap">
+        SELECT * FROM Routes WHERE location_a_id = #{locationAId} AND location_b_id = #{locationBId}
+    </select>
+
+    <select id="getAll" resultMap="routeResultMap">
+        SELECT * FROM Routes
+    </select>
+
+    <select id="getAllRoutesByLocationId" parameterType="long" resultMap="routeResultMap">
+        SELECT * FROM Routes WHERE location_a_id = #{locationId} OR location_b_id = #{locationId}
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.Route">
+        INSERT INTO Routes (id, distance, duration, cost, location_a_id, location_b_id, transportation_id) VALUES (#{id}, #{distance}, #{duration}, #{cost}, #{locationA.id}, #{locationB.id}, #{transportation.id})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.Route">
+        UPDATE Routes SET distance = #{distance}, duration = #{duration}, cost = #{cost}, location_a_id = #{locationA.id}, location_b_id = #{locationB.id}, transportation_id = #{transportation.id} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Routes WHERE id = #{id}
+    </delete>
+</mapper>
