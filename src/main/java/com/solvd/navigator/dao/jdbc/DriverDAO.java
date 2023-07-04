@@ -2,6 +2,7 @@ package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.IDriverDAO;
+import com.solvd.navigator.model.Driver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,14 +25,14 @@ public class DriverDAO implements IDriverDAO {
     public Driver getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Driver driver;
+        Driver driver= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setLong(1, id);
-            statement.executeUpdate();
             resultSet = statement.executeQuery();
+            resultSet.next();
             driver = fillDriverByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
@@ -83,14 +84,14 @@ public class DriverDAO implements IDriverDAO {
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, driver.getName());
-            statement.setLong(2,driver.getId());
+            statement = connection.prepareStatement(INSERT);
+            statement.setLong(1,driver.getId());
+            statement.setString(2, driver.getName());
             statement.executeUpdate();
             logger.info("Record created");
-            statement.close();
+
         } catch (SQLException | InterruptedException | IOException e)  {
-            logger.error("Error query: "+ UPDATE+ " error cause: "+e.getCause());
+            logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause());
         } finally {
             try {
                 statement.close();
@@ -103,23 +104,19 @@ public class DriverDAO implements IDriverDAO {
     }
 
     @Override
-    public void update(long id) {
-
-    }
-
     public void update(Driver driver) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            statement = connection.prepareStatement(INSERT);
-            statement.setLong(1,driver.getId());
-            statement.setString(2, driver.getName());
+            statement = connection.prepareStatement(UPDATE);
+            statement.setString(1, driver.getName());
+            statement.setLong(2,driver.getId());
             statement.executeUpdate();
             logger.info("Record created");
-            statement.close();
+
         } catch (SQLException | InterruptedException | IOException e)  {
-            logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause());
+            logger.error("Error query: "+ UPDATE+ " error cause: "+e.getCause());
         } finally {
             try {
                 statement.close();
