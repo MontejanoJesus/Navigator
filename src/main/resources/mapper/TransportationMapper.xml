@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.ITransportationDAO">
+	<resultMap id="transportationResultMap" type="com.solvd.navigator.model.Transportation">
+		<id property="id" column="id"/>
+  		<result property="name" column="name"/>
+<!--		<association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">-->
+<!--			<id property="id" column="driver_id"/>-->
+<!--			<result property="name" column="driver_name"/>-->
+<!--		</association>-->
+		<association property="driver" column="driver_id" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap"/>
+	</resultMap>
+
+	<select id="getById" parameterType="long" resultMap="transportationResultMap">
+		SELECT * FROM Transportation WHERE id = #{id}
+	</select>
+
+	<select id="getAll" resultMap="transportationResultMap">
+		SELECT * FROM Transportation
+	</select>
+
+	<insert id="insert" parameterType="com.solvd.navigator.model.Transportation">
+		INSERT INTO Transportation (id, name, driver_id) VALUES (#{id}, #{name}, #{driver.id})
+	</insert>
+
+	<update id="update" parameterType="com.solvd.navigator.model.Transportation">
+		UPDATE Transportation SET name = #{name}, driver_id = #{driver.id} WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		DELETE FROM Transportation WHERE id = #{id}
+	</delete>
+</mapper>

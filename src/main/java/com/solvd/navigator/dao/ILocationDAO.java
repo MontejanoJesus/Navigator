@@ -1,5 +1,8 @@
 package com.solvd.navigator.dao;
 
-public interface ILocationDAO extends IDAO<Location>{
+import com.solvd.navigator.model.Location;
 
+import java.util.List;
+
+public interface ILocationDAO extends IDAO<Location>{
 }
