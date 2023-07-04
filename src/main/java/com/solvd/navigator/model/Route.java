@@ -4,10 +4,10 @@ public class Route {
     private Long id;
     private Location locationA;
     private Location locationB;
-    private Long duration;
+    private Integer duration;
     private Transportation transportation;
-    private Long cost;
-    private Long distance;
+    private Integer cost;
+    private Integer distance;
 
     public Route() {
 
@@ -37,11 +37,11 @@ public class Route {
         this.locationB = locationB;
     }
 
-    public Long getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -53,19 +53,19 @@ public class Route {
         this.transportation = transportation;
     }
 
-    public Long getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(Long cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 
-    public Long getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(Long distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 
