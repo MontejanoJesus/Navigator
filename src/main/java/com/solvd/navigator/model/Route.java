@@ -45,11 +45,11 @@ public class Route {
         this.duration = duration;
     }
 
-    public Transportation getTransportationId() {
+    public Transportation getTransportation() {
         return transportation;
     }
 
-    public void setTransportationId(Transportation transportation) {
+    public void setTransportation(Transportation transportation) {
         this.transportation = transportation;
     }
 

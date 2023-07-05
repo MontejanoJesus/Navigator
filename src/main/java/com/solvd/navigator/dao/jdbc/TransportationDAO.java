@@ -2,6 +2,7 @@ package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.ITransportationDAO;
+import com.solvd.navigator.model.Transportation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,21 +20,21 @@ public class TransportationDAO implements ITransportationDAO {
     private static final String SELECT_ALL = "SELECT * FROM Transportation";
     private static final String SELECT_BY_ID = "SELECT * FROM Transportation WHERE id = ?";
     private static final String INSERT = "INSERT INTO Transportation (id, name, driver_id) VALUES (?,?, ?)";
-    private static final String UPDATE = "UPDATE Locations SET name=?, driver_id=? WHERE id=?";
+    private static final String UPDATE = "UPDATE Transportation SET name=?, driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Transportation WHERE id = ?";
 
     @Override
     public Transportation getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Transportation transportation;
+        Transportation transportation = null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setLong(1, id);
-            statement.executeUpdate();
             resultSet = statement.executeQuery();
+            resultSet.next();
             transportation = fillTransportationByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
@@ -91,7 +92,7 @@ public class TransportationDAO implements ITransportationDAO {
             statement.setLong(3,transportation.getDriver().getId());
             statement.executeUpdate();
             logger.info("Record created");
-            statement.close();
+
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause());
         } finally {
@@ -103,7 +104,7 @@ public class TransportationDAO implements ITransportationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
-
+    @Override
     public void update(Transportation transportation){
         Connection connection = null;
         PreparedStatement statement = null;
@@ -115,7 +116,6 @@ public class TransportationDAO implements ITransportationDAO {
             statement.setLong(3,transportation.getId());
             statement.executeUpdate();
             logger.info("Record created");
-            statement.close();
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ UPDATE+ " error cause: "+e.getCause());
         } finally {
@@ -128,10 +128,6 @@ public class TransportationDAO implements ITransportationDAO {
         }
     }
 
-    @Override
-    public void update(long id) {
-
-    }
 
     @Override
     public void delete(long id) {

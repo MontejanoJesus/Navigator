@@ -1,7 +1,8 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.IRouteDao;
+import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.model.Route;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteDAO implements IRouteDao {
+public class RouteDAO implements IRouteDAO {
     private static final Logger logger = LogManager.getLogger("RouteDAO");
     private static final String SELECT_ALL = "SELECT * FROM Routes";
     private static final String SELECT_BY_ID = "SELECT * FROM Routes WHERE id = ?";
@@ -25,14 +26,14 @@ public class RouteDAO implements IRouteDao {
     public Route getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Route route;
+        Route route = null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setLong(1, id);
-            statement.executeUpdate();
             resultSet = statement.executeQuery();
+            resultSet.next();
             route = fillRouteByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
@@ -78,6 +79,7 @@ public class RouteDAO implements IRouteDao {
         return routes;
     }
 
+
     @Override
     public void insert(Route route) {
         Connection connection = null;
@@ -90,13 +92,13 @@ public class RouteDAO implements IRouteDao {
             statement.setLong(3,route.getLocationB().getId());
             statement.setInt(4, route.getDuration());
             statement.setLong(5,route.getTransportation().getId());
-            statement.setInt(4, route.getCost());
-            statement.setInt(4, route.getDistance());
+            statement.setInt(6, route.getCost());
+            statement.setInt(7, route.getDistance());
             statement.executeUpdate();
             logger.info("Record created");
-            statement.close();
+
         } catch (SQLException | InterruptedException | IOException e)  {
-            logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause());
+            logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause()+ e.getStackTrace());
         } finally {
             try {
                 statement.close();
@@ -108,9 +110,6 @@ public class RouteDAO implements IRouteDao {
     }
 
     @Override
-    public void update(long id) {
-
-    }
     public void update(Route route){
         Connection connection = null;
         PreparedStatement statement = null;
@@ -167,15 +166,15 @@ public class RouteDAO implements IRouteDao {
     public Route getRouteByLocationsId(long locationAId, long locationBId) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Route route;
+        Route route = null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SELECT_BY_LOC_ID);
             statement.setLong(1, locationAId);
             statement.setLong(2, locationBId);
-            statement.executeUpdate();
             resultSet = statement.executeQuery();
+            resultSet.next();
             route = fillRouteByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
@@ -196,7 +195,7 @@ public class RouteDAO implements IRouteDao {
         Route route= null;
         try {
             route= new Route();
-            route.setId(resultSet.getLong(1));
+            route.setId(resultSet.getLong("id"));
             route.setDuration(resultSet.getInt(4));
             route.setCost(resultSet.getInt(6));
             route.setDistance(resultSet.getInt(7));
