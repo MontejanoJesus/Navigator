@@ -26,10 +26,6 @@
         </association>
     </resultMap>
 
-<!--    <select id="getById" parameterType="long" resultMap="routeResultMap">-->
-<!--        SELECT * FROM Routes WHERE id = #{id}-->
-<!--    </select>-->
-
     <select id="getById" parameterType="long" resultMap="routeResultMap">
         SELECT R.id as id,
                R.distance as distance,
