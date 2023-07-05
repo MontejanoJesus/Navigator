@@ -3,12 +3,15 @@ package com.solvd.navigator;
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.IDriverDAO;
 import com.solvd.navigator.dao.ILocationDAO;
+import com.solvd.navigator.dao.IRouteDAO;
 import com.solvd.navigator.dao.ITransportationDAO;
 import com.solvd.navigator.dao.impl.mybatis.DriverDAO;
 import com.solvd.navigator.dao.impl.mybatis.LocationDAO;
 import com.solvd.navigator.dao.impl.mybatis.TransportationDAO;
+import com.solvd.navigator.dao.impl.mybatis.RouteDAO;
 import com.solvd.navigator.model.Driver;
 import com.solvd.navigator.model.Location;
+import com.solvd.navigator.model.Route;
 import com.solvd.navigator.model.Transportation;
 import org.apache.logging.log4j.Logger;
 import java.util.Random;
@@ -21,13 +24,16 @@ public class App {
     private static final Random random = new Random();
 
     public static void main(String[] args) {
-        //  connectionPoolTest();
-        myBatisTransportationTest();
+        //connectionPoolTest();
+        //myBatisDriverTest();
+        //myBatisLocationTest();
+        //myBatisTransportationTest();
+        myBatisRouteTest();
     }
 
-    public static void connectionPoolTest(){
+    private static void connectionPoolTest(){
         // Create an instance of ConnectionPool with a desired pool size
-        ConnectionPool connectionPool = ConnectionPool.getInstance(5);
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
 
         try {
             // Acquire a connection from the pool
@@ -48,96 +54,165 @@ public class App {
         }
     }
 
-    public static void myBatisDriverTest(){
+    private static void myBatisDriverTest(){
         // Test DriverDAO
-        long id1 = Math.abs(random.nextLong());
-        long id2 = Math.abs(random.nextLong());
         IDriverDAO driverDAO = new DriverDAO();
-        Driver driver = new Driver();
-        Driver driver2 = new Driver();
-        driver.setId(id1);
-        driver2.setId(id2);
-        driver2.setName("Jack");
-        driver.setName("John");
+        Driver driver = createDriver("John");
+        Driver driver2 = createDriver("Jack");
 
-        driverDAO.insert(driver);
-        logger.info(driverDAO.getById(id1).toString() + "\n");
+        try{
+            driverDAO.insert(driver);
+            logger.info(driverDAO.getById(driver.getId()).toString() + "\n");
 
-        driver.setName("Bob");
-        driverDAO.update(driver);
-        logger.info(driverDAO.getById(id1).toString() + "\n");
+            driver.setName("Bob");
+            driverDAO.update(driver);
+            logger.info(driverDAO.getById(driver.getId()).toString() + "\n");
 
-        driverDAO.insert(driver2);
-        logger.info(driverDAO.getAll().toString() + "\n");
-
-        driverDAO.delete(id1);
-        driverDAO.delete(id2);
+            driverDAO.insert(driver2);
+            logger.info(driverDAO.getAll().toString() + "\n");
+        }catch (Exception e){
+            logger.error(e);
+        }finally {
+            driverDAO.delete(driver.getId());
+            driverDAO.delete(driver2.getId());
+        }
     }
 
     private static void myBatisLocationTest() {
         // Test LocationDAO, route list is initialized in service layer
-        long id1 = Math.abs(random.nextLong());
-        long id2 = Math.abs(random.nextLong());
         ILocationDAO locationDAO = new LocationDAO();
-        Location location1 = new Location();
-        Location location2 = new Location();
-        location1.setId(id1);
-        location2.setId(id2);
-        location1.setName("New York");
-        location2.setName("Los Angeles");
+        Location location1 = createLocation("New York");
+        Location location2 = createLocation("Los Angeles");
 
-        locationDAO.insert(location1);
-        logger.info(locationDAO.getById(id1).toString() + "\n");
+        try {
+            locationDAO.insert(location1);
+            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
 
-        location1.setName("Chicago");
-        locationDAO.update(location1);
-        logger.info(locationDAO.getById(id1).toString() + "\n");
+            location1.setName("Chicago");
+            locationDAO.update(location1);
+            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
 
-        locationDAO.insert(location2);
-        logger.info(locationDAO.getAll().toString() + "\n");
-
-        locationDAO.delete(id1);
-        locationDAO.delete(id2);
+            locationDAO.insert(location2);
+            logger.info(locationDAO.getAll().toString() + "\n");
+        }catch (Exception e){
+            logger.error(e);
+        }finally {
+            locationDAO.delete(location1.getId());
+            locationDAO.delete(location2.getId());
+        }
     }
 
     private static void myBatisTransportationTest(){
         // Test TransportationDAO
-        long id1 = Math.abs(random.nextLong());
-        long id2 = Math.abs(random.nextLong());
-        long id3 = Math.abs(random.nextLong());
-        ITransportationDAO transportationDAO = new TransportationDAO();
-        Transportation transportation1 = new Transportation();
-        Transportation transportation2 = new Transportation();
-        transportation1.setId(id1);
-        transportation2.setId(id2);
-        transportation1.setName("Bus");
-        transportation2.setName("Train");
-
         IDriverDAO driverDAO = new DriverDAO();
-        Driver driver = new Driver();
-        driver.setId(id3);
-        driver.setName("John");
+        Driver driver = createDriver("John");
 
-        transportation1.setDriver(driver);
-        transportation2.setDriver(driver);
+        ITransportationDAO transportationDAO = new TransportationDAO();
+        Transportation transportation1 = createTransportation("Bus", driver);
+        Transportation transportation2 = createTransportation("Train", driver);
 
-        driverDAO.insert(driver);
-        transportationDAO.insert(transportation1);
-        logger.info(transportationDAO.getById(id1).toString() + "\n");
+        try {
+            driverDAO.insert(driver);
+            transportationDAO.insert(transportation1);
+            logger.info(transportationDAO.getById(transportation1.getId()).toString() + "\n");
 
-        transportation1.setName("Plane");
-        transportationDAO.update(transportation1);
-        logger.info(transportationDAO.getById(id1).toString() + "\n");
+            transportation1.setName("Plane");
+            transportationDAO.update(transportation1);
+            logger.info(transportationDAO.getById(transportation1.getId()).toString() + "\n");
 
-        transportationDAO.insert(transportation2);
-        logger.info(transportationDAO.getAll().toString() + "\n");
-
-        transportationDAO.delete(id1);
-        transportationDAO.delete(id2);
-        driverDAO.delete(id3);
+            transportationDAO.insert(transportation2);
+            logger.info(transportationDAO.getAll().toString() + "\n");
+        }catch (Exception e){
+            logger.error(e);
+        }finally {
+            transportationDAO.delete(transportation1.getId());
+            transportationDAO.delete(transportation2.getId());
+            driverDAO.delete(driver.getId());
+        }
     }
 
     private static void myBatisRouteTest(){
+        IDriverDAO driverDAO = new DriverDAO();
+        Driver driver = createDriver("John");
 
+        ITransportationDAO transportationDAO = new TransportationDAO();
+        Transportation transportation = createTransportation("Bus", driver);
+        Transportation transportation2 = createTransportation("Train", driver);
+
+        ILocationDAO locationDAO = new LocationDAO();
+        Location locationA = createLocation("New York");
+        Location locationB = createLocation("Los Angeles");
+
+        IRouteDAO routeDAO = new RouteDAO();
+        Route route = createRoute(locationA, locationB, transportation, 10, 100, 1000);
+        Route route2 = createRoute(locationB, locationA, transportation, 10, 100, 1500);
+
+        try{
+            driverDAO.insert(driver);
+            transportationDAO.insert(transportation);
+            transportationDAO.insert(transportation2);
+            locationDAO.insert(locationA);
+            locationDAO.insert(locationB);
+            routeDAO.insert(route);
+            logger.info(routeDAO.getById(route.getId()) + "\n");
+
+            route.setTransportation(transportation2);
+            routeDAO.update(route);
+            logger.info(routeDAO.getById(route.getId()) + "\n");
+
+            routeDAO.insert(route2);
+            logger.info(routeDAO.getAll() + "\n");
+        }catch (Exception e) {
+            logger.error(e);
+        }finally {
+            routeDAO.delete(route.getId());
+            routeDAO.delete(route2.getId());
+            transportationDAO.delete(transportation.getId());
+            transportationDAO.delete(transportation2.getId());
+            driverDAO.delete(driver.getId());
+            locationDAO.delete(locationA.getId());
+            locationDAO.delete(locationB.getId());
+        }
+
+
+    }
+
+    // Helpers for creating model objects
+    private static Driver createDriver(String name){
+        long id = Math.abs(random.nextLong());
+        Driver driver = new Driver();
+        driver.setId(id);
+        driver.setName(name);
+        return driver;
+    }
+
+    private static Transportation createTransportation(String name, Driver driver){
+        long id = Math.abs(random.nextLong());
+        Transportation transportation = new Transportation();
+        transportation.setId(id);
+        transportation.setName(name);
+        transportation.setDriver(driver);
+        return transportation;
+    }
+
+    private static Location createLocation(String name){
+        long id = Math.abs(random.nextLong());
+        Location location = new Location();
+        location.setId(id);
+        location.setName(name);
+        return location;
+    }
+
+    private static Route createRoute(Location locationA, Location locationB, Transportation transportation, int duration, int distance, int cost){
+        long id = Math.abs(random.nextLong());
+        Route route = new Route();
+        route.setId(id);
+        route.setLocationA(locationA);
+        route.setLocationB(locationB);
+        route.setTransportation(transportation);
+        route.setDuration(duration);
+        route.setDistance(distance);
+        route.setCost(cost);
+        return route;
     }
 }
