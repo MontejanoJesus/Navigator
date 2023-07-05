@@ -8,46 +8,117 @@
         <result property="distance" column="distance"/>
         <result property="duration" column="duration"/>
         <result property="cost" column="cost"/>
-        <association property="locationA" javaType="com.solvd.navigator.model.Location" resultMap="com.solvd.navigator.dao.ILocationDAO.locationResultMap">
+        <association property="locationA" javaType="com.solvd.navigator.model.Location">
             <id property="id" column="location_a_id"/>
-            <result property="name" column="name"/>
+            <result property="name" column="location_a_name"/>
         </association>
-        <association property="locationB" javaType="com.solvd.navigator.model.Location" resultMap="com.solvd.navigator.dao.ILocationDAO.locationResultMap">
+        <association property="locationB" javaType="com.solvd.navigator.model.Location">
             <id property="id" column="location_b_id"/>
-            <result property="name" column="name"/>
+            <result property="name" column="location_b_name"/>
         </association>
-        <association property="transportation" javaType="com.solvd.navigator.model.Transportation" resultMap="com.solvd.navigator.dao.ITransportationDAO.transportationResultMap">
+        <association property="transportation" javaType="com.solvd.navigator.model.Transportation">
             <id property="id" column="transportation_id"/>
-            <result property="name" column="name"/>
-            <association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">
+            <result property="name" column="transportation_name"/>
+            <association property="driver" javaType="com.solvd.navigator.model.Driver">
                 <id property="id" column="driver_id"/>
-                <result property="name" column="name"/>
+                <result property="name" column="driver_name"/>
             </association>
         </association>
     </resultMap>
 
+<!--    <select id="getById" parameterType="long" resultMap="routeResultMap">-->
+<!--        SELECT * FROM Routes WHERE id = #{id}-->
+<!--    </select>-->
+
     <select id="getById" parameterType="long" resultMap="routeResultMap">
-        SELECT * FROM Routes WHERE id = #{id}
+        SELECT R.id as id,
+               R.distance as distance,
+               R.duration as duration,
+               R.cost as cost,
+               LA.id as location_a_id,
+               LA.name as location_a_name,
+               LB.id as location_b_id,
+               LB.name as location_b_name,
+               T.id as transportation_id,
+               T.name as transportation_name,
+               D.id as driver_id,
+               D.name as driver_name
+        FROM Routes R
+        JOIN Locations LA ON R.location_a = LA.id
+        JOIN Locations LB ON R.location_b = LB.id
+        JOIN Transportation T ON R.transportation_id = T.id
+        JOIN Drivers D ON T.driver_id = D.id
+        WHERE R.id = #{id};
     </select>
 
     <select id="getRouteByLocationsId" parameterType="long" resultMap="routeResultMap">
-        SELECT * FROM Routes WHERE location_a_id = #{locationAId} AND location_b_id = #{locationBId}
+        SELECT R.id as id,
+               R.distance as distance,
+               R.duration as duration,
+               R.cost as cost,
+               LA.id as location_a_id,
+               LA.name as location_a_name,
+               LB.id as location_b_id,
+               LB.name as location_b_name,
+               T.id as transportation_id,
+               T.name as transportation_name,
+               D.id as driver_id,
+               D.name as driver_name
+        FROM Routes R
+        JOIN Locations LA ON R.location_a = LA.id
+        JOIN Locations LB ON R.location_b = LB.id
+        JOIN Transportation T ON R.transportation_id = T.id
+        JOIN Drivers D ON T.driver_id = D.id
+		WHERE R.location_a = #{locationAId} AND R.location_b = #{locationBId}
     </select>
 
     <select id="getAll" resultMap="routeResultMap">
-        SELECT * FROM Routes
+        SELECT R.id as id,
+           R.distance as distance,
+           R.duration as duration,
+           R.cost as cost,
+           LA.id as location_a_id,
+           LA.name as location_a_name,
+           LB.id as location_b_id,
+           LB.name as location_b_name,
+           T.id as transportation_id,
+           T.name as transportation_name,
+           D.id as driver_id,
+           D.name as driver_name
+		FROM Routes R
+		JOIN Locations LA ON R.location_a = LA.id
+		JOIN Locations LB ON R.location_b = LB.id
+		JOIN Transportation T ON R.transportation_id = T.id
+		JOIN Drivers D ON T.driver_id = D.id
     </select>
 
     <select id="getAllRoutesByLocationId" parameterType="long" resultMap="routeResultMap">
-        SELECT * FROM Routes WHERE location_a_id = #{locationId} OR location_b_id = #{locationId}
+        SELECT R.id as id,
+           R.distance as distance,
+           R.duration as duration,
+           R.cost as cost,
+           LA.id as location_a_id,
+           LA.name as location_a_name,
+           LB.id as location_b_id,
+           LB.name as location_b_name,
+           T.id as transportation_id,
+           T.name as transportation_name,
+           D.id as driver_id,
+           D.name as driver_name
+		FROM Routes R
+		JOIN Locations LA ON R.location_a = LA.id
+		JOIN Locations LB ON R.location_b = LB.id
+		JOIN Transportation T ON R.transportation_id = T.id
+		JOIN Drivers D ON T.driver_id = D.id
+		WHERE R.location_a = #{locationId} OR R.location_b = #{locationId}
     </select>
 
     <insert id="insert" parameterType="com.solvd.navigator.model.Route">
-        INSERT INTO Routes (id, distance, duration, cost, location_a_id, location_b_id, transportation_id) VALUES (#{id}, #{distance}, #{duration}, #{cost}, #{locationA.id}, #{locationB.id}, #{transportation.id})
+        INSERT INTO Routes (id, distance, duration, cost, location_a, location_b, transportation_id) VALUES (#{id}, #{distance}, #{duration}, #{cost}, #{locationA.id}, #{locationB.id}, #{transportation.id})
     </insert>
 
     <update id="update" parameterType="com.solvd.navigator.model.Route">
-        UPDATE Routes SET distance = #{distance}, duration = #{duration}, cost = #{cost}, location_a_id = #{locationA.id}, location_b_id = #{locationB.id}, transportation_id = #{transportation.id} WHERE id = #{id}
+        UPDATE Routes SET distance = #{distance}, duration = #{duration}, cost = #{cost}, location_a = #{locationA.id}, location_b = #{locationB.id}, transportation_id = #{transportation.id} WHERE id = #{id}
     </update>
 
     <delete id="delete" parameterType="long">

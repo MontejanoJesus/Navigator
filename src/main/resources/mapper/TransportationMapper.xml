@@ -6,19 +6,29 @@
 	<resultMap id="transportationResultMap" type="com.solvd.navigator.model.Transportation">
 		<id property="id" column="id"/>
   		<result property="name" column="name"/>
-<!--		<association property="driver" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap">-->
-<!--			<id property="id" column="driver_id"/>-->
-<!--			<result property="name" column="driver_name"/>-->
-<!--		</association>-->
-		<association property="driver" column="driver_id" javaType="com.solvd.navigator.model.Driver" resultMap="com.solvd.navigator.dao.IDriverDAO.driverResultMap"/>
+		<association property="driver" javaType="com.solvd.navigator.model.Driver">
+			<id property="id" column="driver_id"/>
+			<result property="name" column="driver_name"/>
+		</association>
 	</resultMap>
 
 	<select id="getById" parameterType="long" resultMap="transportationResultMap">
-		SELECT * FROM Transportation WHERE id = #{id}
+		SELECT T.id as id,
+			   T.name as name,
+			   D.id as driver_id,
+			   D.name as driver_name
+		FROM Transportation T
+		JOIN Drivers D ON T.driver_id= D.id
+		WHERE T.id = #{id};
 	</select>
 
 	<select id="getAll" resultMap="transportationResultMap">
-		SELECT * FROM Transportation
+		SELECT T.id AS id,
+			   T.name AS name,
+			   D.id AS driver_id,
+			   D.name AS driver_name
+		FROM Transportation T
+		JOIN Drivers D ON T.driver_id = D.id
 	</select>
 
 	<insert id="insert" parameterType="com.solvd.navigator.model.Transportation">
