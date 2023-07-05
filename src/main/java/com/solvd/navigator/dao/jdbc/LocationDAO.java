@@ -4,6 +4,7 @@ import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.ILocationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.solvd.navigator.model.Location;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,14 +25,14 @@ public class LocationDAO implements ILocationDAO {
     public Location getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Location location;
+        Location location=null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(SELECT_BY_ID);
             statement.setLong(1, id);
-            statement.executeUpdate();
             resultSet = statement.executeQuery();
+            resultSet.next();
             location = fillLocationByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
@@ -102,10 +103,6 @@ public class LocationDAO implements ILocationDAO {
     }
 
     @Override
-    public void update(long id) {
-
-    }
-
     public void update(Location location){
         Connection connection = null;
         PreparedStatement statement = null;
