@@ -10,6 +10,9 @@ public class Route {
     private Integer distance;
 
     public Route() {
+        this.locationA = new Location();
+        this.locationB = new Location();
+        this.transportation = new Transportation();
 
     }
 
@@ -72,10 +75,10 @@ public class Route {
     public String toString() {
         return "Route{" +
                 "id=" + id +
-                ", locationA=" + locationA +
-                ", locationB=" + locationB +
+                ", locationA=" + locationA.getName() +
+                ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
-                ", transportationId=" + transportation +
+                ", transportation=" + transportation +
                 ", cost=" + cost +
                 ", distance=" + distance +
                 '}';

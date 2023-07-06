@@ -2,6 +2,7 @@ package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.dao.IRouteDAO;
 import com.solvd.navigator.model.Route;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ public class RouteDAO implements IRouteDAO {
     private static final String SELECT_ALL = "SELECT * FROM Routes";
     private static final String SELECT_BY_ID = "SELECT * FROM Routes WHERE id = ?";
     private static final String SELECT_BY_LOC_ID = "SELECT * FROM Routes WHERE location_a = ? AND location_b=?";
+    private static final String SELECT_BY_LOCAT_ID = "SELECT * FROM Routes WHERE location_a = ?";
     private static final String INSERT = "INSERT INTO Routes (id, location_a, location_b, duration, transportation_id, cost, distance) VALUES (?,?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE Routes SET location_a=?, location_b=?, duration=?, transportation_id=?, cost=?, distance=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Routes WHERE id = ?";
@@ -191,6 +193,38 @@ public class RouteDAO implements IRouteDAO {
         return route;
     }
 
+    @Override
+    public List<Route> getAllRoutesByLocationId(long locationId) {
+
+        List<Route> routes = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SELECT_BY_LOCAT_ID);
+            preparedStatement.setLong(1, locationId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                routes.add(fillRouteByResultSet(resultSet));
+            }
+
+        } catch (SQLException | InterruptedException | IOException e) {
+            logger.error("Error executing query: "+SELECT_BY_LOCAT_ID+ "error cause: "+ e.getCause());
+        } finally {
+            try {
+                resultSet.close();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                logger.error("Error closing statement. Error code: "+e.getErrorCode());
+            }
+
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        return routes;
+
+    }
+
     private Route fillRouteByResultSet(ResultSet resultSet) {
         Route route= null;
         try {
@@ -199,6 +233,11 @@ public class RouteDAO implements IRouteDAO {
             route.setDuration(resultSet.getInt(4));
             route.setCost(resultSet.getInt(6));
             route.setDistance(resultSet.getInt(7));
+
+            route.getLocationA().setId(resultSet.getLong("location_a"));
+            route.getLocationB().setId(resultSet.getLong("location_b"));
+            route.getTransportation().setId(resultSet.getLong("transportation_id"));
+
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }

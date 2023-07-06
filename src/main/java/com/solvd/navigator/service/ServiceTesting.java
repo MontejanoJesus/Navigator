@@ -1,50 +1,35 @@
-package com.solvd.navigator;
+package com.solvd.navigator.service;
 
+import com.solvd.navigator.App;
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.*;
-import com.solvd.navigator.dao.impl.mybatis.DriverDAO;
-import com.solvd.navigator.dao.impl.mybatis.LocationDAO;
-import com.solvd.navigator.dao.impl.mybatis.TransportationDAO;
-import com.solvd.navigator.dao.impl.mybatis.RouteDAO;
-import com.solvd.navigator.factory.AbstractFactory;
-import com.solvd.navigator.factory.FactoryGenerator;
 import com.solvd.navigator.model.Driver;
 import com.solvd.navigator.model.Location;
 import com.solvd.navigator.model.Route;
 import com.solvd.navigator.model.Transportation;
-import com.solvd.navigator.service.ILocationService;
-import com.solvd.navigator.service.IRouteService;
-import com.solvd.navigator.service.ServiceTesting;
+import com.solvd.navigator.service.imple.DriverService;
 import com.solvd.navigator.service.imple.LocationService;
 import com.solvd.navigator.service.imple.RouteService;
 import com.solvd.navigator.service.imple.TransportationService;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.Random;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Random;
 
-public class App {
+public class ServiceTesting {
+
+    //GO TO DAOFactory file inside the DAO folder to test different versions(myBatis or JDBC) of DAO.
+
     private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
     private static final Random random = new Random();
+    private static IDriverService driverService = new DriverService();
+    private static ILocationService locationService = new LocationService();
+    private static ITransportationService transportationService = new TransportationService();
+    private static IRouteService routeService = new RouteService();
 
-    public static void main(String[] args) {
 
-        ServiceTesting.driverCRUD();
-        ServiceTesting.locationCRUD();
-        ServiceTesting.transportationCRUD();
-        ServiceTesting.routeCRUD();
-
-        //connectionPoolTest();
-        //myBatisDriverTest();
-        //myBatisLocationTest();
-        //myBatisTransportationTest();
-        //myBatisRouteTest();
-    }
-
-    private static void connectionPoolTest(){
+    public static void connectionPoolTest(){
         // Create an instance of ConnectionPool with a desired pool size
         ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -67,124 +52,125 @@ public class App {
         }
     }
 
-    private static void myBatisDriverTest(){
+    public static void driverCRUD(){
         // Test DriverDAO
-        IDriverDAO driverDAO = new DriverDAO();
-        Driver driver = createDriver("John");
+        //IDriverDAO driverDAO = new DriverDAO();
+
+        Driver driver = createDriver("Juanito");
         Driver driver2 = createDriver("Jack");
 
         try{
-            driverDAO.insert(driver);
-            logger.info(driverDAO.getById(driver.getId()).toString() + "\n");
+            driverService.insert(driver);
+            logger.info(driverService.getById(driver.getId()).toString() + "\n");
 
             driver.setName("Bob");
-            driverDAO.update(driver);
-            logger.info(driverDAO.getById(driver.getId()).toString() + "\n");
+            driverService.update(driver);
+            logger.info(driverService.getById(driver.getId()).toString() + "\n");
 
-            driverDAO.insert(driver2);
-            logger.info(driverDAO.getAll().toString() + "\n");
+            driverService.insert(driver2);
+            logger.info(driverService.getAll().toString() + "\n");
         }catch (Exception e){
             logger.error(e);
         }finally {
-            driverDAO.delete(driver.getId());
-            driverDAO.delete(driver2.getId());
+            driverService.delete(driver.getId());
+            driverService.delete(driver2.getId());
         }
     }
 
-    private static void myBatisLocationTest() {
+    public static void locationCRUD() {
         // Test LocationDAO, route list is initialized in service layer
-        ILocationDAO locationDAO = new LocationDAO();
+        //ILocationDAO locationDAO = new LocationDAO();
         Location location1 = createLocation("New York");
         Location location2 = createLocation("Los Angeles");
 
         try {
-            locationDAO.insert(location1);
-            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
+            locationService.insert(location1);
+            logger.info(locationService.getById(location1.getId()).toString() + "\n");
 
             location1.setName("Chicago");
-            locationDAO.update(location1);
-            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
+            locationService.update(location1);
+            logger.info(locationService.getById(location1.getId()).toString() + "\n");
 
-            locationDAO.insert(location2);
-            logger.info(locationDAO.getAll().toString() + "\n");
+            locationService.insert(location2);
+            logger.info(locationService.getAll().toString() + "\n");
         }catch (Exception e){
             logger.error(e);
         }finally {
-            locationDAO.delete(location1.getId());
-            locationDAO.delete(location2.getId());
+            locationService.delete(location1.getId());
+            locationService.delete(location2.getId());
         }
     }
 
-    private static void myBatisTransportationTest(){
+    public static void transportationCRUD(){
         // Test TransportationDAO
-        IDriverDAO driverDAO = new DriverDAO();
+        //IDriverDAO driverDAO = new DriverDAO();
         Driver driver = createDriver("John");
 
-        ITransportationDAO transportationDAO = new TransportationDAO();
+        //ITransportationDAO transportationDAO = new TransportationDAO();
         Transportation transportation1 = createTransportation("Bus", driver);
         Transportation transportation2 = createTransportation("Train", driver);
 
         try {
-            driverDAO.insert(driver);
-            transportationDAO.insert(transportation1);
-            logger.info(transportationDAO.getById(transportation1.getId()).toString() + "\n");
+            driverService.insert(driver);
+            transportationService.insert(transportation1);
+            logger.info(transportationService.getById(transportation1.getId()).toString() + "\n");
 
             transportation1.setName("Plane");
-            transportationDAO.update(transportation1);
-            logger.info(transportationDAO.getById(transportation1.getId()).toString() + "\n");
+            transportationService.update(transportation1);
+            logger.info(transportationService.getById(transportation1.getId()).toString() + "\n");
 
-            transportationDAO.insert(transportation2);
-            logger.info(transportationDAO.getAll().toString() + "\n");
+            transportationService.insert(transportation2);
+            logger.info(transportationService.getAll().toString() + "\n");
         }catch (Exception e){
             logger.error(e);
         }finally {
-            transportationDAO.delete(transportation1.getId());
-            transportationDAO.delete(transportation2.getId());
-            driverDAO.delete(driver.getId());
+            transportationService.delete(transportation1.getId());
+            transportationService.delete(transportation2.getId());
+            driverService.delete(driver.getId());
         }
     }
 
-    private static void myBatisRouteTest(){
-        IDriverDAO driverDAO = new DriverDAO();
+    public static void routeCRUD(){
+        //IDriverDAO driverDAO = new DriverDAO();
         Driver driver = createDriver("John");
 
-        ITransportationDAO transportationDAO = new TransportationDAO();
+        //ITransportationDAO transportationDAO = new TransportationDAO();
         Transportation transportation = createTransportation("Bus", driver);
         Transportation transportation2 = createTransportation("Train", driver);
 
-        ILocationDAO locationDAO = new LocationDAO();
+        //ILocationDAO locationDAO = new LocationDAO();
         Location locationA = createLocation("New York");
         Location locationB = createLocation("Los Angeles");
 
-        IRouteDAO routeDAO = new RouteDAO();
+        //IRouteDAO routeDAO = new RouteDAO();
         Route route = createRoute(locationA, locationB, transportation, 10, 100, 1000);
         Route route2 = createRoute(locationB, locationA, transportation, 10, 100, 1500);
 
         try{
-            driverDAO.insert(driver);
-            transportationDAO.insert(transportation);
-            transportationDAO.insert(transportation2);
-            locationDAO.insert(locationA);
-            locationDAO.insert(locationB);
-            routeDAO.insert(route);
-            logger.info(routeDAO.getById(route.getId()) + "\n");
+            driverService.insert(driver);
+            transportationService.insert(transportation);
+            transportationService.insert(transportation2);
+            locationService.insert(locationA);
+            locationService.insert(locationB);
+            routeService.insert(route);
+            logger.info(routeService.getById(route.getId()) + "\n");
 
             route.setTransportation(transportation2);
-            routeDAO.update(route);
-            logger.info(routeDAO.getById(route.getId()) + "\n");
+            routeService.update(route);
+            logger.info(routeService.getById(route.getId()) + "\n");
 
-            routeDAO.insert(route2);
-            logger.info(routeDAO.getAll() + "\n");
+            routeService.insert(route2);
+            logger.info(routeService.getAll() + "\n");
         }catch (Exception e) {
             logger.error(e);
         }finally {
-            routeDAO.delete(route.getId());
-            routeDAO.delete(route2.getId());
-            transportationDAO.delete(transportation.getId());
-            transportationDAO.delete(transportation2.getId());
-            driverDAO.delete(driver.getId());
-            locationDAO.delete(locationA.getId());
-            locationDAO.delete(locationB.getId());
+            routeService.delete(route.getId());
+            routeService.delete(route2.getId());
+            transportationService.delete(transportation.getId());
+            transportationService.delete(transportation2.getId());
+            driverService.delete(driver.getId());
+            locationService.delete(locationA.getId());
+            locationService.delete(locationB.getId());
         }
 
 
@@ -228,4 +214,6 @@ public class App {
         route.setCost(cost);
         return route;
     }
+
+
 }

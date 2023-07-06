@@ -5,7 +5,6 @@ public class Driver {
     private String name;
 
     public Driver() {
-
     }
 
     public Long getId() {

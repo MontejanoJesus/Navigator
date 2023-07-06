@@ -7,6 +7,7 @@ public class Transportation {
 
 	public Transportation() {
 
+		this.driver = new Driver();
 	}
 
 	public Long getId() {
@@ -38,7 +39,7 @@ public class Transportation {
 		return "Transportation{" +
 				"id=" + id +
 				", name='" + name + '\'' +
-				", driver=" + driver.toString() +
+				", driver=" + driver+
 				'}';
 	}
 }
