@@ -16,6 +16,15 @@ public class Route {
 
     }
 
+    public Route(Long id, Integer duration, Integer cost, Integer distance, Transportation transportation) {
+        this.id = id;
+        this.duration = duration;
+        this.cost = cost;
+        this.distance = distance;
+        this.transportation = transportation;
+    }
+
+
     public Long getId() {
         return id;
     }

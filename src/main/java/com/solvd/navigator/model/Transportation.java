@@ -10,6 +10,11 @@ public class Transportation {
 		this.driver = new Driver();
 	}
 
+	public Transportation(Long id, String name, Driver driver) {
+		this.id = id;
+		this.name = name;
+		this.driver = driver;
+	}
 	public Long getId() {
 		return id;
 	}
