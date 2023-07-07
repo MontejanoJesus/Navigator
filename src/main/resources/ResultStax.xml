@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Result>
+ <Route id="1">
+  <Location id="2">
+   <name>NY</name>
+  </Location>
+  <Location id="3">
+   <name>LA</name>
+  </Location>
+  <Transportation id="1">
+   <name>Bus</name>
+   <Driver id="1">
+    <name>Noah</name>
+   </Driver>
+  </Transportation>
+  <duration>200</duration>
+  <cost>111</cost>
+  <distance>99</distance>
+ </Route>
+</Result>
