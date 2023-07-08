@@ -23,9 +23,11 @@ public class RouteService implements IRouteService {
         Route route = routedao.getById(id);
         route.setLocationA(locationDAO.getById(route.getLocationA().getId()));
         route.setLocationB(locationDAO.getById(route.getLocationB().getId()));
-        Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
+
+        //Tae comment cause of error
+       /* Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
         transportation.setDriver(driverDAO.getById(transportation.getDriver().getId()));
-        route.setTransportation(transportation);
+        route.setTransportation(transportation); */
         return route;
     }
 
@@ -36,9 +38,10 @@ public class RouteService implements IRouteService {
 
             route.setLocationA(locationDAO.getById(route.getLocationA().getId()));
             route.setLocationB(locationDAO.getById(route.getLocationB().getId()));
-            Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
+            //Tae comment cause of error
+           /* Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
             transportation.setDriver(driverDAO.getById(transportation.getDriver().getId()));
-            route.setTransportation(transportation);
+            route.setTransportation(transportation); */
 
         }
 

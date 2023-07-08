@@ -63,14 +63,16 @@ public class DomwithDB {
             for (Route route : routes) {
                 System.out.println("Route ID: " + route.getId());
                 System.out.println("Duration: " + route.getDuration());
-                System.out.println("Cost: " + route.getCost());
+               // System.out.println("Cost: " + route.getCost());
                 System.out.println("Distance: " + route.getDistance());
-                Transportation transportation = route.getTransportation();
+                //Tae comment cause of error
+               /*Transportation transportation = route.getTransportation();
                 System.out.println("Transportation ID: " + transportation.getId());
                 System.out.println("Transportation Name: " + transportation.getName());
                 Driver driver = transportation.getDriver();
                 System.out.println("Driver ID: " + driver.getId());
                 System.out.println("Driver Name: " + driver.getName());
+                */
                 System.out.println();
             }
 
@@ -108,7 +110,7 @@ public class DomwithDB {
                     //I need this
                     Transportation transportation = retrieveTransportationFromDatabase(transportationId);
 
-                    Route route = new Route(routeId, duration, cost, distance, transportation);
+                    Route route = new Route(routeId, duration, distance);
                     routes.add(route);
                 }
             }

@@ -1,29 +1,34 @@
 package com.solvd.navigator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Route {
     private Long id;
     private Location locationA;
     private Location locationB;
-    private Transportation transportation;
     private Integer duration;
-    private Integer cost;
     private Integer distance;
+    private List<User> users;
+    private User user;
+    private Long driverId;
+    private Driver driver;
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
-        this.transportation = new Transportation();
+        this.users = new ArrayList<>();
+        this.driverId = driverId;
 
     }
 
-    public Route(Long id, Integer duration, Integer cost, Integer distance, Transportation transportation) {
+    public Route(Long id, Integer duration, Integer distance) {
         this.id = id;
         this.duration = duration;
-        this.cost = cost;
         this.distance = distance;
-        this.transportation = transportation;
+        this.users = new ArrayList<>();
+        this.driverId = driverId;
     }
-
 
     public Long getId() {
         return id;
@@ -57,22 +62,6 @@ public class Route {
         this.duration = duration;
     }
 
-    public Transportation getTransportation() {
-        return transportation;
-    }
-
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
-    }
-
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
     public Integer getDistance() {
         return distance;
     }
@@ -81,15 +70,46 @@ public class Route {
         this.distance = distance;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+    public Long getDriverId() {
+        return driverId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     public String toString() {
         return "Route{" +
                 "id=" + id +
                 ", locationA=" + locationA.getName() +
                 ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
-                ", transportation=" + transportation +
-                ", cost=" + cost +
                 ", distance=" + distance +
+                ", users=" + users +
+                ", user=" + user+
+                ", driverId=" + driverId +
+                ", driver=" + driver +
                 '}';
     }
 }
