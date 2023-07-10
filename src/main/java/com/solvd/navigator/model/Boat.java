@@ -5,14 +5,14 @@ public class Boat {
     private Long id;
     private Integer boatNumber;
     private Integer cost;
-    private Long driverId;
+    private Driver driver;
 
     public Boat(){}
-    public Boat(Long id, Integer boatNumber, Integer cost, Long driverId) {
+    public Boat(Long id, Integer boatNumber, Integer cost,Driver driver) {
         this.id = id;
         this.boatNumber = boatNumber;
         this.cost = cost;
-        this.driverId = driverId;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -39,12 +39,12 @@ public class Boat {
         this.cost = cost;
     }
 
-    public Long getDriverId() {
-        return driverId;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Boat {
                 "id=" + id +
                 ", boatNumber='" + boatNumber + '\'' +
                 ", cost=" + cost +
-                ", driverId=" + driverId +
+                ", driver=" + driver +
                 '}';
     }
 }

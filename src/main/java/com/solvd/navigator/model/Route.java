@@ -11,15 +11,12 @@ public class Route {
     private Integer distance;
     private List<User> users;
     private User user;
-    private Long driverId;
     private Driver driver;
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
         this.users = new ArrayList<>();
-        this.driverId = driverId;
-
     }
 
     public Route(Long id, Integer duration, Integer distance) {
@@ -27,7 +24,8 @@ public class Route {
         this.duration = duration;
         this.distance = distance;
         this.users = new ArrayList<>();
-        this.driverId = driverId;
+        this.user = user;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -77,18 +75,12 @@ public class Route {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-    public Long getDriverId() {
-        return driverId;
-    }
 
     public User getUser() {
         return user;
     }
     public void setUser(User user) {
         this.user = user;
-    }
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
     }
 
     public Driver getDriver() {
@@ -108,7 +100,6 @@ public class Route {
                 ", distance=" + distance +
                 ", users=" + users +
                 ", user=" + user+
-                ", driverId=" + driverId +
                 ", driver=" + driver +
                 '}';
     }

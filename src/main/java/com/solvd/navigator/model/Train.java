@@ -5,14 +5,15 @@ public class Train {
     private Long id;
     private Integer trainNumber;
     private Integer cost;
-    private Long driverId;
+    private Driver driver;
+
 
     public Train(){}
-    public Train(Long id, Integer trainNumber, Integer cost, Long driverId) {
+    public Train(Long id, Integer trainNumber, Integer cost,Driver driver) {
         this.id = id;
         this.trainNumber = trainNumber;
         this.cost = cost;
-        this.driverId = driverId;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -38,13 +39,12 @@ public class Train {
     public void setCost(Integer cost) {
         this.cost = cost;
     }
-
-    public Long getDriverId() {
-        return driverId;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Train {
                 "id=" + id +
                 ", trainNumber='" + trainNumber + '\'' +
                 ", cost=" + cost +
-                ", driverId=" + driverId +
+                ", driver=" + driver +
                 '}';
     }
 }

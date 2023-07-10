@@ -5,14 +5,14 @@ public class Taxi {
     private Long id;
     private Integer taxiNumber;
     private Integer cost;
-    private Long driverId;
+    private Driver driver;
 
     public Taxi(){}
-    public Taxi(Long id, Integer taxiNumber, Integer cost, Long driverId) {
+    public Taxi(Long id, Integer taxiNumber, Integer cost,Driver driver) {
         this.id = id;
         this.taxiNumber = taxiNumber;
         this.cost = cost;
-        this.driverId = driverId;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -39,12 +39,12 @@ public class Taxi {
         this.cost = cost;
     }
 
-    public Long getDriverId() {
-        return driverId;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Taxi {
                 "id=" + id +
                 ", taxiNumber='" + taxiNumber + '\'' +
                 ", cost=" + cost +
-                ", driverId=" + driverId +
+                ", driver=" + driver +
                 '}';
     }
 }

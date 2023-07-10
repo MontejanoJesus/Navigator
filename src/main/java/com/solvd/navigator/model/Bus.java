@@ -5,14 +5,14 @@ public class Bus {
     private Long id;
     private Integer busNumber;
     private Integer cost;
-    private Long driverId;
+    private Driver driver;
 
     public Bus(){}
-    public Bus(Long id, Integer busNumber, Integer cost, Long driverId) {
+    public Bus(Long id, Integer busNumber, Integer cost,Driver driver) {
         this.id = id;
         this.busNumber = busNumber;
         this.cost = cost;
-        this.driverId = driverId;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -39,21 +39,20 @@ public class Bus {
         this.cost = cost;
     }
 
-    public Long getDriverId() {
-        return driverId;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
-
     @Override
     public String toString() {
         return "Bus{" +
                 "id=" + id +
-                ", busNumber='" + busNumber + '\'' +
+                ", busNumber='" + busNumber +
                 ", cost=" + cost +
-                ", driverId=" + driverId +
+                ", driver=" + driver +
                 '}';
     }
 }
