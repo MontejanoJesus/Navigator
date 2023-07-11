@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+    <locationA>
+        <id>1001</id>
+        <name>Location A : San Fan</name>
+    </locationA>
+    <locationB>
+        <id>1002</id>
+        <name>Location B : Local Market</name>
+    </locationB>
+    <routes>
+        <route>
+            <id>1</id>
+            <duration>60</duration>
+            <cost>100</cost>
+            <distance>200</distance>
+            <transportation>
+                <id>2001</id>
+                <name>BUS</name>
+                <driver>
+                    <id>3001</id>
+                    <name>Driver 1</name>
+                </driver>
+            </transportation>
+        </route>
+        <!-- Add more route elements  -->
+        <route>
+            <id>1</id>
+            <duration>800</duration>
+            <cost>10000</cost>
+            <distance>20000</distance>
+            <transportation>
+                <id>2002</id>
+                <name>Taxi</name>
+                <driver>
+                    <id>3002</id>
+                    <name>Driver Taxi</name>
+                </driver>
+            </transportation>
+        </route>
+    </routes>
+</result>

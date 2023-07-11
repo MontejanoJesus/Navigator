@@ -1,19 +1,31 @@
 package com.solvd.navigator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Route {
     private Long id;
     private Location locationA;
     private Location locationB;
-    private Transportation transportation;
     private Integer duration;
-    private Integer cost;
     private Integer distance;
+    private List<User> users;
+    private User user;
+    private Driver driver;
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
-        this.transportation = new Transportation();
+        this.users = new ArrayList<>();
+    }
 
+    public Route(Long id, Integer duration, Integer distance) {
+        this.id = id;
+        this.duration = duration;
+        this.distance = distance;
+        this.users = new ArrayList<>();
+        this.user = user;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -48,22 +60,6 @@ public class Route {
         this.duration = duration;
     }
 
-    public Transportation getTransportation() {
-        return transportation;
-    }
-
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
-    }
-
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
     public Integer getDistance() {
         return distance;
     }
@@ -72,15 +68,39 @@ public class Route {
         this.distance = distance;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     public String toString() {
         return "Route{" +
                 "id=" + id +
                 ", locationA=" + locationA.getName() +
                 ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
-                ", transportation=" + transportation +
-                ", cost=" + cost +
                 ", distance=" + distance +
+                ", users=" + users +
+                ", user=" + user+
+                ", driver=" + driver +
                 '}';
     }
 }
