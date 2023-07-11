@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.IBusDAO">
+    <resultMap id="busResultMap" type="com.solvd.navigator.model.Bus">
+        <id property="id" column="id"/>
+        <result property="busNumber" column="bus_number"/>
+        <result property="cost" column="cost"/>
+        <association property="driver" javaType="com.solvd.navigator.model.Person">
+            <id property="id" column="driver_id"/>
+            <result property="name" column="driver_name"/>
+            <association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+                <id property="id" column="driver_license_id"/>
+                <result property="number" column="driver_license_number"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="driverResultMap">
+        SELECT B.id AS id,
+               B.bus_number AS bus_number,
+               B.cost AS cost,
+               D.id AS driver_id,
+               D.name AS driver_name,
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        FROM Buses B
+            JOIN Persons D ON B.driver_id = D.id
+            JOIN Driver_License DL ON D.driver_license_id = DL.id
+        WHERE B.id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="driverResultMap">
+        SELECT B.id AS id,
+               B.bus_number AS bus_number,
+               B.cost AS cost,
+               D.id AS driver_id,
+               D.name AS driver_name
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        FROM Buses B
+            JOIN Persons D ON B.driver_id = D.id
+            JOIN Driver_License DL ON D.driver_license_id = DL.id
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.Bus">
+        INSERT INTO Buses (id, bus_number, cost, driver_id) VALUES (#{id}, #{busNumber}, #{cost}, #{driver.id})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.Bus">
+        UPDATE Buses SET bus_number = #{busNumber}, cost = #{cost}, driver_id = #{driver.id} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Buses WHERE id = #{id}
+    </delete>
+</mapper>

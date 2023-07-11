@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.IPersonDAO">
+    <resultMap id="personResultMap" type="com.solvd.navigator.model.Person">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+            <id property="id" column="driver_license_id"/>
+            <result property="number" column="driver_license_number"/>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="personResultMap">
+        select P.id as id,
+               P.name as name,
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        from Persons P join Driver_Licenses DL on P.driver_license_id = DL.id
+        where P.id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="personResultMap">
+        select P.id as id,
+               P.name as name,
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        from Persons P join Driver_Licenses DL on P.driver_license_id = DL.id
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.Person">
+        INSERT INTO Persons (id, name, driver_license_id) VALUES (#{id}, #{name}, #{driverLicense.id})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.Person">
+        UPDATE Persons SET name = #{name}, driver_license_id = #{driverLicense.id} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Persons WHERE id = #{id}
+    </delete>
+</mapper>

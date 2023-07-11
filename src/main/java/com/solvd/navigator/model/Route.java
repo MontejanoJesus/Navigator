@@ -1,19 +1,28 @@
 package com.solvd.navigator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Route {
     private Long id;
     private Location locationA;
     private Location locationB;
-    private Transportation transportation;
     private Integer duration;
-    private Integer cost;
     private Integer distance;
+    private List<Person> users;
+    private Transportation transportation;
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
-        this.transportation = new Transportation();
+        this.users = new ArrayList<>();
+    }
 
+    public Route(Long id, Integer duration, Integer distance) {
+        this.id = id;
+        this.duration = duration;
+        this.distance = distance;
+        this.users = new ArrayList<>();
     }
 
     public Long getId() {
@@ -48,22 +57,6 @@ public class Route {
         this.duration = duration;
     }
 
-    public Transportation getTransportation() {
-        return transportation;
-    }
-
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
-    }
-
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
     public Integer getDistance() {
         return distance;
     }
@@ -72,15 +65,32 @@ public class Route {
         this.distance = distance;
     }
 
+    public List<Person> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Person> people) {
+        this.users = people;
+    }
+
+    public Transportation getTransportation() {
+        return transportation;
+    }
+
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
+    }
+
+    @Override
     public String toString() {
         return "Route{" +
                 "id=" + id +
-                ", locationA=" + locationA.getName() +
-                ", locationB=" + locationB.getName() +
+                ", locationA=" + locationA +
+                ", locationB=" + locationB +
                 ", duration=" + duration +
-                ", transportation=" + transportation +
-                ", cost=" + cost +
                 ", distance=" + distance +
+                ", users=" + users +
+                ", transportation=" + transportation +
                 '}';
     }
 }

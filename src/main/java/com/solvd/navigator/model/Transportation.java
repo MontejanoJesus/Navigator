@@ -1,45 +1,52 @@
 package com.solvd.navigator.model;
 
-public class Transportation {
-	private Long id;
-	private String name;
-	private Driver driver;
+public abstract class Transportation {
+    private Long id;
+    private Integer cost;
+    private Integer vehicleNumber;
+    private Person driver;
 
-	public Transportation() {
+    public Transportation() {}
 
-		this.driver = new Driver();
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Integer getCost() {
+        return cost;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Integer getVehicleNumber() {
+        return vehicleNumber;
+    }
 
-	public Driver getDriver() {
-		return driver;
-	}
+    public void setVehicleNumber(Integer vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
 
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
+    public Person getDriver() {
+        return driver;
+    }
 
-	@Override
-	public String toString() {
-		return "Transportation{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", driver=" + driver+
-				'}';
-	}
+    public void setDriver(Person driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public String toString() {
+        return "Transportation{" +
+                "id=" + id +
+                ", cost=" + cost +
+                ", vehicleNumber=" + vehicleNumber +
+                ", driver=" + driver +
+                '}';
+    }
 }
