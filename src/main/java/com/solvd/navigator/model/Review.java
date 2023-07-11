@@ -6,14 +6,12 @@ import java.util.List;
 public class Review {
     private Long id;
     private String content;
-    private Driver driver;
     private Location location;
 
     public Review(){}
-    public Review(Long id, String name,Driver driver,Location location) {
+    public Review(Long id, String name,Location location) {
         this.id = id;
         this.content = content;
-        this.driver = driver;
         this.location = location;
     }
 
@@ -33,13 +31,6 @@ public class Review {
         this.content = content;
     }
 
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
     public Location getLocation() {
         return location;
     }
@@ -51,8 +42,7 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
-                ", driver=" + driver +
+                ", content='" + content +
                 ", location=" + location +
                 '}';
     }

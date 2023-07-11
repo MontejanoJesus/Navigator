@@ -1,26 +1,9 @@
 package com.solvd.navigator.service;
 
-import com.solvd.navigator.App;
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.model.Driver;
-import com.solvd.navigator.model.Location;
-import com.solvd.navigator.model.Route;
-import com.solvd.navigator.model.Transportation;
-import com.solvd.navigator.service.imple.DriverService;
-import com.solvd.navigator.service.imple.LocationService;
-import com.solvd.navigator.service.imple.RouteService;
-import com.solvd.navigator.service.imple.TransportationService;
-import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Random;
-
 public class ServiceTesting {
 
     //GO TO DAOFactory file inside the DAO folder to test different versions(myBatis or JDBC) of DAO.
-
+/*
     private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
     private static final Random random = new Random();
     private static IDriverService driverService = new DriverService();
@@ -216,6 +199,6 @@ public class ServiceTesting {
         //route.setCost(cost);
         return route;
     }
-
+*/
 
 }

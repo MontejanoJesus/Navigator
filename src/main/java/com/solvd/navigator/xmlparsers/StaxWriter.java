@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class StaxWriter {
-
+/*
     private static final Logger logger = LogManager.getLogger("StaxWriter");
     public void writeToXml(Path path, Result result){
 
@@ -70,7 +70,8 @@ public class StaxWriter {
             writer.writeCharacters("\n");
             writeLocationElem(writer, route.getLocationB());
             writer.writeCharacters("\n");
-            writeTransportationElem(writer, route.getTransportation());
+            //Tae
+            // writeTransportationElem(writer, route.getTransportation());
             writer.writeCharacters("\n");
 
             writer.writeCharacters("  ");
@@ -81,7 +82,8 @@ public class StaxWriter {
 
             writer.writeCharacters("  ");
             writer.writeStartElement("cost");
-            writer.writeCharacters(route.getCost().toString());
+            //Tae
+            //writer.writeCharacters(route.getCost().toString());
             writer.writeEndElement();
 
             writer.writeCharacters("\n");
@@ -163,4 +165,5 @@ public class StaxWriter {
         }
 
     }
+    */
 }

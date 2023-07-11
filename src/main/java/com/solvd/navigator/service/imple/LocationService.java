@@ -34,7 +34,8 @@ public class LocationService implements ILocationService {
             route.setTransportation(transportation); */
 
         }
-        location.setRoutes(routeList);
+        //Tae comment
+        //location.setRoutes(routeList);
 
         return location;
     }
@@ -57,7 +58,8 @@ public class LocationService implements ILocationService {
                 route.setTransportation(transportation); */
 
             }
-            loca.setRoutes(routeList);
+            //Tae comment
+            //loca.setRoutes(routeList);
         }
 
 
@@ -79,4 +81,5 @@ public class LocationService implements ILocationService {
     public void delete(long id) {
         locationDAO.delete(id);
     }
+
 }

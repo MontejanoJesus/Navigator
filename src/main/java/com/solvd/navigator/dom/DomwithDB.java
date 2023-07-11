@@ -1,6 +1,5 @@
 package com.solvd.navigator.dom;
 
-import com.solvd.navigator.model.Driver;
 import com.solvd.navigator.model.Route;
 import com.solvd.navigator.model.Transportation;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +23,7 @@ import java.util.List;
 public class DomwithDB {
     private static final Logger logger = LogManager.getLogger(DomwithDB.class);
     public static void main(String[] args) {
+
         try {
             String xmlFile = "./src/main/resources/navigator.xml";
             String xsdFile = "./src/main/resources/navigator.xsd";
@@ -136,9 +136,9 @@ public class DomwithDB {
 
 
                     //I need this
-                    Driver driver = retrieveDriverFromDatabase(driverId);
+                   // Tae  Driver driver = retrieveDriverFromDatabase(driverId);
 
-                    return new Transportation(id, name, driver);
+                    return null ;// Tae new Transportation(id, name, driver);
                 }
             }
         } catch (SQLException e) {
@@ -157,7 +157,7 @@ public class DomwithDB {
                 if (resultSet.next()) {
                     long id = resultSet.getLong("id");
                     String name = resultSet.getString("name");
-                    return new Driver(id, name);
+                    return  null ;//Tae comment new Driver(id, name);
                 }
             }
         } catch (SQLException e) {
@@ -165,5 +165,6 @@ public class DomwithDB {
         }
 
         return null;
-    }
+     }
+
 }

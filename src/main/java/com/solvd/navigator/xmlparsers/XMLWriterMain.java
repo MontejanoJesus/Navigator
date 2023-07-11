@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLWriterMain {
-
+/*
     private static final Logger logger = LogManager.getLogger("XMLWriterMain");
 
     public static void main(String[] args) {
@@ -38,9 +38,11 @@ public class XMLWriterMain {
         route.setId(1l);
         route.setLocationA(locationA);
         route.setLocationB(locationB);
-        route.setTransportation(transportation);
+        //Tae
+        //route.setTransportation(transportation);
         route.setDuration(200);
-        route.setCost(111);
+        //Tae
+        //route.setCost(111);
         route.setDistance(99);
 
         List<Route> routeList = new ArrayList<Route>();
@@ -53,5 +55,5 @@ public class XMLWriterMain {
         StaxWriter staxWriter = new StaxWriter();
         staxWriter.writeToXml(path, result);
     }
-
+*/
 }

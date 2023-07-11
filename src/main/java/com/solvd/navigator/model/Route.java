@@ -9,23 +9,20 @@ public class Route {
     private Location locationB;
     private Integer duration;
     private Integer distance;
-    private List<User> users;
-    private User user;
-    private Driver driver;
+    private List<Person> persons;
+    private Transportation transportation;
+
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
-        this.users = new ArrayList<>();
     }
 
     public Route(Long id, Integer duration, Integer distance) {
         this.id = id;
         this.duration = duration;
         this.distance = distance;
-        this.users = new ArrayList<>();
-        this.user = user;
-        this.driver = driver;
+        this.persons = persons;
     }
 
     public Long getId() {
@@ -68,27 +65,20 @@ public class Route {
         this.distance = distance;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getPersons() {
+        return persons;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
 
-    public Driver getDriver() {
-        return driver;
+    public Transportation getTransportation() {
+        return transportation;
     }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
     }
 
     public String toString() {
@@ -98,9 +88,8 @@ public class Route {
                 ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
                 ", distance=" + distance +
-                ", users=" + users +
-                ", user=" + user+
-                ", driver=" + driver +
+                ", persons=" + persons +
+                ", transportation=" + transportation +
                 '}';
     }
 }
