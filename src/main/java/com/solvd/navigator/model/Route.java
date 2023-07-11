@@ -9,8 +9,9 @@ public class Route {
     private Location locationB;
     private Integer duration;
     private Integer distance;
-    private List<Person> users;
-    private Transportation transportation;
+    private List<User> users;
+    private User user;
+    private Driver driver;
 
     public Route() {
         this.locationA = new Location();
@@ -23,6 +24,8 @@ public class Route {
         this.duration = duration;
         this.distance = distance;
         this.users = new ArrayList<>();
+        this.user = user;
+        this.driver = driver;
     }
 
     public Long getId() {
@@ -65,32 +68,39 @@ public class Route {
         this.distance = distance;
     }
 
-    public List<Person> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<Person> people) {
-        this.users = people;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    public Transportation getTransportation() {
-        return transportation;
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
+    public Driver getDriver() {
+        return driver;
     }
 
-    @Override
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
     public String toString() {
         return "Route{" +
                 "id=" + id +
-                ", locationA=" + locationA +
-                ", locationB=" + locationB +
+                ", locationA=" + locationA.getName() +
+                ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
                 ", distance=" + distance +
                 ", users=" + users +
-                ", transportation=" + transportation +
+                ", user=" + user+
+                ", driver=" + driver +
                 '}';
     }
 }

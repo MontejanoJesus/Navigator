@@ -1,36 +1,37 @@
 package com.solvd.navigator.model;
 
 public class DriverLicense {
-    private Long id;
-    private String number;
+	private Long id;
+	private String number;
 
-    public DriverLicense(){}
-    public DriverLicense(Long id, String number) {
-        this.id = id;
-        this.number = number;
-    }
+	public DriverLicense() {
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public DriverLicense(Long id, String number) {
+		this.id = id;
+		this.number = number;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public String toString() {
-        return "DriverLicense{" +
-                "id=" + id +
-                ",number='" + number +
-                '}';
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String toString() {
+		return "DriverLicense{" +
+				"id=" + id +
+				",number='" + number +
+				'}';
+	}
 }
-

@@ -28,9 +28,10 @@ public class LocationService implements ILocationService {
 
             route.setLocationA(locationDAO.getById(route.getLocationA().getId()));
             route.setLocationB(locationDAO.getById(route.getLocationB().getId()));
-            Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
+            //Tae comment cause of error
+           /*Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
             transportation.setDriver(driverDAO.getById(transportation.getDriver().getId()));
-            route.setTransportation(transportation);
+            route.setTransportation(transportation); */
 
         }
         location.setRoutes(routeList);
@@ -50,9 +51,10 @@ public class LocationService implements ILocationService {
 
                 route.setLocationA(locationDAO.getById(route.getLocationA().getId()));
                 route.setLocationB(locationDAO.getById(route.getLocationB().getId()));
-                Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
+                //Tae comment cause of error
+                /*Transportation transportation = transportationDAO.getById(route.getTransportation().getId());
                 transportation.setDriver(driverDAO.getById(transportation.getDriver().getId()));
-                route.setTransportation(transportation);
+                route.setTransportation(transportation); */
 
             }
             loca.setRoutes(routeList);
