@@ -2,9 +2,7 @@ package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.IDAO;
-import com.solvd.navigator.model.Bus;
 import com.solvd.navigator.model.DriverLicense;
-import com.solvd.navigator.model.Location;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -89,7 +87,9 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setInt(1, driverLicense.getNumber());
+            //Tae comment
+            //  statement.setInt(1, driverLicense.getNumber());
+
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -112,7 +112,8 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setInt(1, driverLicense.getNumber());
+            //Tae comment
+            // statement.setInt(1, driverLicense.getNumber());
             statement.setLong(2,driverLicense.getId());
             statement.executeUpdate();
             logger.info("Record created");
@@ -156,7 +157,8 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             driverLicense= new DriverLicense();
             driverLicense.setId(resultSet.getLong(1));
-            driverLicense.setNumber(resultSet.getInt(2));
+            //Tae comment
+            //driverLicense.setNumber(resultSet.getInt(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }

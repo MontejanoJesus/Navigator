@@ -1,20 +1,14 @@
 package com.solvd.navigator.model;
 
-public class Transportation {
+public abstract class Transportation {
 	private Long id;
-	private String name;
-	private Driver driver;
+	private Integer cost;
+	private Integer number;
+	private Person person;
+	private TransportationType transportationType;
 
-	public Transportation() {
+	public Transportation() {}
 
-		this.driver = new Driver();
-	}
-
-	public Transportation(Long id, String name, Driver driver) {
-		this.id = id;
-		this.name = name;
-		this.driver = driver;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -23,28 +17,47 @@ public class Transportation {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Integer getCost() {
+		return cost;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCost(Integer cost) {
+		this.cost = cost;
 	}
 
-	public Driver getDriver() {
-		return driver;
+	public Integer getNumber() {
+		return number;
 	}
 
-	public void setDriver(Driver driver) {
-		this.driver = driver;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public TransportationType getTransportationType() {
+		return transportationType;
+	}
+
+	public void setTransportationType(TransportationType transportationType) {
+		this.transportationType = transportationType;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Transportation{" +
 				"id=" + id +
-				", name='" + name + '\'' +
-				", driver=" + driver+
+				", cost=" + cost +
+				", number=" + number +
+				", person=" + person +
+				", transportationType=" + transportationType +
 				'}';
 	}
 }

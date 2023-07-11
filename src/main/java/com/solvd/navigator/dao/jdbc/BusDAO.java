@@ -1,19 +1,9 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.model.Bus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class BusDAO implements IBusDAO {
+public class BusDAO  {
     private static final Logger logger = LogManager.getLogger("BusDAO");
     private static final String SELECT_ALL = "SELECT * FROM Buses";
     private static final String SELECT_BY_ID = "SELECT * FROM Buses WHERE id = ?";
@@ -21,7 +11,7 @@ public class BusDAO implements IBusDAO {
     private static final String UPDATE = "UPDATE Buses SET bus_number=?, cost=?, driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Buses WHERE id = ?";
 
-    @Override
+   /* @Override
     public Bus getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -165,5 +155,7 @@ public class BusDAO implements IBusDAO {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return bus;
-    }
+
+
+    }*/
 }

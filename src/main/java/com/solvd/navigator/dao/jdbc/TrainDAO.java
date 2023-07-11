@@ -1,27 +1,16 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.IDAO;
-import com.solvd.navigator.model.Train;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class TrainDAO implements ITrainDAO {
+public class TrainDAO  {
     private static final Logger logger = LogManager.getLogger("TrainDAO");
     private static final String SELECT_ALL = "SELECT * FROM Trains";
     private static final String SELECT_BY_ID = "SELECT * FROM Trains WHERE id = ?";
     private static final String INSERT = "INSERT INTO Trains ( train_number, cost, driver_id) VALUES (?,?, ?)";
     private static final String UPDATE = "UPDATE Trains SET train_number=?, cost=?, driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Trains WHERE id = ?";
-
+/*
     @Override
     public Train getById(long id) {
         Connection connection = null;
@@ -165,5 +154,5 @@ public class TrainDAO implements ITrainDAO {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return train;
-    }
+    }*/
 }

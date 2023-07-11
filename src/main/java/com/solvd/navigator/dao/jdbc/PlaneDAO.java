@@ -1,27 +1,16 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.IDAO;
-import com.solvd.navigator.model.Plane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class PlaneDAO implements IPlaneDAO {
+public class PlaneDAO {
     private static final Logger logger = LogManager.getLogger("PlaneDAO");
     private static final String SELECT_ALL = "SELECT * FROM Planes";
     private static final String SELECT_BY_ID = "SELECT * FROM Planes WHERE id = ?";
     private static final String INSERT = "INSERT INTO Planes (plane_number, cost, driver_id) VALUES (?,?, ?)";
     private static final String UPDATE = "UPDATE Planes SET plane_number=?, cost=? , driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Planes WHERE id = ?";
-
+/*
     @Override
     public Plane getById(long id) {
         Connection connection = null;
@@ -165,5 +154,5 @@ public class PlaneDAO implements IPlaneDAO {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return plane;
-    }
+    }*/
 }

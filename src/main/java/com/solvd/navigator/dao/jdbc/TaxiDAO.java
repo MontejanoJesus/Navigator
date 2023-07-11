@@ -1,26 +1,16 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.model.Taxi;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class TaxiDAO implements ITaxiDAO {
+public class TaxiDAO  {
     private static final Logger logger = LogManager.getLogger("TaxiDAO");
     private static final String SELECT_ALL = "SELECT * FROM Taxis";
     private static final String SELECT_BY_ID = "SELECT * FROM Taxis WHERE id = ?";
     private static final String INSERT = "INSERT INTO Taxis (taxi_number, cost, driver_id) VALUES (?,?, ?)";
     private static final String UPDATE = "UPDATE Taxis SET taxi_number=?, cost=?, driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Taxis WHERE id = ?";
-
+/*
     @Override
     public Taxi getById(long id) {
         Connection connection = null;
@@ -166,5 +156,5 @@ public class TaxiDAO implements ITaxiDAO {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return taxi;
-    }
+    } */
 }
