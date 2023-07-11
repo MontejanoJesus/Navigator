@@ -17,7 +17,7 @@
                P.name as name,
                DL.id as driver_license_id,
                DL.number as driver_license_number
-        from Persons P join Driver_Licenses DL on P.driver_license_id = DL.id
+        from Persons P join Driver_License DL on P.driver_license_id = DL.id
         where P.id = #{id}
     </select>
 
@@ -26,7 +26,7 @@
                P.name as name,
                DL.id as driver_license_id,
                DL.number as driver_license_number
-        from Persons P join Driver_Licenses DL on P.driver_license_id = DL.id
+        from Persons P join Driver_License DL on P.driver_license_id = DL.id
     </select>
 
     <insert id="insert" parameterType="com.solvd.navigator.model.Person">

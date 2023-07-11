@@ -6,7 +6,6 @@ import java.util.List;
 public class Person {
 	private Long id;
 	private String name;
-	private List<Route> routes;
 	private DriverLicense driverLicense;
 
 	public Person() {
@@ -16,7 +15,6 @@ public class Person {
 	public Person(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.routes = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -35,14 +33,6 @@ public class Person {
 		this.name = name;
 	}
 
-	public List<Route> getRoutes() {
-		return routes;
-	}
-
-	public void setRoutes(List<Route> routes) {
-		this.routes = routes;
-	}
-
 	public DriverLicense getDriverLicense() {
 		return driverLicense;
 	}
@@ -51,11 +41,12 @@ public class Person {
 		this.driverLicense = driverLicense;
 	}
 
+	@Override
 	public String toString() {
-		return "User{" +
+		return "Person{" +
 				"id=" + id +
-				", name='" + name +
-				", routes=" + routes +
+				", name='" + name + '\'' +
+				", driverLicense=" + driverLicense +
 				'}';
 	}
 }

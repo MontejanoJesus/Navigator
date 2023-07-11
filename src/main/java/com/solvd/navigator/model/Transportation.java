@@ -3,11 +3,12 @@ package com.solvd.navigator.model;
 public abstract class Transportation {
 	private Long id;
 	private Integer cost;
-	private Integer number;
-	private Person person;
+	private Integer vehicleNumber;
+	private Person driver;
 	private TransportationType transportationType;
 
-	public Transportation() {}
+	public Transportation() {
+	}
 
 	public Long getId() {
 		return id;
@@ -25,20 +26,20 @@ public abstract class Transportation {
 		this.cost = cost;
 	}
 
-	public Integer getNumber() {
-		return number;
+	public Integer getVehicleNumber() {
+		return vehicleNumber;
 	}
 
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setVehicleNumber(Integer vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
 	}
 
-	public Person getPerson() {
-		return person;
+	public Person getDriver() {
+		return driver;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setDriver(Person driver) {
+		this.driver = driver;
 	}
 
 	public TransportationType getTransportationType() {
@@ -49,15 +50,13 @@ public abstract class Transportation {
 		this.transportationType = transportationType;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Transportation{" +
 				"id=" + id +
 				", cost=" + cost +
-				", number=" + number +
-				", person=" + person +
-				", transportationType=" + transportationType +
+				", vehicleNumber=" + vehicleNumber +
+				", driver=" + driver +
 				'}';
 	}
 }

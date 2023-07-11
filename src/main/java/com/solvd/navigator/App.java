@@ -32,10 +32,10 @@ public class App {
 
     public static void main(String[] args) {
 
-        ServiceTesting.driverCRUD();
-        ServiceTesting.locationCRUD();
-        ServiceTesting.transportationCRUD();
-        ServiceTesting.routeCRUD();
+//        ServiceTesting.driverCRUD();
+//        ServiceTesting.locationCRUD();
+//        ServiceTesting.transportationCRUD();
+//        ServiceTesting.routeCRUD();
 
         //connectionPoolTest();
         //myBatisDriverTest();
@@ -67,9 +67,9 @@ public class App {
         }
     }
 
-    private static void myBatisDriverTest(){
+    private static void myBatisPersonTest(){
         // Test DriverDAO
-        IDriverDAO driverDAO = new DriverDAO();
+        IPersonDAO personDAO = new PersonDAO();
         Driver driver = createDriver("John");
         Driver driver2 = createDriver("Jack");
 
