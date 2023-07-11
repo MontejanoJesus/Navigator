@@ -113,7 +113,8 @@ public class ReviewDAO implements IDAO<Review> {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
             statement.setString(1, review.getContent());
-            statement.setLong(1, review.getLocation().getLocationId());
+            //Tae comment
+            // statement.setLong(1, review.getLocation().getLocationId());
             statement.setLong(2,review.getId());
             statement.executeUpdate();
             logger.info("Record created");

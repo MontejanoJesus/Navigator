@@ -1,15 +1,9 @@
 package com.solvd.navigator.dom;
 
-import com.solvd.navigator.model.Driver;
-import com.solvd.navigator.model.Location;
-import com.solvd.navigator.model.Route;
-import com.solvd.navigator.model.Transportation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Element;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -17,10 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DOMparser {
 

@@ -1,21 +1,87 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.IDriverDAO;
-import com.solvd.navigator.model.Driver;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
+public class DriverDAO{}
+//Tae
+/*
 public class DriverDAO implements IDriverDAO {
-    private static final Logger logger = LogManager.getLogger("DriverDAO");
+    @Override
+    public Driver getById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Driver> getAll() {
+        return null;
+    }
+
+    @Override
+    public void insert(Driver driver) {
+
+    }
+
+    @Override
+    public void update(Driver driver) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
+    }
+    /*
+    @Override
+    public Driver getById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Driver> getAll() {
+        return null;
+    }
+
+    @Override
+    public void insert(Driver driver) {
+
+    }
+
+    @Override
+    public void update(Driver driver) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
+    }
+    /*
+    @Override
+    public Driver getById(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Driver> getAll() {
+        return null;
+    }
+
+    @Override
+    public void insert(Driver driver) {
+
+    }
+
+    @Override
+    public void update(Driver driver) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
+    }
+   /* private static final Logger logger = LogManager.getLogger("DriverDAO");
     private static final String SELECT_ALL = "SELECT * FROM Drivers";
     private static final String SELECT_BY_ID = "SELECT * FROM Drivers WHERE id = ?";
     private static final String INSERT = "INSERT INTO Drivers (id, name) VALUES (?,?)";
@@ -161,4 +227,5 @@ public class DriverDAO implements IDriverDAO {
         }
         return driver;
     }
-}
+
+}*/

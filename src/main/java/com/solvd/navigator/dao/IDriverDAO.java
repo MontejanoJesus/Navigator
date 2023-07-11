@@ -1,7 +1,10 @@
 package com.solvd.navigator.dao;
 
-import com.solvd.navigator.model.Driver;
-
-public interface IDriverDAO extends IDAO<Driver>{
+public interface IDriverDAO{
 
 }
+//Tae
+/*
+public interface IDriverDAO extends IDAO<Driver>{
+
+}*/

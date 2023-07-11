@@ -1,15 +1,37 @@
 package com.solvd.navigator.service.imple;
 
-import com.solvd.navigator.dao.IDriverDAO;
-import com.solvd.navigator.factory.AbstractFactory;
-import com.solvd.navigator.factory.FactoryGenerator;
-import com.solvd.navigator.model.Driver;
 import com.solvd.navigator.service.IDriverService;
 
 import java.util.List;
-
+public class DriverService{}
+//Tae
+/*
 public class DriverService implements IDriverService {
+    @Override
+    public Driver getById(long id) {
+        return null;
+    }
 
+    @Override
+    public List<Driver> getAll() {
+        return null;
+    }
+
+    @Override
+    public void insert(Driver driver) {
+
+    }
+
+    @Override
+    public void update(Driver driver) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
+    }
+/*
     private AbstractFactory daoFactory = FactoryGenerator.getFactory("JDBC");
     private IDriverDAO iDriverDAO = daoFactory.getDao("Driver");
 
@@ -37,4 +59,7 @@ public class DriverService implements IDriverService {
     public void delete(long id) {
         iDriverDAO.delete(id);
     }
-}
+    }
+ */
+
+

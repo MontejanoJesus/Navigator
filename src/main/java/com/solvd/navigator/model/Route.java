@@ -9,23 +9,20 @@ public class Route {
     private Location locationB;
     private Integer duration;
     private Integer distance;
-    private List<User> users;
-    private User user;
-    private Driver driver;
+    private Person person;
+    private Long driverId;
 
     public Route() {
         this.locationA = new Location();
         this.locationB = new Location();
-        this.users = new ArrayList<>();
     }
 
     public Route(Long id, Integer duration, Integer distance) {
         this.id = id;
         this.duration = duration;
         this.distance = distance;
-        this.users = new ArrayList<>();
-        this.user = user;
-        this.driver = driver;
+        this.person = person;
+        this.driverId = driverId;
     }
 
     public Long getId() {
@@ -67,28 +64,17 @@ public class Route {
     public void setDistance(Integer distance) {
         this.distance = distance;
     }
-
-    public List<User> getUsers() {
-        return users;
+    public Person getPerson() {
+        return person;
     }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setPerson(Person person) {
+        this.person = person;
     }
-
-    public User getUser() {
-        return user;
+    public Long getDriverId() {
+        return driverId;
     }
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
     }
 
     public String toString() {
@@ -98,9 +84,8 @@ public class Route {
                 ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
                 ", distance=" + distance +
-                ", users=" + users +
-                ", user=" + user+
-                ", driver=" + driver +
+                ", person=" + person +
+                ", driverId=" + driverId +
                 '}';
     }
 }

@@ -1,22 +1,9 @@
 package com.solvd.navigator.dao.jdbc;
 
-import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.IDAO;
-import com.solvd.navigator.model.Boat;
-import com.solvd.navigator.model.Driver;
-import com.solvd.navigator.model.Location;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class BoatsDAO implements IBoatDAO {
+public class BoatsDAO {
 
     private static final Logger logger = LogManager.getLogger("BoatsDAO");
     private static final String SELECT_ALL = "SELECT * FROM Boats";
@@ -24,7 +11,7 @@ public class BoatsDAO implements IBoatDAO {
     private static final String INSERT = "INSERT INTO Boats (boat_number, cost, driver_id) VALUES (?,?, ?)";
     private static final String UPDATE = "UPDATE Boats SET boat_number=?, cost=? , driver_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Boats WHERE id = ?";
-
+/*
     @Override
     public Boat getById(long id) {
         Connection connection = null;
@@ -169,5 +156,5 @@ public class BoatsDAO implements IBoatDAO {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return boat;
-    }
+    }*/
 }

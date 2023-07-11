@@ -1,4 +1,5 @@
 package com.solvd.navigator.model;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
@@ -6,7 +7,7 @@ public class Location {
     private String name;
     private Coordinate coordinate;
     private List<Route> routes;
-    private Review review;
+    private List<Review> reviews;
 
     public Location(){
 
@@ -15,8 +16,7 @@ public class Location {
     public Location(Long id, String name,Review review) {
         this.id = id;
         this.name = name;
-        this.review = review;
-
+        this.reviews = new ArrayList<>();
     }
 
     public Long getId() {
@@ -37,16 +37,11 @@ public class Location {
     public List<Route> getRoutes() {
         return routes;
     }
-
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
+    public List<Review> getReviews() {
+        return reviews;
     }
-    public Review getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        this.review = review;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public String toString() {
@@ -54,7 +49,7 @@ public class Location {
                 "id=" + id +
                 ", name='" + name +
                 ", routes=" + routes +
-                ", review;=" + review +
+                ", reviews;=" + reviews +
                 '}';
     }
 }

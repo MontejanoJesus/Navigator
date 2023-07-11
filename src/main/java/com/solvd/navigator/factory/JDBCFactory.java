@@ -15,8 +15,9 @@ public class JDBCFactory extends AbstractFactory{
             return (T )new LocationDAO();
         } else if (daoType.equalsIgnoreCase("Route")) {
             return (T) new RouteDAO();
-        } else if (daoType.equalsIgnoreCase("Transportation")) {
-            return (T) new TransportationDAO();
+            //Tae
+       /* } else if (daoType.equalsIgnoreCase("Transportation")) {
+            return (T) new TransportationDAO();*/
         }
         return null;
     }

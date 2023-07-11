@@ -93,8 +93,8 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(2,route.getLocationA().getId());
             statement.setLong(3,route.getLocationB().getId());
             statement.setInt(4, route.getDuration());
-
-            statement.setLong(6,route.getDriver().getId());
+            //Tae comment
+            //statement.setLong(6,route.getDriver().getId());
             statement.setInt(5, route.getDistance());
 
             //Tae comment cause of error
@@ -129,7 +129,8 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(2, route.getLocationB().getId());
             statement.setInt(3,route.getDuration());
 
-            statement.setLong(5,route.getDriver().getId());
+            //Tae comment
+            //statement.setLong(5,route.getDriver().getId());
             statement.setInt(4, route.getDistance());
             statement.setLong(6, route.getId());
             //Tae comment cause of error

@@ -17,11 +17,12 @@ public class TransportationService implements ITransportationService {
 
     @Override
     public Transportation getById(long id) {
+         //Tae comment
+        //Transportation transportation = iTransportationDAO.getById(id);
+        //transportation.setDriver(iDriverDAO.getById(transportation.getDriver().getId()));
 
-        Transportation transportation = iTransportationDAO.getById(id);
-        transportation.setDriver(iDriverDAO.getById(transportation.getDriver().getId()));
-
-        return transportation;
+        //return transportation;
+        return null;
     }
 
     @Override
@@ -30,8 +31,8 @@ public class TransportationService implements ITransportationService {
         List<Transportation> transportationList = iTransportationDAO.getAll();
 
         for(Transportation transportation: transportationList){
-
-            transportation.setDriver(iDriverDAO.getById(transportation.getDriver().getId()));
+            //Tae comment
+           // transportation.setDriver(iDriverDAO.getById(transportation.getDriver().getId()));
 
         }
         return transportationList;
