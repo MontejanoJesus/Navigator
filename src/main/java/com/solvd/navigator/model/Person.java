@@ -1,21 +1,22 @@
 package com.solvd.navigator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class Person {
     private Long id;
     private String name;
-    private Coordinate coordinate;
     private List<Route> routes;
+    private DriverLicense driverLicense;
 
-    public Location(){
+    public Person(){
 
     }
 
-    public Location(Long id, String name,Review review) {
+    public Person(Long id, String name) {
         this.id = id;
         this.name = name;
-
+        this.routes = new ArrayList<>();
     }
 
     public Long getId() {
@@ -41,21 +42,19 @@ public class Location {
         this.routes = routes;
     }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
+    public DriverLicense getDriverLicense() {
+        return driverLicense;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+    public void setDriverLicense(DriverLicense driverLicense) {
+        this.driverLicense = driverLicense;
     }
 
     public String toString() {
-        return "Location{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name +
                 ", routes=" + routes +
                 '}';
     }
 }
-
-

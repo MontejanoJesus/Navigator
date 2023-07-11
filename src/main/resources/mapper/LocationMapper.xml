@@ -6,6 +6,7 @@
     <resultMap id="locationResultMap" type="com.solvd.navigator.model.Location">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
+        <result column="coordinates" property="coordinates" javaType="com.solvd.navigator.model.Coordinate" typeHandler="com.solvd.navigator.typehandlers.PointHandler" />
     </resultMap>
 
     <select id="getById" parameterType="long" resultMap="locationResultMap">

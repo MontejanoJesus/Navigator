@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.IReviewDAO">
+    <resultMap id="reviewResultMap" type="com.solvd.navigator.model.Review">
+        <id property="id" column="id"/>
+        <result property="content" column="content"/>
+        <association property="driver" javaType="com.solvd.navigator.model.Driver">
+            <id property="id" column="user_id"/>
+            <result property="name" column="user_name"/>
+            <association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+                <id property="id" column="driver_license_id"/>
+                <result property="number" column="driver_license_number"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="reviewResultMap">
+        select R.id as id,
+               R.content as content,
+               D.id as user_id,
+               D.name as user_name,
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        from Reviews R join Drivers D on R.driver_id = D.id
+                       join Driver_License DL on D.driver_license_id = DL.id
+        where R.id = #{id}
+    </select>
+
+    <select id="getAll" resultMap="reviewResultMap">
+        select R.id as id,
+               R.content as content,
+               D.id as user_id,
+               D.name as user_name,
+               DL.id as driver_license_id,
+               DL.number as driver_license_number
+        from Reviews R join Drivers D on R.driver_id = D.id
+                       join Driver_License DL on D.driver_license_id = DL.id
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.Review">
+        INSERT INTO Reviews (id, content, driver_id) VALUES (#{id}, #{content}, #{driver.id})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.Review">
+        UPDATE Reviews SET content = #{content}, driver_id = #{driver.id} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Reviews WHERE id = #{id}
+    </delete>
+</mapper>

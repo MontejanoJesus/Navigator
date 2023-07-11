@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.ITaxiDAO">
+    <resultMap id="taxiResultMap" type="com.solvd.navigator.model.Taxi">
+        <id property="id" column="id"/>
+        <result property="taxiNumber" column="taxi_number"/>
+        <result property="cost" column="cost"/>
+        <association property="driver" javaType="com.solvd.navigator.model.Person">
+            <id property="id" column="driver_id"/>
+            <result property="name" column="driver_name"/>
+            <association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+                <id property="id" column="driver_license_id"/>
+                <result property="number" column="driver_license_number"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="taxiResultMap">
+        SELECT T.id as id,
+               T.taxi_number as taxi_number,
+               T.cost as cost,
+               D.id as driver_id,
+               D.name as driver_name
+        FROM Taxis T
+                 JOIN Drivers D ON T.driver_id= D.id
+        WHERE T.id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="taxiResultMap">
+        SELECT T.id AS id,
+               T.taxi_number AS taxi_number,
+               T.cost AS cost,
+               D.id AS driver_id,
+               D.name AS driver_name
+        FROM Taxis T
+                 JOIN Drivers D ON T.driver_id = D.id
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.Taxi">
+        INSERT INTO Taxis (id, taxi_number, cost, driver_id) VALUES (#{id}, #{taxiNumber}, #{cost}, #{driver.id})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.Taxi">
+        UPDATE Taxis SET taxi_number = #{taxiNumber}, cost = #{cost}, driver_id = #{driver.id} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Taxis WHERE id = #{id}
+    </delete>
+</mapper>

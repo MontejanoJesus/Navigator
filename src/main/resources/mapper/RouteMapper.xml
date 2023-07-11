@@ -18,10 +18,15 @@
         </association>
         <association property="transportation" javaType="com.solvd.navigator.model.Transportation">
             <id property="id" column="transportation_id"/>
-            <result property="name" column="transportation_name"/>
-            <association property="driver" javaType="com.solvd.navigator.model.Driver">
+            <result property="cost" column="transportation_cost"/>
+            <result property="vehicleNumber" column="transportation_number"/>
+            <association property="driver" javaType="com.solvd.navigator.model.Person">
                 <id property="id" column="driver_id"/>
                 <result property="name" column="driver_name"/>
+                <association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+                    <id property="id" column="driver_license_id"/>
+                    <result property="number" column="driver_license_number"/>
+                </association>
             </association>
         </association>
     </resultMap>
@@ -35,19 +40,84 @@
                LA.name as location_a_name,
                LB.id as location_b_id,
                LB.name as location_b_name,
-               T.id as transportation_id,
-               T.name as transportation_name,
                D.id as driver_id,
-               D.name as driver_name
+               D.name as driver_name,
+                BUS.id as transportation_id,
+                BUS.cost as transportation_cost,
+                BUS.bus_number as transportation_number,
+                BUS.driver_id as transportation_driver_id,
+                BOAT.id as transportation_id,
+                BOAT.cost as transportation_cost,
+                BOAT.boat_number as transportation_number,
+                BOAT.driver_id as transportation_driver_id,
+                PLANE.id as transportation_id,
+                PLANE.cost as transportation_cost,
+                PLANE.plane_number as transportation_number,
+                PLANE.driver_id as transportation_driver_id,
+                TRAIN.id as transportation_id,
+                TRAIN.cost as transportation_cost,
+                TRAIN.train_number as transportation_number,
+                TRAIN.driver_id as transportation_driver_id,
+                TAXI.id as transportation_id,
+                TAXI.cost as transportation_cost,
+                TAXI.taxi_number as transportation_number,
+                TAXI.driver_id as transportation_driver_id
         FROM Routes R
         JOIN Locations LA ON R.location_a = LA.id
         JOIN Locations LB ON R.location_b = LB.id
-        JOIN Transportation T ON R.transportation_id = T.id
-        JOIN Drivers D ON T.driver_id = D.id
+        JOIN Drivers D ON R.driver_id = D.id
+        JOIN Buses BUS ON BUS.driver_id = D.id
+        JOIN Boats BOAT ON BOAT.driver_id = D.id
+        JOIN Planes PLANE ON PLANE.driver_id = D.id
+        JOIN Trains TRAIN on D.id = TRAIN.driver_id
+        JOIN Taxis TAXI on D.id = TAXI.driver_id
         WHERE R.id = #{id};
     </select>
 
     <select id="getRouteByLocationsId" parameterType="long" resultMap="routeResultMap">
+SELECT R.id as id,
+               R.distance as distance,
+               R.duration as duration,
+               R.cost as cost,
+               LA.id as location_a_id,
+               LA.name as location_a_name,
+               LB.id as location_b_id,
+               LB.name as location_b_name,
+               D.id as driver_id,
+               D.name as driver_name,
+                BUS.id as transportation_id,
+                BUS.cost as transportation_cost,
+                BUS.bus_number as transportation_number,
+                BUS.driver_id as transportation_driver_id,
+                BOAT.id as transportation_id,
+                BOAT.cost as transportation_cost,
+                BOAT.boat_number as transportation_number,
+                BOAT.driver_id as transportation_driver_id,
+                PLANE.id as transportation_id,
+                PLANE.cost as transportation_cost,
+                PLANE.plane_number as transportation_number,
+                PLANE.driver_id as transportation_driver_id,
+                TRAIN.id as transportation_id,
+                TRAIN.cost as transportation_cost,
+                TRAIN.train_number as transportation_number,
+                TRAIN.driver_id as transportation_driver_id,
+                TAXI.id as transportation_id,
+                TAXI.cost as transportation_cost,
+                TAXI.taxi_number as transportation_number,
+                TAXI.driver_id as transportation_driver_id
+        FROM Routes R
+        JOIN Locations LA ON R.location_a = LA.id
+        JOIN Locations LB ON R.location_b = LB.id
+        JOIN Drivers D ON R.driver_id = D.id
+        JOIN Buses BUS ON BUS.driver_id = D.id
+        JOIN Boats BOAT ON BOAT.driver_id = D.id
+        JOIN Planes PLANE ON PLANE.driver_id = D.id
+        JOIN Trains TRAIN on D.id = TRAIN.driver_id
+        JOIN Taxis TAXI on D.id = TAXI.driver_id
+        WHERE R.location_a = #{locationAId} AND R.location_b = #{locationBId};
+    </select>
+
+    <select id="getAll" resultMap="routeResultMap">
         SELECT R.id as id,
                R.distance as distance,
                R.duration as duration,
@@ -56,65 +126,88 @@
                LA.name as location_a_name,
                LB.id as location_b_id,
                LB.name as location_b_name,
-               T.id as transportation_id,
-               T.name as transportation_name,
                D.id as driver_id,
-               D.name as driver_name
+               D.name as driver_name,
+               BUS.id as transportation_id,
+               BUS.cost as transportation_cost,
+               BUS.bus_number as transportation_number,
+               BUS.driver_id as transportation_driver_id,
+               BOAT.id as transportation_id,
+               BOAT.cost as transportation_cost,
+               BOAT.boat_number as transportation_number,
+               BOAT.driver_id as transportation_driver_id,
+               PLANE.id as transportation_id,
+               PLANE.cost as transportation_cost,
+               PLANE.plane_number as transportation_number,
+               PLANE.driver_id as transportation_driver_id,
+               TRAIN.id as transportation_id,
+               TRAIN.cost as transportation_cost,
+               TRAIN.train_number as transportation_number,
+               TRAIN.driver_id as transportation_driver_id,
+               TAXI.id as transportation_id,
+               TAXI.cost as transportation_cost,
+               TAXI.taxi_number as transportation_number,
+               TAXI.driver_id as transportation_driver_id
         FROM Routes R
-        JOIN Locations LA ON R.location_a = LA.id
-        JOIN Locations LB ON R.location_b = LB.id
-        JOIN Transportation T ON R.transportation_id = T.id
-        JOIN Drivers D ON T.driver_id = D.id
-		WHERE R.location_a = #{locationAId} AND R.location_b = #{locationBId}
-    </select>
-
-    <select id="getAll" resultMap="routeResultMap">
-        SELECT R.id as id,
-           R.distance as distance,
-           R.duration as duration,
-           R.cost as cost,
-           LA.id as location_a_id,
-           LA.name as location_a_name,
-           LB.id as location_b_id,
-           LB.name as location_b_name,
-           T.id as transportation_id,
-           T.name as transportation_name,
-           D.id as driver_id,
-           D.name as driver_name
-		FROM Routes R
-		JOIN Locations LA ON R.location_a = LA.id
-		JOIN Locations LB ON R.location_b = LB.id
-		JOIN Transportation T ON R.transportation_id = T.id
-		JOIN Drivers D ON T.driver_id = D.id
+                 JOIN Locations LA ON R.location_a = LA.id
+                 JOIN Locations LB ON R.location_b = LB.id
+                 JOIN Drivers D ON R.driver_id = D.id
+                 JOIN Buses BUS ON BUS.driver_id = D.id
+                 JOIN Boats BOAT ON BOAT.driver_id = D.id
+                 JOIN Planes PLANE ON PLANE.driver_id = D.id
+                 JOIN Trains TRAIN on D.id = TRAIN.driver_id
+                 JOIN Taxis TAXI on D.id = TAXI.driver_id
     </select>
 
     <select id="getAllRoutesByLocationId" parameterType="long" resultMap="routeResultMap">
         SELECT R.id as id,
-           R.distance as distance,
-           R.duration as duration,
-           R.cost as cost,
-           LA.id as location_a_id,
-           LA.name as location_a_name,
-           LB.id as location_b_id,
-           LB.name as location_b_name,
-           T.id as transportation_id,
-           T.name as transportation_name,
-           D.id as driver_id,
-           D.name as driver_name
-		FROM Routes R
-		JOIN Locations LA ON R.location_a = LA.id
-		JOIN Locations LB ON R.location_b = LB.id
-		JOIN Transportation T ON R.transportation_id = T.id
-		JOIN Drivers D ON T.driver_id = D.id
+               R.distance as distance,
+               R.duration as duration,
+               R.cost as cost,
+               LA.id as location_a_id,
+               LA.name as location_a_name,
+               LB.id as location_b_id,
+               LB.name as location_b_name,
+               D.id as driver_id,
+               D.name as driver_name,
+               BUS.id as transportation_id,
+               BUS.cost as transportation_cost,
+               BUS.bus_number as transportation_number,
+               BUS.driver_id as transportation_driver_id,
+               BOAT.id as transportation_id,
+               BOAT.cost as transportation_cost,
+               BOAT.boat_number as transportation_number,
+               BOAT.driver_id as transportation_driver_id,
+               PLANE.id as transportation_id,
+               PLANE.cost as transportation_cost,
+               PLANE.plane_number as transportation_number,
+               PLANE.driver_id as transportation_driver_id,
+               TRAIN.id as transportation_id,
+               TRAIN.cost as transportation_cost,
+               TRAIN.train_number as transportation_number,
+               TRAIN.driver_id as transportation_driver_id,
+               TAXI.id as transportation_id,
+               TAXI.cost as transportation_cost,
+               TAXI.taxi_number as transportation_number,
+               TAXI.driver_id as transportation_driver_id
+        FROM Routes R
+                 JOIN Locations LA ON R.location_a = LA.id
+                 JOIN Locations LB ON R.location_b = LB.id
+                 JOIN Drivers D ON R.driver_id = D.id
+                 JOIN Buses BUS ON BUS.driver_id = D.id
+                 JOIN Boats BOAT ON BOAT.driver_id = D.id
+                 JOIN Planes PLANE ON PLANE.driver_id = D.id
+                 JOIN Trains TRAIN on D.id = TRAIN.driver_id
+                 JOIN Taxis TAXI on D.id = TAXI.driver_id
 		WHERE R.location_a = #{locationId} OR R.location_b = #{locationId}
     </select>
 
     <insert id="insert" parameterType="com.solvd.navigator.model.Route">
-        INSERT INTO Routes (id, distance, duration, cost, location_a, location_b, transportation_id) VALUES (#{id}, #{distance}, #{duration}, #{cost}, #{locationA.id}, #{locationB.id}, #{transportation.id})
+        INSERT INTO Routes (distance, duration, cost, location_a, location_b, driver_id) VALUES (#{distance}, #{duration}, #{cost}, #{locationA.id}, #{locationB.id}, #{driver.id})
     </insert>
 
     <update id="update" parameterType="com.solvd.navigator.model.Route">
-        UPDATE Routes SET distance = #{distance}, duration = #{duration}, cost = #{cost}, location_a = #{locationA.id}, location_b = #{locationB.id}, transportation_id = #{transportation.id} WHERE id = #{id}
+        UPDATE Routes SET distance = #{distance}, duration = #{duration}, cost = #{cost}, location_a = #{locationA.id}, location_b = #{locationB.id}, driver_id = #{driver.id} WHERE id = #{id}
     </update>
 
     <delete id="delete" parameterType="long">

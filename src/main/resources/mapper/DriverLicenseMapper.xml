@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.navigator.dao.IDriverLicenseDAO">
+    <resultMap id="driverLicenseResultMap" type="com.solvd.navigator.model.DriverLicense">
+        <id property="id" column="id"/>
+        <result property="number" column="number"/>
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="driverLicenseResultMap">
+        SELECT DL.id as id,
+               DL.number as number
+        FROM Driver_License DL
+        WHERE DL.id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="driverLicenseResultMap">
+        SELECT DL.id AS id,
+               DL.number AS number
+        FROM Driver_License DL
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.navigator.model.DriverLicense">
+        INSERT INTO Driver_License (id, number) VALUES (#{id}, #{number})
+    </insert>
+
+    <update id="update" parameterType="com.solvd.navigator.model.DriverLicense">
+        UPDATE Driver_License SET number = #{number} WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Driver_License WHERE id = #{id}
+    </delete>
+</mapper>
