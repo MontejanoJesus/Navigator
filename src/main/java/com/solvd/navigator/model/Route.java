@@ -9,8 +9,9 @@ public class Route {
     private Location locationB;
     private Integer duration;
     private Integer distance;
-    private Person person;
-    private Long driverId;
+    private List<Person> persons;
+    private Transportation transportation;
+
 
     public Route() {
         this.locationA = new Location();
@@ -21,8 +22,7 @@ public class Route {
         this.id = id;
         this.duration = duration;
         this.distance = distance;
-        this.person = person;
-        this.driverId = driverId;
+        this.persons = persons;
     }
 
     public Long getId() {
@@ -64,17 +64,21 @@ public class Route {
     public void setDistance(Integer distance) {
         this.distance = distance;
     }
-    public Person getPerson() {
-        return person;
+
+    public List<Person> getPersons() {
+        return persons;
     }
-    public void setPerson(Person person) {
-        this.person = person;
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
-    public Long getDriverId() {
-        return driverId;
+
+
+    public Transportation getTransportation() {
+        return transportation;
     }
-    public void setDriverId(Long driverId) {
-        this.driverId = driverId;
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
     }
 
     public String toString() {
@@ -84,8 +88,8 @@ public class Route {
                 ", locationB=" + locationB.getName() +
                 ", duration=" + duration +
                 ", distance=" + distance +
-                ", person=" + person +
-                ", driverId=" + driverId +
+                ", persons=" + persons +
+                ", transportation=" + transportation +
                 '}';
     }
 }
