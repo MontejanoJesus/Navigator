@@ -93,8 +93,9 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(2,route.getLocationA().getId());
             statement.setLong(3,route.getLocationB().getId());
             statement.setInt(4, route.getDuration());
-            statement.setLong(5,route.getTransportation().getId());
-            statement.setInt(6, route.getCost());
+            //Tae comment cause of error
+           // statement.setLong(5,route.getTransportation().getId());
+            //statement.setInt(6, route.getCost());
             statement.setInt(7, route.getDistance());
             statement.executeUpdate();
             logger.info("Record created");
@@ -122,8 +123,9 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(1, route.getLocationA().getId());
             statement.setLong(2, route.getLocationB().getId());
             statement.setInt(3,route.getDuration());
-            statement.setLong(4,route.getTransportation().getId());
-            statement.setInt(5, route.getCost());
+            //Tae comment cause of error
+            //statement.setLong(4,route.getTransportation().getId());
+            ////statement.setInt(5, route.getCost());
             statement.setInt(6, route.getDistance());
             statement.setLong(7, route.getId());
             statement.executeUpdate();
@@ -231,12 +233,14 @@ public class RouteDAO implements IRouteDAO {
             route= new Route();
             route.setId(resultSet.getLong("id"));
             route.setDuration(resultSet.getInt(4));
-            route.setCost(resultSet.getInt(6));
+            //Tae comment cause of error
+            //route.setCost(resultSet.getInt(6));
             route.setDistance(resultSet.getInt(7));
 
             route.getLocationA().setId(resultSet.getLong("location_a"));
             route.getLocationB().setId(resultSet.getLong("location_b"));
-            route.getTransportation().setId(resultSet.getLong("transportation_id"));
+            //Tae comment cause of error
+            //route.getTransportation().setId(resultSet.getLong("transportation_id"));
 
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());

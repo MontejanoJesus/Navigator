@@ -1,0 +1,49 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="result">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="locationA" type="Location"/>
+                <xs:element name="locationB" type="Location"/>
+                <xs:element name="routes" type="Routes"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Location">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Routes">
+        <xs:sequence>
+            <xs:element name="route" type="Route" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Route">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="duration" type="xs:int"/>
+            <xs:element name="cost" type="xs:int"/>
+            <xs:element name="distance" type="xs:int"/>
+            <xs:element name="transportation" type="Transportation"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Transportation">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="driver" type="Driver"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Driver">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
