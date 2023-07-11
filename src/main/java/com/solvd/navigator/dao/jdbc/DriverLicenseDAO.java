@@ -1,10 +1,12 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.ILocationDAO;
+import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.model.Bus;
+import com.solvd.navigator.model.DriverLicense;
+import com.solvd.navigator.model.Location;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.solvd.navigator.model.Location;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,19 +16,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAO implements ILocationDAO {
-    private static final Logger logger = LogManager.getLogger("LocationDAO");
-    private static final String SELECT_ALL = "SELECT * FROM Locations";
-    private static final String SELECT_BY_ID = "SELECT * FROM Locations WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Locations ( name) VALUES (?)";
-    private static final String UPDATE = "UPDATE Locations SET name=? WHERE id=?";
-    private static final String DELETE = "DELETE FROM Locations WHERE id = ?";
-
+public class DriverLicenseDAO implements IDAO<DriverLicense> {
+    private static final Logger logger = LogManager.getLogger("DriverLicenseDAO");
+    private static final String SELECT_ALL = "SELECT * FROM Driver_License";
+    private static final String SELECT_BY_ID = "SELECT * FROM Driver_License WHERE id = ?";
+    private static final String INSERT = "INSERT INTO Driver_License ( number) VALUES (?)";
+    private static final String UPDATE = "UPDATE Driver_License SET number=? WHERE id=?";
+    private static final String DELETE = "DELETE FROM Driver_License WHERE id = ?";
     @Override
-    public Location getById(long id) {
+    public DriverLicense getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Location location=null;
+        DriverLicense driverLicense= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -34,7 +35,7 @@ public class LocationDAO implements ILocationDAO {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
-            location = fillLocationByResultSet(resultSet);
+            driverLicense = fillDriverLicenseByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
@@ -47,12 +48,14 @@ public class LocationDAO implements ILocationDAO {
             }
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return location;
+        return driverLicense;
     }
 
+
+
     @Override
-    public List<Location> getAll() {
-        List<Location> locations = new ArrayList<>();
+    public List<DriverLicense> getAll() {
+        List<DriverLicense> driverLicenses = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -61,7 +64,7 @@ public class LocationDAO implements ILocationDAO {
             preparedStatement = connection.prepareStatement(SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                locations.add(fillLocationByResultSet(resultSet));
+                driverLicenses.add(fillDriverLicenseByResultSet(resultSet));
             }
 
         } catch (SQLException | InterruptedException | IOException e) {
@@ -76,17 +79,17 @@ public class LocationDAO implements ILocationDAO {
 
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return locations;
+        return driverLicenses;
     }
 
     @Override
-    public void insert(Location location) {
+    public void insert(DriverLicense driverLicense) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setString(1, location.getName());
+            statement.setInt(1, driverLicense.getNumber());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -103,14 +106,14 @@ public class LocationDAO implements ILocationDAO {
     }
 
     @Override
-    public void update(Location location){
+    public void update(DriverLicense driverLicense) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, location.getName());
-            statement.setLong(2,location.getId());
+            statement.setInt(1, driverLicense.getNumber());
+            statement.setLong(2,driverLicense.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -125,6 +128,7 @@ public class LocationDAO implements ILocationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
+
     @Override
     public void delete(long id) {
         Connection connection = null;
@@ -147,16 +151,15 @@ public class LocationDAO implements ILocationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
-
-    private Location fillLocationByResultSet(ResultSet resultSet) {
-        Location location= null;
+    private DriverLicense fillDriverLicenseByResultSet(ResultSet resultSet) {
+        DriverLicense driverLicense= null;
         try {
-            location= new Location();
-            location.setId(resultSet.getLong(1));
-            location.setName(resultSet.getString(2));
+            driverLicense= new DriverLicense();
+            driverLicense.setId(resultSet.getLong(1));
+            driverLicense.setNumber(resultSet.getInt(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
-        return location;
+        return driverLicense;
     }
 }

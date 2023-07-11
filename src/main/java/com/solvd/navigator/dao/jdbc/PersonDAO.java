@@ -1,8 +1,11 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.ITransportationDAO;
-import com.solvd.navigator.model.Transportation;
+import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.model.Boat;
+import com.solvd.navigator.model.Person;
+import com.solvd.navigator.model.Plane;
+import com.solvd.navigator.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,20 +17,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransportationDAO implements ITransportationDAO {
+public class PersonDAO implements IPersonDAO {
 
-    private static final Logger logger = LogManager.getLogger("TransportationDAO");
-    private static final String SELECT_ALL = "SELECT * FROM Transportation";
-    private static final String SELECT_BY_ID = "SELECT * FROM Transportation WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Transportation (id, name, driver_id) VALUES (?,?, ?)";
-    private static final String UPDATE = "UPDATE Transportation SET name=?, driver_id=? WHERE id=?";
-    private static final String DELETE = "DELETE FROM Transportation WHERE id = ?";
+    private static final Logger logger = LogManager.getLogger("PersonDAO");
+    private static final String SELECT_ALL = "SELECT * FROM Persons";
+    private static final String SELECT_BY_ID = "SELECT * FROM Persons WHERE id = ?";
+    private static final String INSERT = "INSERT INTO Persons (name, driver_license_id) VALUES (?)";
+    private static final String UPDATE = "UPDATE Persons SET name=?, driver_license_id=?  WHERE id=?";
+    private static final String DELETE = "DELETE FROM Persons WHERE id = ?";
 
     @Override
-    public Transportation getById(long id) {
+    public Person getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Transportation transportation = null;
+        Person person= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -35,7 +38,7 @@ public class TransportationDAO implements ITransportationDAO {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
-            transportation = fillTransportationByResultSet(resultSet);
+            person = fillPeopleByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
@@ -48,12 +51,12 @@ public class TransportationDAO implements ITransportationDAO {
             }
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return transportation;
+        return person;
     }
 
     @Override
-    public List<Transportation> getAll() {
-        List<Transportation> transportation = new ArrayList<>();
+    public List<Person> getAll() {
+        List<Person> people = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -62,7 +65,7 @@ public class TransportationDAO implements ITransportationDAO {
             preparedStatement = connection.prepareStatement(SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                transportation.add(fillTransportationByResultSet(resultSet));
+                people.add(fillPeopleByResultSet(resultSet));
             }
 
         } catch (SQLException | InterruptedException | IOException e) {
@@ -77,22 +80,23 @@ public class TransportationDAO implements ITransportationDAO {
 
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return transportation;
+        return people;
     }
 
+
+
     @Override
-    public void insert(Transportation transportation) {
+    public void insert(Person person) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setLong(1,transportation.getId());
-            statement.setString(2, transportation.getName());
-            statement.setLong(3,transportation.getDriver().getId());
+            statement.setInt(1, person.getName());
+            statement.setLong(2,person.getDriverLicense().getId());
             statement.executeUpdate();
             logger.info("Record created");
-
+            statement.close();
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ INSERT+ " error cause: "+e.getCause());
         } finally {
@@ -104,18 +108,20 @@ public class TransportationDAO implements ITransportationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
+
     @Override
-    public void update(Transportation transportation){
+    public void update(Person person) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, transportation.getName());
-            statement.setLong(2, transportation.getDriver().getId());
-            statement.setLong(3,transportation.getId());
+            statement.setString(1, person.getName());
+            statement.setLong(2, person.getDriverLicense().getId());
+            statement.setLong(4,person.getId());
             statement.executeUpdate();
             logger.info("Record created");
+            statement.close();
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ UPDATE+ " error cause: "+e.getCause());
         } finally {
@@ -127,7 +133,6 @@ public class TransportationDAO implements ITransportationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
-
 
     @Override
     public void delete(long id) {
@@ -151,17 +156,16 @@ public class TransportationDAO implements ITransportationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
-    private Transportation fillTransportationByResultSet(ResultSet resultSet) {
-        Transportation transportation= null;
-        try {
-            transportation= new Transportation();
-            transportation.setId(resultSet.getLong(1));
-            transportation.setName(resultSet.getString(2));
-            transportation.getDriver().setId(resultSet.getLong("driver_id"));
 
+    private Person fillPeopleByResultSet(ResultSet resultSet) {
+        Person person= null;
+        try {
+            person= new Person();
+            person.setId(resultSet.getLong(1));
+            person.setName(resultSet.getString(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
-        return transportation;
+        return person;
     }
 }

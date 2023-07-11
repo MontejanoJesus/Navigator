@@ -2,7 +2,6 @@ package com.solvd.navigator.factory;
 
 import com.solvd.navigator.dao.IDAO;
 import com.solvd.navigator.dao.jdbc.RouteDAO;
-import com.solvd.navigator.dao.jdbc.TransportationDAO;
 import com.solvd.navigator.dao.jdbc.LocationDAO;
 import com.solvd.navigator.dao.jdbc.DriverDAO;
 public class JDBCFactory extends AbstractFactory{

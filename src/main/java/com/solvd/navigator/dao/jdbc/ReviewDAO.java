@@ -1,10 +1,10 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.ILocationDAO;
+import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.model.Review;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.solvd.navigator.model.Location;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,19 +14,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAO implements ILocationDAO {
-    private static final Logger logger = LogManager.getLogger("LocationDAO");
-    private static final String SELECT_ALL = "SELECT * FROM Locations";
-    private static final String SELECT_BY_ID = "SELECT * FROM Locations WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Locations ( name) VALUES (?)";
-    private static final String UPDATE = "UPDATE Locations SET name=? WHERE id=?";
-    private static final String DELETE = "DELETE FROM Locations WHERE id = ?";
+public class ReviewDAO implements IDAO<Review> {
+    private static final Logger logger = LogManager.getLogger("ReviewDAO");
+    private static final String SELECT_ALL = "SELECT * FROM Reviews";
+    private static final String SELECT_BY_ID = "SELECT * FROM Reviews WHERE id = ?";
+    private static final String INSERT = "INSERT INTO Reviews ( content, location_id) VALUES (?,?, ?)";
+    private static final String UPDATE = "UPDATE Reviews SET content=?, location_id=?  WHERE id=?";
+    private static final String DELETE = "DELETE FROM Reviews WHERE id = ?";
 
     @Override
-    public Location getById(long id) {
+    public Review getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Location location=null;
+        Review review= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -34,7 +34,7 @@ public class LocationDAO implements ILocationDAO {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
-            location = fillLocationByResultSet(resultSet);
+            review = fillReviewByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
@@ -47,12 +47,14 @@ public class LocationDAO implements ILocationDAO {
             }
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return location;
+        return review;
     }
 
+
+
     @Override
-    public List<Location> getAll() {
-        List<Location> locations = new ArrayList<>();
+    public List<Review> getAll() {
+        List<Review> reviews = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -61,7 +63,7 @@ public class LocationDAO implements ILocationDAO {
             preparedStatement = connection.prepareStatement(SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                locations.add(fillLocationByResultSet(resultSet));
+                reviews.add(fillReviewByResultSet(resultSet));
             }
 
         } catch (SQLException | InterruptedException | IOException e) {
@@ -76,17 +78,18 @@ public class LocationDAO implements ILocationDAO {
 
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return locations;
+        return reviews;
     }
 
     @Override
-    public void insert(Location location) {
+    public void insert(Review review) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setString(1, location.getName());
+            statement.setString(1, review.getContent());
+            statement.setLong(2, review.getLocation().getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -103,14 +106,15 @@ public class LocationDAO implements ILocationDAO {
     }
 
     @Override
-    public void update(Location location){
+    public void update(Review review) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, location.getName());
-            statement.setLong(2,location.getId());
+            statement.setString(1, review.getContent());
+            statement.setLong(1, review.getLocation().getLocationId());
+            statement.setLong(2,review.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -125,6 +129,7 @@ public class LocationDAO implements ILocationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
+
     @Override
     public void delete(long id) {
         Connection connection = null;
@@ -147,16 +152,15 @@ public class LocationDAO implements ILocationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
-
-    private Location fillLocationByResultSet(ResultSet resultSet) {
-        Location location= null;
+    private Review fillReviewByResultSet(ResultSet resultSet) {
+        Review review= null;
         try {
-            location= new Location();
-            location.setId(resultSet.getLong(1));
-            location.setName(resultSet.getString(2));
+            review= new Review();
+            review.setId(resultSet.getLong(1));
+            review.setContent(resultSet.getString(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
-        return location;
+        return review;
     }
 }
