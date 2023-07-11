@@ -21,8 +21,8 @@ public class RouteDAO implements IRouteDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM Routes WHERE id = ?";
     private static final String SELECT_BY_LOC_ID = "SELECT * FROM Routes WHERE location_a = ? AND location_b=?";
     private static final String SELECT_BY_LOCAT_ID = "SELECT * FROM Routes WHERE location_a = ?";
-    private static final String INSERT = "INSERT INTO Routes (id, location_a, location_b, duration, transportation_id, cost, distance) VALUES (?,?,?,?,?,?,?)";
-    private static final String UPDATE = "UPDATE Routes SET location_a=?, location_b=?, duration=?, transportation_id=?, cost=?, distance=? WHERE id=?";
+    private static final String INSERT = "INSERT INTO Routes (id, location_a, location_b, duration, transportation_id,  distance) VALUES (?,?,?,?,?,?)";
+    private static final String UPDATE = "UPDATE Routes SET location_a=?, location_b=?, duration=?, transportation_id=?, distance=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Routes WHERE id = ?";
     @Override
     public Route getById(long id) {
@@ -94,8 +94,7 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(3,route.getLocationB().getId());
             statement.setInt(4, route.getDuration());
             statement.setLong(5,route.getTransportation().getId());
-            statement.setInt(6, route.getCost());
-            statement.setInt(7, route.getDistance());
+            statement.setInt(6, route.getDistance());
             statement.executeUpdate();
             logger.info("Record created");
 
@@ -123,9 +122,8 @@ public class RouteDAO implements IRouteDAO {
             statement.setLong(2, route.getLocationB().getId());
             statement.setInt(3,route.getDuration());
             statement.setLong(4,route.getTransportation().getId());
-            statement.setInt(5, route.getCost());
-            statement.setInt(6, route.getDistance());
-            statement.setLong(7, route.getId());
+            statement.setInt(5, route.getDistance());
+            statement.setLong(6, route.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -231,7 +229,6 @@ public class RouteDAO implements IRouteDAO {
             route= new Route();
             route.setId(resultSet.getLong("id"));
             route.setDuration(resultSet.getInt(4));
-            route.setCost(resultSet.getInt(6));
             route.setDistance(resultSet.getInt(7));
 
             route.getLocationA().setId(resultSet.getLong("location_a"));

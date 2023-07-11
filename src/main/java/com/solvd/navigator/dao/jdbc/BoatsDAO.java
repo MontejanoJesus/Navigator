@@ -1,10 +1,12 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.ILocationDAO;
+import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.model.Boat;
+import com.solvd.navigator.model.Driver;
+import com.solvd.navigator.model.Location;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.solvd.navigator.model.Location;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,19 +16,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationDAO implements ILocationDAO {
-    private static final Logger logger = LogManager.getLogger("LocationDAO");
-    private static final String SELECT_ALL = "SELECT * FROM Locations";
-    private static final String SELECT_BY_ID = "SELECT * FROM Locations WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Locations ( name) VALUES (?)";
-    private static final String UPDATE = "UPDATE Locations SET name=? WHERE id=?";
-    private static final String DELETE = "DELETE FROM Locations WHERE id = ?";
+public class BoatsDAO implements IBoatDAO {
+
+    private static final Logger logger = LogManager.getLogger("BoatsDAO");
+    private static final String SELECT_ALL = "SELECT * FROM Boats";
+    private static final String SELECT_BY_ID = "SELECT * FROM Boats WHERE id = ?";
+    private static final String INSERT = "INSERT INTO Boats (boat_number, cost, driver_id) VALUES (?,?, ?)";
+    private static final String UPDATE = "UPDATE Boats SET boat_number=?, cost=? , driver_id=? WHERE id=?";
+    private static final String DELETE = "DELETE FROM Boats WHERE id = ?";
 
     @Override
-    public Location getById(long id) {
+    public Boat getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Location location=null;
+        Boat boat= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -34,7 +37,7 @@ public class LocationDAO implements ILocationDAO {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
-            location = fillLocationByResultSet(resultSet);
+            boat = fillBoatByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
@@ -47,12 +50,14 @@ public class LocationDAO implements ILocationDAO {
             }
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return location;
+        return boat;
     }
 
+
+
     @Override
-    public List<Location> getAll() {
-        List<Location> locations = new ArrayList<>();
+    public List<Boat> getAll() {
+        List<Boat> boats = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -61,7 +66,7 @@ public class LocationDAO implements ILocationDAO {
             preparedStatement = connection.prepareStatement(SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                locations.add(fillLocationByResultSet(resultSet));
+                boats.add(fillBoatByResultSet(resultSet));
             }
 
         } catch (SQLException | InterruptedException | IOException e) {
@@ -76,17 +81,19 @@ public class LocationDAO implements ILocationDAO {
 
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return locations;
+        return boats;
     }
 
     @Override
-    public void insert(Location location) {
+    public void insert(Boat boat) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setString(1, location.getName());
+            statement.setInt(1,boat.getNumber());
+            statement.setInt(2, boat.getCost());
+            statement.setLong(3, boat.getDriver().getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -103,14 +110,16 @@ public class LocationDAO implements ILocationDAO {
     }
 
     @Override
-    public void update(Location location){
+    public void update(Boat boat) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, location.getName());
-            statement.setLong(2,location.getId());
+            statement.setInt(1, boat.getNumber());
+            statement.setInt(2, boat.getCost());
+            statement.setLong(3,boat.getDriver().getId());
+            statement.setLong(4,boat.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -125,6 +134,7 @@ public class LocationDAO implements ILocationDAO {
             ConnectionPool.getInstance().releaseConnection(connection);
         }
     }
+
     @Override
     public void delete(long id) {
         Connection connection = null;
@@ -148,15 +158,16 @@ public class LocationDAO implements ILocationDAO {
         }
     }
 
-    private Location fillLocationByResultSet(ResultSet resultSet) {
-        Location location= null;
+    private Boat fillBoatByResultSet(ResultSet resultSet) {
+        Boat boat= null;
         try {
-            location= new Location();
-            location.setId(resultSet.getLong(1));
-            location.setName(resultSet.getString(2));
+            boat= new Boat();
+            boat.setId(resultSet.getLong(1));
+            boat.setNumber(resultSet.getInt(2));
+            boat.setCost(resultSet.getInt(3));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
-        return location;
+        return boat;
     }
 }
