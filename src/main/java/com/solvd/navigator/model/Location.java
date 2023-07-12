@@ -19,6 +19,14 @@ public class Location {
         this.reviews = new ArrayList<>();
     }
 
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public Long getId() {
         return id;
     }

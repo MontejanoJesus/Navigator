@@ -1,21 +1,32 @@
 package com.solvd.navigator.dao.jdbc;
 
+import com.solvd.navigator.connection.ConnectionPool;
+import com.solvd.navigator.dao.ITransportationTypeDAO;
+import com.solvd.navigator.model.TransportationType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BusDAO  {
-    private static final Logger logger = LogManager.getLogger("BusDAO");
-    private static final String SELECT_ALL = "SELECT * FROM Buses";
-    private static final String SELECT_BY_ID = "SELECT * FROM Buses WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Buses (bus_number, cost, driver_id) VALUES (?, ?)";
-    private static final String UPDATE = "UPDATE Buses SET bus_number=?, cost=?, driver_id=? WHERE id=?";
-    private static final String DELETE = "DELETE FROM Buses WHERE id = ?";
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-   /* @Override
-    public Bus getById(long id) {
+public class TransportationTypeDAO implements ITransportationTypeDAO {
+    private static final Logger logger = LogManager.getLogger("TransportationTypeDAO");
+    private static final String SELECT_ALL = "SELECT * FROM Transportation_Type";
+    private static final String SELECT_BY_ID = "SELECT * FROM Transportation_Type WHERE id = ?";
+    private static final String INSERT = "INSERT INTO Transportation_Type (id, type) VALUES (?, ?)";
+    private static final String UPDATE = "UPDATE Transportation_Type SET type=? WHERE id=?";
+    private static final String DELETE = "DELETE FROM Transportation_Type WHERE id = ?";
+
+    @Override
+    public TransportationType getById(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
-        Bus bus= null;
+        TransportationType transportationType= null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -23,7 +34,7 @@ public class BusDAO  {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
-            bus = fillBusByResultSet(resultSet);
+            transportationType = fillTransportationTypeByResultSet(resultSet);
 
         } catch (SQLException | InterruptedException | IOException e)  {
             logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
@@ -36,14 +47,14 @@ public class BusDAO  {
             }
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return bus;
+        return transportationType;
     }
 
 
 
     @Override
-    public List<Bus> getAll() {
-        List<Bus> buses = new ArrayList<>();
+    public List<TransportationType> getAll() {
+        List<TransportationType> transportationTypes = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -52,7 +63,7 @@ public class BusDAO  {
             preparedStatement = connection.prepareStatement(SELECT_ALL);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                buses.add(fillBusByResultSet(resultSet));
+                transportationTypes.add(fillTransportationTypeByResultSet(resultSet));
             }
 
         } catch (SQLException | InterruptedException | IOException e) {
@@ -67,19 +78,18 @@ public class BusDAO  {
 
             ConnectionPool.getInstance().releaseConnection(connection);
         }
-        return buses;
+        return transportationTypes;
     }
 
     @Override
-    public void insert(Bus bus) {
+    public void insert(TransportationType transportationType) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setInt(1,bus.getNumber());
-            statement.setInt(2, bus.getCost());
-            statement.setLong(3, bus.getDriver().getId());
+            statement.setLong(1,transportationType.getId());
+            statement.setString(2, transportationType.getType());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -96,16 +106,14 @@ public class BusDAO  {
     }
 
     @Override
-    public void update(Bus bus) {
+    public void update(TransportationType transportationType) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setInt(1, bus.getNumber());
-            statement.setInt(2, bus.getCost());
-            statement.setLong(3,bus.getDriver().getId());
-            statement.setLong(4,bus.getId());
+            statement.setString(1, transportationType.getType());
+            statement.setLong(2,transportationType.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -144,18 +152,15 @@ public class BusDAO  {
         }
     }
 
-    private Bus fillBusByResultSet(ResultSet resultSet) {
-        Bus bus= null;
+    private TransportationType fillTransportationTypeByResultSet(ResultSet resultSet) {
+        TransportationType transportationType= null;
         try {
-            bus= new Bus();
-            bus.setId(resultSet.getLong(1));
-            bus.setNumber(resultSet.getInt(2));
-            bus.setCost(resultSet.getInt(3));
+            transportationType= new TransportationType();
+            transportationType.setId(resultSet.getLong(1));
+            transportationType.setType(resultSet.getString(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
-        return bus;
-
-
-    }*/
+        return transportationType;
+    }
 }
