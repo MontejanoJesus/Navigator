@@ -18,7 +18,7 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
     private static final Logger logger = LogManager.getLogger("DriverLicenseDAO");
     private static final String SELECT_ALL = "SELECT * FROM Driver_License";
     private static final String SELECT_BY_ID = "SELECT * FROM Driver_License WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Driver_License ( number) VALUES (?)";
+    private static final String INSERT = "INSERT INTO Driver_License ( id ,number) VALUES (?, ?)";
     private static final String UPDATE = "UPDATE Driver_License SET number=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Driver_License WHERE id = ?";
     @Override
@@ -87,8 +87,9 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            //Tae comment
-            //  statement.setInt(1, driverLicense.getNumber());
+
+            statement.setLong(1, driverLicense.getId());
+            statement.setString(2,driverLicense.getNumber());
 
             statement.executeUpdate();
             logger.info("Record created");
@@ -112,8 +113,8 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            //Tae comment
-            // statement.setInt(1, driverLicense.getNumber());
+
+            statement.setString(1, driverLicense.getNumber());
             statement.setLong(2,driverLicense.getId());
             statement.executeUpdate();
             logger.info("Record created");
@@ -157,8 +158,8 @@ public class DriverLicenseDAO implements IDAO<DriverLicense> {
         try {
             driverLicense= new DriverLicense();
             driverLicense.setId(resultSet.getLong(1));
-            //Tae comment
-            //driverLicense.setNumber(resultSet.getInt(2));
+
+            driverLicense.setNumber(resultSet.getString(2));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }

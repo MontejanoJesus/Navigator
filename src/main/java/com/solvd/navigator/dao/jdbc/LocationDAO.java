@@ -2,6 +2,7 @@ package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.ILocationDAO;
+import com.solvd.navigator.model.Coordinate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.solvd.navigator.model.Location;
@@ -17,9 +18,10 @@ import java.util.List;
 public class LocationDAO implements ILocationDAO {
     private static final Logger logger = LogManager.getLogger("LocationDAO");
     private static final String SELECT_ALL = "SELECT * FROM Locations";
+    private static final String READ_POINT = "SELECT ST_X(t.coordinates) as x_coordinate, ST_Y(t.coordinates) as y_coordinate, t.* FROM Locations t WHERE id=?";
     private static final String SELECT_BY_ID = "SELECT * FROM Locations WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Locations ( name) VALUES (?)";
-    private static final String UPDATE = "UPDATE Locations SET name=? WHERE id=?";
+    private static final String INSERT = "INSERT INTO Locations ( id, name, coordinates) VALUES (?,?,ST_GeomFromText('POINT(? ?)'))";
+    private static final String UPDATE = "UPDATE Locations SET name=?, coordinates=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Locations WHERE id = ?";
 
     @Override
@@ -86,7 +88,10 @@ public class LocationDAO implements ILocationDAO {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setString(1, location.getName());
+            statement.setLong(1,location.getId());
+            statement.setString(2, location.getName());
+            statement.setDouble(3,location.getCoordinate().getLatitude());
+            statement.setDouble(4,location.getCoordinate().getLongitude());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -154,9 +159,43 @@ public class LocationDAO implements ILocationDAO {
             location= new Location();
             location.setId(resultSet.getLong(1));
             location.setName(resultSet.getString(2));
+
+            location.setCoordinate(readPoint(location.getId()));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
         return location;
+    }
+
+    private Coordinate readPoint(Long id){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Coordinate coordinate = null;
+        Double coorX=null;
+        Double coorY = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            statement = connection.prepareStatement(READ_POINT);
+            statement.setLong(1, id);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            coorX = resultSet.getDouble(1);
+            coorY = resultSet.getDouble(2);
+
+        } catch (SQLException | InterruptedException | IOException e)  {
+            logger.error("Error query: "+ SELECT_BY_ID+ " cause: "+e.getCause());
+        } finally {
+            try {
+                resultSet.close();
+                statement.close();
+            } catch (SQLException e) {
+                logger.error("Error closing statement. Error code: "+e.getErrorCode());
+            }
+            ConnectionPool.getInstance().releaseConnection(connection);
+        }
+        coordinate.setLatitude(coorX);
+        coordinate.setLongitude(coorY);
+        return coordinate;
     }
 }

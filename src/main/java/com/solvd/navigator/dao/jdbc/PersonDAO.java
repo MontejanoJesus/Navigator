@@ -1,18 +1,29 @@
 package com.solvd.navigator.dao.jdbc;
 
 //import com.solvd.navigator.model.User;
+import com.solvd.navigator.connection.ConnectionPool;
+import com.solvd.navigator.dao.IPersonDAO;
+import com.solvd.navigator.model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PersonDAO  {
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PersonDAO implements IPersonDAO {
 
     private static final Logger logger = LogManager.getLogger("PersonDAO");
     private static final String SELECT_ALL = "SELECT * FROM Persons";
     private static final String SELECT_BY_ID = "SELECT * FROM Persons WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Persons (name, driver_license_id) VALUES (?)";
+    private static final String INSERT = "INSERT INTO Persons (id, name, driver_license_id) VALUES (?,?,?)";
     private static final String UPDATE = "UPDATE Persons SET name=?, driver_license_id=?  WHERE id=?";
     private static final String DELETE = "DELETE FROM Persons WHERE id = ?";
-/*
+
     @Override
     public Person getById(long id) {
         Connection connection = null;
@@ -70,8 +81,6 @@ public class PersonDAO  {
         return people;
     }
 
-
-
     @Override
     public void insert(Person person) {
         Connection connection = null;
@@ -79,8 +88,11 @@ public class PersonDAO  {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setInt(1, person.getName());
-            statement.setLong(2,person.getDriverLicense().getId());
+
+            statement.setLong(1,person.getId());
+            statement.setString(2, person.getName());
+            statement.setLong(3,person.getDriverLicense().getId());
+
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -105,7 +117,7 @@ public class PersonDAO  {
             statement = connection.prepareStatement(UPDATE);
             statement.setString(1, person.getName());
             statement.setLong(2, person.getDriverLicense().getId());
-            statement.setLong(4,person.getId());
+            statement.setLong(3,person.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -155,5 +167,5 @@ public class PersonDAO  {
         }
         return person;
 
-    } */
+    }
 }
