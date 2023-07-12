@@ -29,13 +29,9 @@
             </association>
             <association property="transportationType" javaType="com.solvd.navigator.model.TransportationType">
                 <id property="id" column="transportation_type_id"/>
-                <result property="name" column="transportation_type_name"/>
+                <result property="type" column="transportation_type_name"/>
             </association>
         </association>
-        <collection property="users" ofType="com.solvd.navigator.model.Person">
-            <id property="id" column="user_id"/>
-            <result property="name" column="user_name"/>
-        </collection>
     </resultMap>
 
     <select id="getById" parameterType="long" resultMap="routeResultMap">
@@ -54,9 +50,7 @@
                 DL.id as driver_license_id,
                 DL.number as driver_license_number,
                 TT.id as transportation_type_id,
-                TT.type as transportation_type_name,
-                P.id as user_id,
-                P.name as user_name
+                TT.type as transportation_type_name
         FROM Routes R
         JOIN Locations LA ON R.location_a_id = LA.id
         JOIN Locations LB ON R.location_b_id = LB.id
@@ -64,7 +58,6 @@
         JOIN Persons D ON T.driver_id = D.id
         JOIN Driver_License DL ON D.driver_license_id = DL.id
         JOIN Transportation_Type TT ON T.transportation_type_id = TT.id
-        LEFT JOIN (SELECT RP.route_id, P.id, P.name FROM Routes_has_Persons RP JOIN Persons P ON RP.person_id = P.id) P ON R.id = P.route_id
         WHERE R.id = #{id};
     </select>
 
@@ -84,9 +77,7 @@
                DL.id as driver_license_id,
                DL.number as driver_license_number,
                TT.id as transportation_type_id,
-               TT.type as transportation_type_name,
-                P.id as user_id,
-                P.name as user_name
+               TT.type as transportation_type_name
         FROM Routes R
                  JOIN Locations LA ON R.location_a_id = LA.id
                  JOIN Locations LB ON R.location_b_id = LB.id
@@ -94,7 +85,6 @@
                  JOIN Persons D ON T.driver_id = D.id
                  JOIN Driver_License DL ON D.driver_license_id = DL.id
                  JOIN Transportation_Type TT ON T.transportation_type_id = TT.id
-                LEFT JOIN (SELECT RP.route_id, P.id, P.name FROM Routes_has_Persons RP JOIN Persons P ON RP.person_id = P.id) P ON R.id = P.route_id
         WHERE R.location_a_id = #{locationAId} AND R.location_b_id = #{locationBId};
     </select>
 
@@ -114,9 +104,7 @@
                DL.id as driver_license_id,
                DL.number as driver_license_number,
                TT.id as transportation_type_id,
-               TT.type as transportation_type_name,
-                P.id as user_id,
-                P.name as user_name
+               TT.type as transportation_type_name
         FROM Routes R
                  JOIN Locations LA ON R.location_a_id = LA.id
                  JOIN Locations LB ON R.location_b_id = LB.id
@@ -124,7 +112,6 @@
                  JOIN Persons D ON T.driver_id = D.id
                  JOIN Driver_License DL ON D.driver_license_id = DL.id
                  JOIN Transportation_Type TT ON T.transportation_type_id = TT.id
-                LEFT JOIN (SELECT RP.route_id, P.id, P.name FROM Routes_has_Persons RP JOIN Persons P ON RP.person_id = P.id) P ON R.id = P.route_id;
     </select>
 
     <select id="getAllRoutesByLocationId" parameterType="long" resultMap="routeResultMap">
@@ -143,9 +130,7 @@
                DL.id as driver_license_id,
                DL.number as driver_license_number,
                TT.id as transportation_type_id,
-               TT.type as transportation_type_name,
-                P.id as user_id,
-                P.name as user_name
+               TT.type as transportation_type_name
         FROM Routes R
                  JOIN Locations LA ON R.location_a_id = LA.id
                  JOIN Locations LB ON R.location_b_id = LB.id
@@ -153,17 +138,12 @@
                  JOIN Persons D ON T.driver_id = D.id
                  JOIN Driver_License DL ON D.driver_license_id = DL.id
                  JOIN Transportation_Type TT ON T.transportation_type_id = TT.id
-                LEFT JOIN (SELECT RP.route_id, P.id, P.name FROM Routes_has_Persons RP JOIN Persons P ON RP.person_id = P.id) P ON R.id = P.route_id
 		WHERE R.location_a_id = #{locationId} OR R.location_b_id = #{locationId}
     </select>
 
     <insert id="insert" parameterType="com.solvd.navigator.model.Route">
         INSERT INTO Routes (id, distance, duration, location_a_id, location_b_id, transportation_id)
         VALUES (#{id}, #{distance}, #{duration}, #{locationA.id}, #{locationB.id}, #{transportation.id})
-        <foreach collection="persons" item="person" index="index">
-            INSERT INTO Routes_has_Persons (route_id, person_id)
-            VALUES (#{id}, #{person.id})
-        </foreach>
     </insert>
 
     <update id="update" parameterType="com.solvd.navigator.model.Route">
@@ -174,11 +154,6 @@
             location_b_id = #{locationB.id},
             transportation_id = #{transportation.id}
         WHERE id = #{id};
-        DELETE FROM Routes_has_Persons WHERE route_id = #{id};
-        <foreach collection="persons" item="person" index="index">
-            INSERT INTO Routes_has_Persons (route_id, person_id)
-            VALUES (#{id}, #{person.id})
-        </foreach>
     </update>
 
     <delete id="delete" parameterType="long">

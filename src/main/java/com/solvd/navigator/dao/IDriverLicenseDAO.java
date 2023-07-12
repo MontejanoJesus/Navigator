@@ -1,6 +1,9 @@
 package com.solvd.navigator.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.solvd.navigator.model.DriverLicense;
 
-public interface IDriverLicenseDAO extends IDAO<DriverLicense>{
+@Mapper
+public interface IDriverLicenseDAO extends IDAO<DriverLicense> {
 }

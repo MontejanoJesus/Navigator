@@ -49,10 +49,12 @@ public class Location {
 		this.coordinate = coordinate;
 	}
 
+	@Override
 	public String toString() {
 		return "Location{" +
 				"id=" + id +
-				", name='" + name +
+				", name='" + name + '\'' +
+				", coordinate=" + coordinate +
 				", routes=" + routes +
 				'}';
 	}

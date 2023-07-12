@@ -43,10 +43,17 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", driverLicense=" + driverLicense +
-				'}';
+		if(driverLicense == null){
+			return "Person{" +
+					"id=" + id +
+					", name='" + name + '\'' +
+					'}';
+		} else {
+			return "Person{" +
+					"id=" + id +
+					", name='" + name + '\'' +
+					", driverLicense=" + driverLicense +
+					'}';
+		}
 	}
 }

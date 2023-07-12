@@ -18,7 +18,7 @@
                R.content as content,
                 L.id as location_id,
                 L.name as location_name,
-                L.cordinates as location_coordinates
+                L.coordinates as location_coordinates
         from Reviews R join Locations L on R.location_id = L.id
         where R.id = #{id}
     </select>
@@ -28,7 +28,7 @@
                R.content as content,
                 L.id as location_id,
                 L.name as location_name,
-                L.cordinates as location_coordinates
+                L.coordinates as location_coordinates
         from Reviews R join Locations L on R.location_id = L.id
     </select>
 

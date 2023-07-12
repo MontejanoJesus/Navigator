@@ -6,23 +6,24 @@
     <resultMap id="locationResultMap" type="com.solvd.navigator.model.Location">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result column="coordinates" property="coordinates" javaType="com.solvd.navigator.model.Coordinate" typeHandler="com.solvd.navigator.typehandlers.PointHandler" />
+        <result property="coordinate" column="coordinates" javaType="com.solvd.navigator.model.Coordinate" typeHandler="com.solvd.navigator.typehandlers.PointHandler" />
     </resultMap>
 
     <select id="getById" parameterType="long" resultMap="locationResultMap">
-        SELECT * FROM Locations WHERE id = #{id}
+        SELECT id, name, coordinates FROM Locations WHERE id = #{id}
     </select>
 
     <select id="getAll" resultMap="locationResultMap">
-        SELECT * FROM Locations
+        SELECT id, name, coordinates FROM Locations
     </select>
 
     <insert id="insert" parameterType="com.solvd.navigator.model.Location">
-        INSERT INTO Locations (id, name) VALUES (#{id}, #{name})
+        INSERT INTO Locations (id, name, coordinates) VALUES (#{id}, #{name}, POINT(#{coordinate.latitude}, #{coordinate.longitude}))
     </insert>
 
     <update id="update" parameterType="com.solvd.navigator.model.Location">
-        UPDATE Locations SET name = #{name} WHERE id = #{id}
+        UPDATE Locations SET name = #{name}, coordinates = POINT(#{coordinate.latitude}, #{coordinate.longitude})
+		WHERE id = #{id}
     </update>
 
     <delete id="delete" parameterType="long">

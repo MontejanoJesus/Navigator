@@ -1,6 +1,6 @@
 package com.solvd.navigator.model;
 
-public abstract class Transportation {
+public class Transportation {
 	private Long id;
 	private Integer cost;
 	private Integer vehicleNumber;

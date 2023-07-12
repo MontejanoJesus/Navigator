@@ -23,4 +23,8 @@
     <update id="update" parameterType="com.solvd.navigator.model.TransportationType">
         UPDATE Transportation_Type SET type = #{type} WHERE id = #{id}
     </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM Transportation_Type WHERE id = #{id}
+    </delete>
 </mapper>
