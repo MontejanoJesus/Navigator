@@ -21,8 +21,8 @@ public class RouteDAO implements IRouteDAO {
     private static final String SELECT_BY_ID = "SELECT * FROM Routes WHERE id = ?";
     private static final String SELECT_BY_LOC_ID = "SELECT * FROM Routes WHERE location_a_id = ? AND location_b_id=?";
     private static final String SELECT_BY_LOCAT_ID = "SELECT * FROM Routes WHERE location_a = ?";
-    private static final String INSERT = "INSERT INTO Routes (id, location_a_id, location_b_id, duration, distance, driver_id) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE = "UPDATE Routes SET location_a_id=?, location_b_id=?, duration=?, distance=?, driver_id=? WHERE id=?";
+    private static final String INSERT = "INSERT INTO Routes (id, location_a_id, location_b_id, duration, distance,transportation_id) VALUES (?,?,?,?,?,?)";
+    private static final String UPDATE = "UPDATE Routes SET location_a_id=?, location_b_id=?, duration=?, distance=?, transportation_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Routes WHERE id = ?";
     @Override
     public Route getById(long id) {
@@ -89,18 +89,12 @@ public class RouteDAO implements IRouteDAO {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setLong(1,route.getId());
+            statement.setLong(6,route.getTransportation().getId());
             statement.setLong(2,route.getLocationA().getId());
             statement.setLong(3,route.getLocationB().getId());
             statement.setInt(4, route.getDuration());
-            //Tae comment
-            //statement.setLong(6,route.getDriver().getId());
             statement.setInt(5, route.getDistance());
-
-            //Tae comment cause of error
-           // statement.setLong(5,route.getTransportation().getId());
-            //statement.setInt(6, route.getCost());
-            //statement.setInt(7, route.getDistance());
+            statement.setLong(1,route.getId());
 
             statement.executeUpdate();
             logger.info("Record created");
@@ -122,21 +116,16 @@ public class RouteDAO implements IRouteDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            //location_a=?, location_b=?, duration=?, transportation_id=?, cost=?, distance=?
+            //"UPDATE Routes SET location_a_id=?, location_b_id=?, duration=?, distance=?, transportation_id=? WHERE id=?";
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setLong(1, route.getLocationA().getId());
-            statement.setLong(2, route.getLocationB().getId());
-            statement.setInt(3,route.getDuration());
 
-            //Tae comment
-            //statement.setLong(5,route.getDriver().getId());
+            statement.setLong(1,route.getLocationA().getId());
+            statement.setLong(2,route.getLocationB().getId());
+            statement.setInt(3, route.getDuration());
             statement.setInt(4, route.getDistance());
-            statement.setLong(6, route.getId());
-            //Tae comment cause of error
-            //statement.setLong(4,route.getTransportation().getId());
-            ////statement.setInt(5, route.getCost());
-            //statement.setLong(7, route.getId());
+            statement.setLong(5,route.getTransportation().getId());
+            statement.setLong(6,route.getId());
 
             statement.executeUpdate();
             logger.info("Record created");
@@ -242,13 +231,13 @@ public class RouteDAO implements IRouteDAO {
         try {
             route= new Route();
             route.setId(resultSet.getLong("id"));
-            route.setDuration(resultSet.getInt(4));
-            route.setDistance(resultSet.getInt(7));
+            route.setDuration(resultSet.getInt("duration"));
+            route.setDistance(resultSet.getInt("distance"));
 
-            route.getLocationA().setId(resultSet.getLong("location_a"));
-            route.getLocationB().setId(resultSet.getLong("location_b"));
-            //Tae comment cause of error
-            //route.getTransportation().setId(resultSet.getLong("transportation_id"));
+            route.getLocationA().setId(resultSet.getLong("location_a_id"));
+            route.getLocationB().setId(resultSet.getLong("location_b_id"));
+
+            route.getTransportation().setId(resultSet.getLong("transportation_id"));
 
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());

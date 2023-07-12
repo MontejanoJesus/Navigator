@@ -20,8 +20,8 @@ public class LocationDAO implements ILocationDAO {
     private static final String SELECT_ALL = "SELECT * FROM Locations";
     private static final String READ_POINT = "SELECT ST_X(t.coordinates) as x_coordinate, ST_Y(t.coordinates) as y_coordinate, t.* FROM Locations t WHERE id=?";
     private static final String SELECT_BY_ID = "SELECT * FROM Locations WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Locations ( id, name, coordinates) VALUES (?,?,ST_GeomFromText('POINT(? ?)'))";
-    private static final String UPDATE = "UPDATE Locations SET name=?, coordinates=? WHERE id=?";
+    private static final String INSERT = "INSERT INTO Locations ( id, name, coordinates) VALUES (?,?,POINT(?,?))";
+    private static final String UPDATE = "UPDATE Locations SET name=?, coordinates=POINT(?,?) WHERE id=?";
     private static final String DELETE = "DELETE FROM Locations WHERE id = ?";
 
     @Override
@@ -116,6 +116,8 @@ public class LocationDAO implements ILocationDAO {
             statement = connection.prepareStatement(UPDATE);
             statement.setString(1, location.getName());
             statement.setLong(2,location.getId());
+            statement.setDouble(3,location.getCoordinate().getLatitude());
+            statement.setDouble(4,location.getCoordinate().getLongitude());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -160,7 +162,12 @@ public class LocationDAO implements ILocationDAO {
             location.setId(resultSet.getLong(1));
             location.setName(resultSet.getString(2));
 
-            location.setCoordinate(readPoint(location.getId()));
+            //location.setCoordinate(readPoint(location.getId()));
+            try{ location.setCoordinate(readPoint(location.getId()));}
+            catch (Exception e){
+                location.setCoordinate(null);
+            }
+
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());
         }
