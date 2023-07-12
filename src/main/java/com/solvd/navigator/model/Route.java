@@ -15,6 +15,8 @@ public class Route {
 	public Route() {
 		this.locationA = new Location();
 		this.locationB = new Location();
+		this.users = new ArrayList<>();
+		this.transportation = new Transportation();
 	}
 
 	public Route(Long id, Integer duration, Integer distance) {
@@ -84,8 +86,8 @@ public class Route {
 	public String toString() {
 		return "Route{" +
 				"id=" + id +
-				", locationA=" + locationA +
-				", locationB=" + locationB +
+				", locationA=" + locationA+
+				", locationB=" + locationB+
 				", duration=" + duration +
 				", distance=" + distance +
 				", users=" + users +

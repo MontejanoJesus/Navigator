@@ -1,7 +1,7 @@
 package com.solvd.navigator.dao.jdbc;
 
 import com.solvd.navigator.connection.ConnectionPool;
-import com.solvd.navigator.dao.IDAO;
+import com.solvd.navigator.dao.IReviewDAO;
 import com.solvd.navigator.model.Review;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,11 +14,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewDAO implements IDAO<Review> {
+public class ReviewDAO implements IReviewDAO {
     private static final Logger logger = LogManager.getLogger("ReviewDAO");
     private static final String SELECT_ALL = "SELECT * FROM Reviews";
     private static final String SELECT_BY_ID = "SELECT * FROM Reviews WHERE id = ?";
-    private static final String INSERT = "INSERT INTO Reviews ( content, location_id) VALUES (?,?, ?)";
+    private static final String INSERT = "INSERT INTO Reviews ( id, content, location_id) VALUES (?,?,?)";
     private static final String UPDATE = "UPDATE Reviews SET content=?, location_id=?  WHERE id=?";
     private static final String DELETE = "DELETE FROM Reviews WHERE id = ?";
 
@@ -86,10 +86,12 @@ public class ReviewDAO implements IDAO<Review> {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
+
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
-            statement.setString(1, review.getContent());
-            statement.setLong(2, review.getLocation().getId());
+            statement.setString(2, review.getContent());
+            statement.setLong(3, review.getLocation().getId());
+            statement.setLong(1, review.getId());
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();
@@ -110,12 +112,13 @@ public class ReviewDAO implements IDAO<Review> {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
+            //"UPDATE Reviews SET content=?, location_id=?  WHERE id=?";
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
             statement.setString(1, review.getContent());
-            //Tae comment
-            // statement.setLong(1, review.getLocation().getLocationId());
-            statement.setLong(2,review.getId());
+             statement.setLong(2, review.getLocation().getId());
+            statement.setLong(3,review.getId());
+
             statement.executeUpdate();
             logger.info("Record created");
             statement.close();

@@ -9,12 +9,13 @@ public class Person {
 	private DriverLicense driverLicense;
 
 	public Person() {
-
+		this.driverLicense = new DriverLicense();
 	}
 
 	public Person(Long id, String name) {
 		this.id = id;
 		this.name = name;
+		this.driverLicense = new DriverLicense();
 	}
 
 	public Long getId() {

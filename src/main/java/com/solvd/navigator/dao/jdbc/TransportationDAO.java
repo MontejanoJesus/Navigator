@@ -89,9 +89,9 @@ public class TransportationDAO implements ITransportationDAO {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(INSERT);
             statement.setLong(1, transportation.getId());
-            statement.setInt(2, transportation.getNumber());
+            statement.setInt(2, transportation.getVehicleNumber());
             statement.setInt(3, transportation.getCost());
-            statement.setLong(4,transportation.getPerson().getId());
+            statement.setLong(4,transportation.getDriver().getId());
             statement.setLong(5,transportation.getTransportationType().getId());
             statement.executeUpdate();
             logger.info("Record created");
@@ -115,9 +115,9 @@ public class TransportationDAO implements ITransportationDAO {
         try {
             connection = ConnectionPool.getInstance().getConnection();
             statement = connection.prepareStatement(UPDATE);
-            statement.setInt(1, transportation.getNumber());
+            statement.setInt(1, transportation.getVehicleNumber());
             statement.setInt(2, transportation.getCost());
-            statement.setLong(3,transportation.getPerson().getId());
+            statement.setLong(3,transportation.getDriver().getId());
             statement.setLong(4,transportation.getTransportationType().getId());
             statement.setLong(5,transportation.getId());
             statement.executeUpdate();
@@ -163,7 +163,7 @@ public class TransportationDAO implements ITransportationDAO {
         try {
             transportation= new Transportation();
             transportation.setId(resultSet.getLong(1));
-            transportation.setNumber(resultSet.getInt(2));
+            transportation.setVehicleNumber(resultSet.getInt(2));
             transportation.setCost(resultSet.getInt(3));
            // transportation.getPerson().setId(resultSet.getLong(4));
             //transportation.getTransportationType().setId(resultSet.getLong(5));
