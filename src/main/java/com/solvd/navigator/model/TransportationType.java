@@ -1,29 +1,30 @@
 package com.solvd.navigator.model;
 
 public class TransportationType {
-    private Long id;
-    private String type;
+	Long id;
+	String type;
 
-    public TransportationType() {}
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
-    public String toString() {
-        return "TransportationType{" +
-                "id=" + id +
-                ",type=" + type +
-                '}';
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "TransportationType{" +
+				"id=" + id +
+				", name='" + type + '\'' +
+				'}';
+	}
 }

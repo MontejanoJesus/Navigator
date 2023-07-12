@@ -5,38 +5,61 @@
 <mapper namespace="com.solvd.navigator.dao.ITransportationDAO">
 	<resultMap id="transportationResultMap" type="com.solvd.navigator.model.Transportation">
 		<id property="id" column="id"/>
-  		<result property="name" column="name"/>
-		<association property="driver" javaType="com.solvd.navigator.model.Driver">
+  		<result property="vehicleNumber" column="vehicleNumber"/>
+		<result property="cost" column="cost"/>
+		<association property="driver" javaType="com.solvd.navigator.model.Person">
 			<id property="id" column="driver_id"/>
 			<result property="name" column="driver_name"/>
+			<association property="driverLicense" javaType="com.solvd.navigator.model.DriverLicense">
+				<id property="id" column="driver_license_id"/>
+				<result property="number" column="driver_license_number"/>
+			</association>
+		</association>
+		<association property="transportationType" javaType="com.solvd.navigator.model.TransportationType">
+			<id property="id" column="transportation_type_id"/>
+			<result property="type" column="transportation_type"/>
 		</association>
 	</resultMap>
 
 	<select id="getById" parameterType="long" resultMap="transportationResultMap">
 		SELECT T.id as id,
-			   T.name as name,
+			   T.number as vehicleNumber,
+			   T.cost as cost,
 			   D.id as driver_id,
-			   D.name as driver_name
+			   D.name as driver_name,
+			   DL.id as driver_license_id,
+			   DL.number as driver_license_number,
+			   TT.id as transportation_type_id,
+			   TT.type as transportation_type
 		FROM Transportation T
-		JOIN Drivers D ON T.driver_id= D.id
+		JOIN Persons D ON T.driver_id= D.id
+		JOIN Driver_License DL ON D.driver_license_id = DL.id
+		JOIN Transportation_Type TT ON T.transportation_type_id = TT.id
 		WHERE T.id = #{id};
 	</select>
 
 	<select id="getAll" resultMap="transportationResultMap">
-		SELECT T.id AS id,
-			   T.name AS name,
-			   D.id AS driver_id,
-			   D.name AS driver_name
+		SELECT T.id as id,
+			   T.number as vehicleNumber,
+			   T.cost as cost,
+			   D.id as driver_id,
+			   D.name as driver_name,
+			   DL.id as driver_license_id,
+			   DL.number as driver_license_number,
+			   TT.id as transportation_type_id,
+			   TT.type as transportation_type
 		FROM Transportation T
-		JOIN Drivers D ON T.driver_id = D.id
+		JOIN Persons D ON T.driver_id= D.id
+		JOIN Driver_License DL ON D.driver_license_id = DL.id
+		JOIN Transportation_Type TT ON T.transportation_type_id = TT.id;
 	</select>
 
 	<insert id="insert" parameterType="com.solvd.navigator.model.Transportation">
-		INSERT INTO Transportation (id, name, driver_id) VALUES (#{id}, #{name}, #{driver.id})
+		INSERT INTO Transportation (id, number, cost, driver_id, transportation_type_id) VALUES (#{id}, #{vehicleNumber}, #{cost}, #{driver.id}, #{transportationType.id})
 	</insert>
 
 	<update id="update" parameterType="com.solvd.navigator.model.Transportation">
-		UPDATE Transportation SET name = #{name}, driver_id = #{driver.id} WHERE id = #{id}
+		UPDATE Transportation SET number = #{vehicleNumber}, cost = #{cost}, driver_id = #{driver.id}, transportation_type_id = #{transportationType.id} WHERE id = #{id}
 	</update>
 
 	<delete id="delete" parameterType="long">

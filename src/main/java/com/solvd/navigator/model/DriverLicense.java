@@ -2,10 +2,10 @@ package com.solvd.navigator.model;
 
 public class DriverLicense {
     private Long id;
-    private String number;
+    private Integer number;
 
     public DriverLicense(){}
-    public DriverLicense(Long id, String number) {
+    public DriverLicense(Long id, Integer number) {
         this.id = id;
         this.number = number;
     }
@@ -18,11 +18,11 @@ public class DriverLicense {
         this.id = id;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

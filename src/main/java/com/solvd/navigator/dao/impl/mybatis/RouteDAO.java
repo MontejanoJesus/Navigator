@@ -23,6 +23,7 @@ public class RouteDAO extends MyBatisDAO implements IRouteDAO {
         });
     }
 
+
     @Override
     public void insert(Route route) {
         executeWithSession(session -> {
@@ -65,4 +66,5 @@ public class RouteDAO extends MyBatisDAO implements IRouteDAO {
             return routeMapper.getAllRoutesByLocationId(locationId);
         });
     }
+
 }
