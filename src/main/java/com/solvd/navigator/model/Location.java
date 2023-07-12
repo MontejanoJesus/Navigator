@@ -1,5 +1,5 @@
 package com.solvd.navigator.model;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Location {
@@ -61,5 +61,3 @@ public class Location {
                 '}';
     }
 }
-
-
