@@ -1,179 +1,23 @@
 package com.solvd.navigator;
 
-import com.solvd.navigator.algo.Dijkstra;
-import com.solvd.navigator.algo.Graph;
-import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.*;
-import com.solvd.navigator.dao.impl.mybatis.*;
-import com.solvd.navigator.dao.impl.mybatis.DriverLicenseDAO;
+import com.solvd.navigator.factory.AbstractFactory;
+import com.solvd.navigator.factory.DaoType;
+import com.solvd.navigator.factory.FactoryGenerator;
+import com.solvd.navigator.factory.FactoryType;
 import com.solvd.navigator.model.*;
-import com.solvd.navigator.service.ServiceTest;
-import com.solvd.navigator.service.imple.LocationService;
-import com.solvd.navigator.service.imple.RouteService;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Dictionary;
 import java.util.Random;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 
-public class App {
+public class DaoTest {
     private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
     private static final Random random = new Random();
+    private  static AbstractFactory daoFactory = FactoryGenerator.getFactory(FactoryType.JDBC);
 
-    public static void main(String[] args) {
+    public static void DLTest(){
 
-        getDirectionsUsingService();
-        //getDirections();
-
-        //ServiceTest.addCompleteDataToDatabase();
-
-        //ServiceTest.RouteTest();
-        //ServiceTest.LocationTest();
-
-//        DaoTest.DLTest();
-//        DaoTest.TransportationTypeTest();
-//        DaoTest.PersonDriverTest();
-//        DaoTest.TransportationTest();
-//        DaoTest.LocationTest();
-//        DaoTest.RouteTest();
-//        DaoTest.ReviewTest();
-//        DaoTest.PersonTest();
-
-
-        /*  Uncomment test below and run  */
-
-//        myBatisLocationTest();
-//        myBatisDriverLicenseTest();
-//        myBatisTransportationTypeTest();
-//        myBatisReviewTest();
-//        myBatisTransportationTest(); //bug
-//        myBatisPersonDriverTest();
-//        myBatisPersonTest();
-//        myBatisRouteTest();
-
-    }
-
-    public static void getDirectionsUsingService(){
-
-        Graph graph = new Graph(true, true);
-        LocationService locationService = new LocationService();
-        RouteService routeService = new RouteService();
-
-        Location SanFrancisco = graph.addLocation(locationService.getById(2L));
-        Location LosVegas = graph.addLocation(locationService.getById(4L));
-        Location Chicago = graph.addLocation(locationService.getById(1L));
-        Location Houston = graph.addLocation(locationService.getById(3L));
-        Location Baltimore = graph.addLocation(locationService.getById(6L));
-        Location SanAntonio = graph.addLocation(locationService.getById(5L));
-
-
-        graph.addRoute(routeService.getById(1L));
-        graph.addRoute(routeService.getById(2L));
-        graph.addRoute(routeService.getById(3L));
-        graph.addRoute(routeService.getById(4L));
-        graph.addRoute(routeService.getById(5L));
-        graph.addRoute(routeService.getById(6L));
-        graph.addRoute(routeService.getById(7L));
-
-
-        Location startingLocation = Chicago;
-        Location endingLocation = Baltimore;
-
-        Dictionary[] result = Dijkstra.findAllShortestPath(graph, startingLocation);
-        Dictionary<String, Integer> duration = result[0];
-        Dictionary<String, Location> AllLocations = result[1];
-
-
-      Integer durationToDestination = duration.get(endingLocation.getName());
-      logger.info("Shortest duration from " + startingLocation.getName() +" to "+ endingLocation.getName() +": " + durationToDestination);
-      logger.info("\nPath: ");
-
-        Dijkstra.printPathWithTransportation(AllLocations, endingLocation);
-        Result result1 = Dijkstra.result(AllLocations, endingLocation);
-        logger.info("\nResult: "+ result1.toString());
-
-
-    }
-
-
-    public static void getDirections(){
-
-    Graph graph = new Graph(true, true);
-
-    Location LA = graph.addLocation("Los Angeles");
-    Location LV = graph.addLocation("Los Vegas");
-    Location NY = graph.addLocation("New York");
-    Location SF = graph.addLocation("San Fransisco");
-    Location Bro = graph.addLocation("Brooklyn");
-    Location Ho = graph.addLocation("Hobart");
-    Location Mi = graph.addLocation("Miami");
-    Location Sea = graph.addLocation("Seattle");
-
-    Transportation bus = new Transportation();
-    bus.getTransportationType().setType("Bus");
-    Transportation train = new Transportation();
-    train.getTransportationType().setType("Train");
-
-        graph.addRoute(LA,LV,3,bus);
-        graph.addRoute(LA,SF,8,train);
-        graph.addRoute(SF,LV,7,train);
-        graph.addRoute(LV,NY,5,bus);
-        graph.addRoute(NY,Bro,3,bus);
-        graph.addRoute(Bro,Ho,8,train);
-        graph.addRoute(Ho,Mi,7,train);
-        graph.addRoute(Mi,Sea,5,train);
-
-        graph.addRoute(LA,Bro,44,train);
-        graph.addRoute(LA,Mi,7,train);
-        graph.addRoute(Mi,Bro,5,bus);
-
-
-    Location startingLocation = LA;
-    Location endingLocation = Bro;
-
-    Dictionary[] result = Dijkstra.findAllShortestPath(graph, startingLocation);
-    Dictionary<String, Integer> duration = result[0];
-    Dictionary<String, Location> AllLocations = result[1];
-
-        Integer durationToDestination = duration.get(endingLocation.getName());
-        logger.info("Shortest duration from " + startingLocation.getName() +" to "+ endingLocation.getName() +": " + durationToDestination);
-        logger.info("\nPath: ");
-
-        Dijkstra.printPathWithTransportation(AllLocations, endingLocation);
-        Result result1 = Dijkstra.result(AllLocations, endingLocation);
-        logger.info("\nResult: "+ result1.toString());
-
-
-    }
-
-    private static void connectionPoolTest(){
-        // Create an instance of ConnectionPool with a desired pool size
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-
-        try {
-            // Acquire a connection from the pool
-            Connection connection = connectionPool.getConnection();
-
-            // Ensure the connection is not null
-            if (connection != null) {
-                logger.info("Connection acquired successfully!\n");
-
-                // Release the connection back to the pool
-                connectionPool.releaseConnection(connection);
-                logger.info("Connection released successfully!");
-            } else {
-                logger.info("Failed to acquire connection from the pool.");
-            }
-        } catch (InterruptedException | SQLException | IOException e) {
-            logger.error("Failed to acquire/release connection from the pool.", e);
-        }
-    }
-
-    private static void myBatisDriverLicenseTest(){
-
-        IDriverLicenseDAO driverLicenseDAO = new DriverLicenseDAO();
+        IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
 
         DriverLicense driverLicense = createDriverLicense();
         DriverLicense driverLicense2 = createDriverLicense();
@@ -196,8 +40,10 @@ public class App {
         }
     }
 
-    private static void myBatisTransportationTypeTest(){
-        ITransportationTypeDAO transportationTypeDAO = new TransportationTypeDAO();
+    public static void TransportationTypeTest(){
+
+
+        ITransportationTypeDAO transportationTypeDAO = daoFactory.getDao(DaoType.TRANSPORTATION_TYPE);
 
         TransportationType transportationType = createTransportationType("Bus");
         TransportationType transportationType2 = createTransportationType("Plane");
@@ -220,9 +66,9 @@ public class App {
         }
     }
 
-    private static void myBatisReviewTest(){
-        IReviewDAO reviewDAO = new ReviewDAO();
-        ILocationDAO locationDAO = new LocationDAO();
+    public static void ReviewTest(){
+        IReviewDAO reviewDAO = daoFactory.getDao(DaoType.REVIEW);
+        ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
 
         Location location = createLocation("Los Angeles", new Coordinate(34.0522, -118.2437));
 
@@ -235,6 +81,7 @@ public class App {
             logger.info(reviewDAO.getById(review.getId()).toString() + "\n");
 
             review.setContent("updated content from review");
+            System.out.println();
             reviewDAO.update(review);
             logger.info(reviewDAO.getById(review.getId()).toString() + "\n");
 
@@ -249,14 +96,18 @@ public class App {
         }
     }
 
-    private static void myBatisPersonTest(){
+    public static void PersonTest(){
+
         //Test PersonDAO without DriverLicense
-        IPersonDAO personDAO = new PersonDAO();
+        IPersonDAO personDAO = daoFactory.getDao(DaoType.PERSON);
+
 
         Person person = createPerson("John");
         Person person2 = createPerson("Jack");
 
+
         try{
+
             personDAO.insert(person);
             logger.info(personDAO.getById(person.getId()).toString() + "\n");
 
@@ -275,10 +126,10 @@ public class App {
         }
     }
 
-    private static void myBatisPersonDriverTest(){
+    public static void PersonDriverTest(){
         // Test PersonDAO with DriverLicense
-        IPersonDAO driverDAO = new PersonDAO();
-        IDriverLicenseDAO driverLicenseDAO = new DriverLicenseDAO();
+        IPersonDAO personDAO = daoFactory.getDao(DaoType.PERSON);
+        IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
 
         DriverLicense driverLicense = createDriverLicense();
         DriverLicense driverLicense2 = createDriverLicense();
@@ -290,28 +141,28 @@ public class App {
             driverLicenseDAO.insert(driverLicense);
             driverLicenseDAO.insert(driverLicense2);
 
-            driverDAO.insertDriver(driver);
-            logger.info(driverDAO.getDriverById(driver.getId()).toString() + "\n");
+            personDAO.insertDriver(driver);
+            logger.info(personDAO.getDriverById(driver.getId()).toString() + "\n");
 
             driver.setName("Bob");
-            driverDAO.updateDriver(driver);
-            logger.info(driverDAO.getDriverById(driver.getId()).toString() + "\n");
+            personDAO.updateDriver(driver);
+            logger.info(personDAO.getDriverById(driver.getId()).toString() + "\n");
 
-            driverDAO.insertDriver(driver2);
-            logger.info(driverDAO.getAllDrivers().toString() + "\n");
+            personDAO.insertDriver(driver2);
+            logger.info(personDAO.getAllDrivers().toString() + "\n");
         }catch (Exception e){
             logger.error(e);
         }finally {
-            driverDAO.delete(driver.getId());
-            driverDAO.delete(driver2.getId());
+            personDAO.delete(driver.getId());
+            personDAO.delete(driver2.getId());
             driverLicenseDAO.delete(driverLicense.getId());
             driverLicenseDAO.delete(driverLicense2.getId());
         }
     }
 
-    private static void myBatisLocationTest() {
+    public static void LocationTest() {
         // Test LocationDAO, route list is initialized in service layer
-        ILocationDAO locationDAO = new LocationDAO();
+        ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
         Location location1 = createLocation("New York", new Coordinate(40.7128, 74.0060));
         Location location2 = createLocation("Los Angeles", new Coordinate(34.0522, 118.2437));
 
@@ -335,12 +186,12 @@ public class App {
         }
     }
 
-    private static void myBatisTransportationTest(){
+    public static void TransportationTest(){
         // Test TransportationDAO
-        ITransportationTypeDAO transportationTypeDAO = new TransportationTypeDAO();
-        ITransportationDAO transportationDAO = new TransportationDAO();
-        IDriverLicenseDAO driverLicenseDAO = new DriverLicenseDAO();
-        IPersonDAO driverDAO = new PersonDAO();
+        ITransportationTypeDAO transportationTypeDAO = daoFactory.getDao(DaoType.TRANSPORTATION_TYPE);
+        ITransportationDAO transportationDAO = daoFactory.getDao(DaoType.TRANSPORTATION);
+        IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
+        IPersonDAO driverDAO = daoFactory.getDao(DaoType.PERSON);
 
         DriverLicense driverLicense = createDriverLicense();
         DriverLicense driverLicense2 = createDriverLicense();
@@ -385,29 +236,29 @@ public class App {
         }
     }
 
-    private static void myBatisRouteTest(){
-        IDriverLicenseDAO driverLicenseDAO = new DriverLicenseDAO();
+    public static void RouteTest(){
+        IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
         DriverLicense driverLicense = createDriverLicense();
         DriverLicense driverLicense2 = createDriverLicense();
 
-        ITransportationTypeDAO transportationTypeDAO = new TransportationTypeDAO();
+        ITransportationTypeDAO transportationTypeDAO = daoFactory.getDao(DaoType.TRANSPORTATION_TYPE);
         TransportationType transportationType = createTransportationType("Bus");
         TransportationType transportationType2 = createTransportationType("Plane");
 
-        ILocationDAO locationDAO = new LocationDAO();
+        ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
         Location locationA = createLocation("Chicago", new Coordinate(41.8781, 87.6298));
         Location locationB = createLocation("San Francisco", new Coordinate(37.7749, 122.4194));
         Location locationC = createLocation("Houston", new Coordinate(29.7604, 95.3698));
 
-        IPersonDAO personDAO = new PersonDAO();
+        IPersonDAO personDAO = daoFactory.getDao(DaoType.PERSON);
         Person driver = createDriver("John", driverLicense);
         Person driver2 = createDriver("Jack", driverLicense2);
 
-        ITransportationDAO transportationDAO = new TransportationDAO();
+        ITransportationDAO transportationDAO = daoFactory.getDao(DaoType.TRANSPORTATION);
         Transportation transportation = createTransportation(driver, transportationType);
         Transportation transportation2 = createTransportation(driver2, transportationType2);
 
-        IRouteDAO routeDAO = new RouteDAO();
+        IRouteDAO routeDAO = daoFactory.getDao(DaoType.ROUTE);
         Route route = createRoute(locationA, locationB, transportation,100, 1000);
         Route route2 = createRoute(locationB, locationA, transportation2,100, 1500);
 
@@ -452,7 +303,7 @@ public class App {
         }
     }
 
-//    // Helpers for creating model objects
+    //    // Helpers for creating model objects
     private static DriverLicense createDriverLicense(){
         long id = Math.abs(random.nextLong());
         int number = Math.abs(random.nextInt());

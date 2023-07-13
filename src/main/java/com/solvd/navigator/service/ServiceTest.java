@@ -2,17 +2,21 @@ package com.solvd.navigator.service;
 
 import com.solvd.navigator.App;
 import com.solvd.navigator.dao.*;
-import com.solvd.navigator.dao.impl.mybatis.*;
 import com.solvd.navigator.factory.AbstractFactory;
 import com.solvd.navigator.factory.DaoType;
 import com.solvd.navigator.factory.FactoryGenerator;
 import com.solvd.navigator.factory.FactoryType;
 import com.solvd.navigator.model.*;
+import com.solvd.navigator.service.imple.LocationService;
+import com.solvd.navigator.service.imple.RouteService;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class DaoTesting {
+public class ServiceTest {
+
     private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
     private static final Random random = new Random();
     private  static AbstractFactory daoFactory = FactoryGenerator.getFactory(FactoryType.JDBC);
@@ -20,7 +24,6 @@ public class DaoTesting {
     public static void DLTest(){
 
         IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
-
         DriverLicense driverLicense = createDriverLicense();
         DriverLicense driverLicense2 = createDriverLicense();
 
@@ -164,27 +167,30 @@ public class DaoTesting {
 
     public static void LocationTest() {
         // Test LocationDAO, route list is initialized in service layer
-        ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
+        //ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
+
+        IService locationService = new LocationService();
+
         Location location1 = createLocation("New York", new Coordinate(40.7128, 74.0060));
         Location location2 = createLocation("Los Angeles", new Coordinate(34.0522, 118.2437));
 
         //locationDAO.insert(location1);
 
         try {
-            locationDAO.insert(location1);
-            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
+            locationService.insert(location1);
+            logger.info(locationService.getById(location1.getId()).toString() + "\n");
 
             location1.setName("Chicago");
-            locationDAO.update(location1);
-            logger.info(locationDAO.getById(location1.getId()).toString() + "\n");
+            locationService.update(location1);
+            logger.info(locationService.getById(location1.getId()).toString() + "\n");
 
-            locationDAO.insert(location2);
-            logger.info(locationDAO.getAll().toString() + "\n");
+            locationService.insert(location2);
+            logger.info(locationService.getAll().toString() + "\n");
         }catch (Exception e){
             logger.error(e);
         }finally {
-            locationDAO.delete(location1.getId());
-            locationDAO.delete(location2.getId());
+            locationService.delete(location1.getId());
+            locationService.delete(location2.getId());
         }
     }
 
@@ -253,16 +259,17 @@ public class DaoTesting {
         Location locationC = createLocation("Houston", new Coordinate(29.7604, 95.3698));
 
         IPersonDAO personDAO = daoFactory.getDao(DaoType.PERSON);
-        Person driver = createDriver("John", driverLicense);
+        Person driver = createDriver("Charlie", driverLicense);
         Person driver2 = createDriver("Jack", driverLicense2);
 
         ITransportationDAO transportationDAO = daoFactory.getDao(DaoType.TRANSPORTATION);
         Transportation transportation = createTransportation(driver, transportationType);
         Transportation transportation2 = createTransportation(driver2, transportationType2);
 
-        IRouteDAO routeDAO = daoFactory.getDao(DaoType.ROUTE);
+        //IRouteDAO routeDAO = daoFactory.getDao(DaoType.ROUTE);
+        IService routeService = new RouteService();
         Route route = createRoute(locationA, locationB, transportation,100, 1000);
-        Route route2 = createRoute(locationB, locationA, transportation2,100, 1500);
+        Route route2 = createRoute(locationA, locationC, transportation2,250, 1500);
 
         try{
             driverLicenseDAO.insert(driverLicense);
@@ -277,20 +284,20 @@ public class DaoTesting {
             transportationDAO.insert(transportation);
             transportationDAO.insert(transportation2);
 
-            routeDAO.insert(route);
-            logger.info(routeDAO.getById(route.getId()) + "\n");
+            routeService.insert(route);
+            logger.info(routeService.getById(route.getId()) + "\n");
 
             route.setLocationA(locationC);
-            routeDAO.update(route);
-            logger.info(routeDAO.getById(route.getId()) + "\n");
+            routeService.update(route);
+            logger.info(routeService.getById(route.getId()) + "\n");
 
-            routeDAO.insert(route2);
-            logger.info(routeDAO.getAll() + "\n");
+            routeService.insert(route2);
+            logger.info(routeService.getAll() + "\n");
         }catch (Exception e) {
             logger.error(e);
         }finally {
-            routeDAO.delete(route.getId());
-            routeDAO.delete(route2.getId());
+            routeService.delete(route.getId());
+            routeService.delete(route2.getId());
             transportationDAO.delete(transportation.getId());
             transportationDAO.delete(transportation2.getId());
             personDAO.delete(driver.getId());
@@ -380,4 +387,159 @@ public class DaoTesting {
         route.setDistance(distance);
         return route;
     }
+
+    public static void addCompleteDataToDatabase(){
+        //*** this method will add data to the database to use the Dijkstra Algorithm ***.
+        // it is recommended to erase all the data inside the database to avoid duplicates.
+
+        List<Location> locationList = new ArrayList<>();
+        List<Route> routeList = new ArrayList<>();
+
+
+        IDriverLicenseDAO driverLicenseDAO = daoFactory.getDao(DaoType.DRIVER_LICENSE);
+        DriverLicense driverLicense = createDriverLicense();
+        driverLicense.setId(1L);
+        DriverLicense driverLicense2 = createDriverLicense();
+        driverLicense2.setId(2L);
+
+        ITransportationTypeDAO transportationTypeDAO = daoFactory.getDao(DaoType.TRANSPORTATION_TYPE);
+        TransportationType transportationType = createTransportationType("Bus");
+        transportationType.setId(1L);
+        TransportationType transportationType2 = createTransportationType("Plane");
+        transportationType2.setId(2L);
+        TransportationType transportationType3 = createTransportationType("Boat");
+        transportationType3.setId(3L);
+        TransportationType transportationType4 = createTransportationType("Taxi");
+        transportationType4.setId(4L);
+        TransportationType transportationType5 = createTransportationType("Train");
+        transportationType5.setId(5L);
+
+        ILocationDAO locationDAO = daoFactory.getDao(DaoType.LOCATION);
+        Location locationA = createLocation("Chicago", new Coordinate(41.8781, 87.6298));
+        locationA.setId(1L);
+        Location locationB = createLocation("San Francisco", new Coordinate(37.7749, 122.4194));
+        locationB.setId(2L);
+        Location locationC = createLocation("Houston", new Coordinate(29.7604, 95.3698));
+        locationC.setId(3L);
+        Location locationD = createLocation("Los Vegas", new Coordinate(41.8781, 87.6298));
+        locationD.setId(4L);
+        Location locationE = createLocation("San Antonio", new Coordinate(37.7749, 122.4194));
+        locationE.setId(5L);
+        Location locationF = createLocation("Baltimore", new Coordinate(29.7604, 95.3698));
+        locationF.setId(6L);
+        locationList.add(locationA);
+        locationList.add(locationB);
+        locationList.add(locationC);
+        locationList.add(locationD);
+        locationList.add(locationE);
+        locationList.add(locationF);
+
+
+        IPersonDAO personDAO = daoFactory.getDao(DaoType.PERSON);
+        Person driver = createDriver("Charlie", driverLicense);
+        driver.setId(1L);
+        Person driver2 = createDriver("Jack", driverLicense2);
+        driver2.setId(2L);
+
+        ITransportationDAO transportationDAO = daoFactory.getDao(DaoType.TRANSPORTATION);
+        Transportation transportation = createTransportation(driver, transportationType);
+        transportation.setId(1L);
+        Transportation transportation2 = createTransportation(driver2, transportationType2);
+        transportation2.setId(2L);
+        Transportation transportation3 = createTransportation(driver, transportationType3);
+        transportation3.setId(3L);
+        Transportation transportation4 = createTransportation(driver2, transportationType4);
+        transportation4.setId(4L);
+        Transportation transportation5 = createTransportation(driver, transportationType5);
+        transportation5.setId(5L);
+
+
+
+
+        //IRouteDAO routeDAO = daoFactory.getDao(DaoType.ROUTE);
+        IService routeService = new RouteService();
+        Route route = createRoute(locationA, locationB, transportation,100, 1000);
+        route.setId(1L);
+        Route route2 = createRoute(locationA, locationC, transportation2,250, 1500);
+        route2.setId(2L);
+        Route route3 = createRoute(locationB, locationD, transportation5,140, 500);
+        route3.setId(3L);
+        Route route4 = createRoute(locationC, locationE, transportation3,200, 1400);
+        route4.setId(4L);
+        Route route5 = createRoute(locationE, locationF, transportation4,160, 1100);
+        route5.setId(5L);
+        Route route6 = createRoute(locationD, locationF, transportation2,400, 2500);
+        route6.setId(6L);
+        Route route7 = createRoute(locationB, locationE, transportation3,70, 2500);
+        route7.setId(7L);
+
+        routeList.add(route);
+        routeList.add(route2);
+        routeList.add(route3);
+        routeList.add(route4);
+        routeList.add(route5);
+        routeList.add(route6);
+        routeList.add(route7);
+
+        try{
+
+            driverLicenseDAO.insert(driverLicense);
+            driverLicenseDAO.insert(driverLicense2);
+
+            transportationTypeDAO.insert(transportationType);
+            transportationTypeDAO.insert(transportationType2);
+            transportationTypeDAO.insert(transportationType3);
+            transportationTypeDAO.insert(transportationType4);
+            transportationTypeDAO.insert(transportationType5);
+
+            personDAO.insertDriver(driver);
+            personDAO.insertDriver(driver2);
+
+            transportationDAO.insert(transportation);
+            transportationDAO.insert(transportation2);
+            transportationDAO.insert(transportation3);
+            transportationDAO.insert(transportation4);
+            transportationDAO.insert(transportation5);
+
+            for(Location loc: locationList){
+
+                locationDAO.insert(loc);
+            }
+            for(Route r: routeList){
+                routeService.insert(r);
+            }
+
+
+        }catch (Exception e) {
+            logger.error(e);
+//        }finally {
+//
+//
+//
+//
+//            for(Route r: routeList){
+//                routeService.delete(r.getId());
+//            }
+//
+//            transportationDAO.delete(transportation.getId());
+//            transportationDAO.delete(transportation2.getId());
+//            personDAO.delete(driver.getId());
+//            personDAO.delete(driver2.getId());
+//
+//            for(Location loc: locationList){
+//                locationDAO.delete(loc.getId());
+//            }
+//
+//            transportationTypeDAO.delete(transportationType.getId());
+//            transportationTypeDAO.delete(transportationType2.getId());
+//            driverLicenseDAO.delete(driverLicense.getId());
+//            driverLicenseDAO.delete(driverLicense2.getId());
+        }
+    }
+
+
+
 }
+
+
+

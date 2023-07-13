@@ -165,7 +165,9 @@ public class TransportationDAO implements ITransportationDAO {
             transportation.setId(resultSet.getLong(1));
             transportation.setVehicleNumber(resultSet.getInt(2));
             transportation.setCost(resultSet.getInt(3));
-           // transportation.getPerson().setId(resultSet.getLong(4));
+            transportation.getDriver().setId(resultSet.getLong(4));
+            transportation.getTransportationType().setId(resultSet.getLong(5));
+
             //transportation.getTransportationType().setId(resultSet.getLong(5));
         } catch (SQLException e) {
             logger.error("SQL Exception"+e.getErrorCode());

@@ -26,6 +26,15 @@ public class Route {
 		this.users = new ArrayList<>();
 	}
 
+	public Route(Long id, Location locationA, Location locationB, Integer duration, Integer distance, Transportation transportation) {
+		this.id = id;
+		this.locationA = locationA;
+		this.locationB = locationB;
+		this.duration = duration;
+		this.distance = distance;
+		this.transportation = transportation;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -86,11 +95,11 @@ public class Route {
 	public String toString() {
 		return "Route{" +
 				"id=" + id +
-				", locationA=" + locationA+
-				", locationB=" + locationB+
+				", locationA=" + locationA.getName()+
+				", locationB=" + locationB.getName()+
 				", duration=" + duration +
 				", distance=" + distance +
-				", users=" + users +
+//				", users=" + users +
 				", transportation=" + transportation +
 				'}';
 	}

@@ -8,6 +8,8 @@ public class Transportation {
 	private TransportationType transportationType;
 
 	public Transportation() {
+		this.driver = new Person();
+		this.transportationType = new TransportationType();
 	}
 
 	public Long getId() {
@@ -57,6 +59,7 @@ public class Transportation {
 				", cost=" + cost +
 				", vehicleNumber=" + vehicleNumber +
 				", driver=" + driver +
+				", transportationType=" + transportationType +
 				'}';
 	}
 }
