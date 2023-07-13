@@ -15,6 +15,11 @@ public class Transportation {
 		this.driver = new Person();
 		this.transportationType = new TransportationType();
 	}
+	public Transportation(Integer vehicleNumber, Integer cost, TransportationType type) {
+		this.vehicleNumber = vehicleNumber;
+		this.cost = cost;
+		this.transportationType = type;
+	}
 
 	public Long getId() {
 		return id;

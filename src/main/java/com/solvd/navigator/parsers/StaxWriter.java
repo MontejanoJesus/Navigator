@@ -1,4 +1,4 @@
-package com.solvd.navigator.xmlparsers;
+package com.solvd.navigator.parsers;
 
 import com.solvd.navigator.model.*;
 import org.apache.logging.log4j.LogManager;

@@ -6,6 +6,10 @@ public class TransportationType {
 	@JsonIgnore
 	Long id;
 	String type;
+	public TransportationType(){}
+	public TransportationType(String type) {
+		this.type = type;
+	}
 
 	public Long getId() {
 		return id;

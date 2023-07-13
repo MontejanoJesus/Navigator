@@ -2,10 +2,10 @@
 <Result>
  <Route>
   <Location>
-   <name>Chicago</name>
+   <name>Los Angeles</name>
   </Location>
   <Location>
-   <name>San Francisco</name>
+   <name>San Fransico</name>
   </Location>
   <Transportation>
    <TransportationType>
@@ -13,34 +13,34 @@
    </TransportationType>
    <vehicleNumber>101</vehicleNumber>
   </Transportation>
-  <duration>100</duration>
+  <duration>10</duration>
  </Route> <Route>
   <Location>
-   <name>San Francisco</name>
+   <name>San Fransico</name>
   </Location>
   <Location>
-   <name>San Antonio</name>
+   <name>New York</name>
   </Location>
   <Transportation>
    <TransportationType>
-    <Type>Boat</Type>
+    <Type>Plane</Type>
    </TransportationType>
-   <vehicleNumber>101</vehicleNumber>
+   <vehicleNumber>747</vehicleNumber>
   </Transportation>
-  <duration>70</duration>
+  <duration>50</duration>
  </Route> <Route>
   <Location>
-   <name>San Antonio</name>
+   <name>New York</name>
   </Location>
   <Location>
-   <name>Baltimore</name>
+   <name>Miami</name>
   </Location>
   <Transportation>
    <TransportationType>
     <Type>Taxi</Type>
    </TransportationType>
-   <vehicleNumber>101</vehicleNumber>
+   <vehicleNumber>59</vehicleNumber>
   </Transportation>
-  <duration>160</duration>
+  <duration>5</duration>
  </Route>
 </Result>
