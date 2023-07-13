@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class StaxWriter {
-/*
+
     private static final Logger logger = LogManager.getLogger("StaxWriter");
     public void writeToXml(Path path, Result result){
 
@@ -27,7 +27,7 @@ public class StaxWriter {
             try {
                 writer = outputFactory.createXMLStreamWriter(os, "utf-8");
                 writeResultElem(writer, result);
-                logger.info("in");
+
             } finally {
                 if (writer != null)
                     writer.close();
@@ -63,33 +63,20 @@ public class StaxWriter {
         try {
             writer.writeCharacters(" ");
             writer.writeStartElement("Route");
-            writer.writeAttribute("id", route.getId().toString());
+            //writer.writeAttribute("id", route.getId().toString());
             writer.writeCharacters("\n");
 
             writeLocationElem(writer, route.getLocationA());
             writer.writeCharacters("\n");
             writeLocationElem(writer, route.getLocationB());
             writer.writeCharacters("\n");
-            //Tae
-            // writeTransportationElem(writer, route.getTransportation());
+
+            writeTransportationElem(writer, route.getTransportation());
             writer.writeCharacters("\n");
 
             writer.writeCharacters("  ");
             writer.writeStartElement("duration");
             writer.writeCharacters(route.getDuration().toString());
-            writer.writeEndElement();
-            writer.writeCharacters("\n");
-
-            writer.writeCharacters("  ");
-            writer.writeStartElement("cost");
-            //Tae
-            //writer.writeCharacters(route.getCost().toString());
-            writer.writeEndElement();
-
-            writer.writeCharacters("\n");
-            writer.writeCharacters("  ");
-            writer.writeStartElement("distance");
-            writer.writeCharacters(route.getDistance().toString());
             writer.writeEndElement();
             writer.writeCharacters("\n");
 
@@ -105,7 +92,7 @@ public class StaxWriter {
         try {
             writer.writeCharacters("  ");
             writer.writeStartElement("Location");
-            writer.writeAttribute("id", location.getId().toString());
+            //writer.writeAttribute("id", location.getId().toString());
             writer.writeCharacters("\n");
             writer.writeCharacters("   ");
 
@@ -125,15 +112,17 @@ public class StaxWriter {
         try {
             writer.writeCharacters("  ");
             writer.writeStartElement("Transportation");
-            writer.writeAttribute("id", transportation.getId().toString());
+            //writer.writeAttribute("id", transportation.getId().toString());
 
             writer.writeCharacters("\n");
-            writer.writeCharacters("   ");
-            writer.writeStartElement("name");
-            writer.writeCharacters(transportation.getName());
-            writer.writeEndElement();
+            //writer.writeCharacters("   ");
 
-            writeDriverElem(writer, transportation.getDriver());
+            writeTransportationTypeElem(writer, transportation.getTransportationType());
+            writer.writeCharacters("\n");
+            writer.writeCharacters("   ");
+            writer.writeStartElement("vehicleNumber");
+            writer.writeCharacters(transportation.getVehicleNumber().toString());
+            writer.writeEndElement();
 
             writer.writeCharacters("\n");
             writer.writeCharacters("  ");
@@ -143,27 +132,23 @@ public class StaxWriter {
             logger.error(e.getMessage());
         }
     }
-    public void writeDriverElem(XMLStreamWriter writer, Driver driver){
-        try {
-            writer.writeCharacters("\n");
-            writer.writeCharacters("   ");
-            writer.writeStartElement("Driver");
-            writer.writeAttribute("id", driver.getId().toString());
 
+    private void writeTransportationTypeElem(XMLStreamWriter writer, TransportationType transportationType) {
+        try {
+            writer.writeCharacters("   ");
+            writer.writeStartElement("TransportationType");
             writer.writeCharacters("\n");
             writer.writeCharacters("    ");
-            writer.writeStartElement("name");
-            writer.writeCharacters(driver.getName());
+            writer.writeStartElement("Type");
+            writer.writeCharacters(transportationType.getType());
             writer.writeEndElement();
-
             writer.writeCharacters("\n");
             writer.writeCharacters("   ");
             writer.writeEndElement();
-
         } catch (XMLStreamException e) {
             logger.error(e.getMessage());
         }
 
     }
-    */
+
 }

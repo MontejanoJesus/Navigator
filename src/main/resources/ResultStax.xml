@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Result>
- <Route id="1">
-  <Location id="2">
-   <name>NY</name>
+ <Route>
+  <Location>
+   <name>Chicago</name>
   </Location>
-  <Location id="3">
-   <name>LA</name>
+  <Location>
+   <name>San Francisco</name>
   </Location>
-  <Transportation id="1">
-   <name>Bus</name>
-   <Driver id="1">
-    <name>Noah</name>
-   </Driver>
+  <Transportation>
+   <TransportationType>
+    <Type>Bus</Type>
+   </TransportationType>
+   <vehicleNumber>101</vehicleNumber>
   </Transportation>
-  <duration>200</duration>
-  <cost>111</cost>
-  <distance>99</distance>
+  <duration>100</duration>
+ </Route> <Route>
+  <Location>
+   <name>San Francisco</name>
+  </Location>
+  <Location>
+   <name>San Antonio</name>
+  </Location>
+  <Transportation>
+   <TransportationType>
+    <Type>Boat</Type>
+   </TransportationType>
+   <vehicleNumber>101</vehicleNumber>
+  </Transportation>
+  <duration>70</duration>
+ </Route> <Route>
+  <Location>
+   <name>San Antonio</name>
+  </Location>
+  <Location>
+   <name>Baltimore</name>
+  </Location>
+  <Transportation>
+   <TransportationType>
+    <Type>Taxi</Type>
+   </TransportationType>
+   <vehicleNumber>101</vehicleNumber>
+  </Transportation>
+  <duration>160</duration>
  </Route>
 </Result>
