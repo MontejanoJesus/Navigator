@@ -20,7 +20,7 @@ public class RouteDAO implements IRouteDAO {
     private static final String SELECT_ALL = "SELECT * FROM Routes";
     private static final String SELECT_BY_ID = "SELECT * FROM Routes WHERE id = ?";
     private static final String SELECT_BY_LOC_ID = "SELECT * FROM Routes WHERE location_a_id = ? AND location_b_id=?";
-    private static final String SELECT_BY_LOCAT_ID = "SELECT * FROM Routes WHERE location_a = ?";
+    private static final String SELECT_BY_LOCAT_ID = "SELECT * FROM Routes WHERE location_a_id = ?";
     private static final String INSERT = "INSERT INTO Routes (id, location_a_id, location_b_id, duration, distance,transportation_id) VALUES (?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE Routes SET location_a_id=?, location_b_id=?, duration=?, distance=?, transportation_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM Routes WHERE id = ?";

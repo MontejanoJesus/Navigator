@@ -3,6 +3,7 @@ package com.solvd.navigator.dao.jdbc;
 import com.solvd.navigator.connection.ConnectionPool;
 import com.solvd.navigator.dao.ILocationDAO;
 import com.solvd.navigator.model.Coordinate;
+import com.solvd.navigator.model.Route;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.solvd.navigator.model.Location;
