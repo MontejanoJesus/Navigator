@@ -1,9 +1,13 @@
 package com.solvd.navigator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Transportation {
+	@JsonIgnore
 	private Long id;
 	private Integer cost;
 	private Integer vehicleNumber;
+	@JsonIgnore
 	private Person driver;
 	private TransportationType transportationType;
 

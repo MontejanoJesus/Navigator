@@ -1,6 +1,9 @@
 package com.solvd.navigator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class TransportationType {
+	@JsonIgnore
 	Long id;
 	String type;
 

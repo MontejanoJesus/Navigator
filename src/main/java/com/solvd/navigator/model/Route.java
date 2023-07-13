@@ -1,14 +1,19 @@
 package com.solvd.navigator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Route {
+	@JsonIgnore
 	private Long id;
 	private Location locationA;
 	private Location locationB;
 	private Integer duration;
+	@JsonIgnore
 	private Integer distance;
+	@JsonIgnore
 	private List<Person> users;
 	private Transportation transportation;
 

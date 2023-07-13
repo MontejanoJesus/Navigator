@@ -1,12 +1,17 @@
 package com.solvd.navigator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Location {
+    @JsonIgnore
     private Long id;
     private String name;
+    @JsonIgnore
     private Coordinate coordinate;
+    @JsonIgnore
     private List<Route> routes;
 
     public Location(){
