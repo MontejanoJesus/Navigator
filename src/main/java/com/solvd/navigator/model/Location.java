@@ -2,16 +2,25 @@ package com.solvd.navigator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Location")
 public class Location {
     @JsonIgnore
+    @XmlTransient
     private Long id;
     private String name;
     @JsonIgnore
+    @XmlTransient
     private Coordinate coordinate;
     @JsonIgnore
+    @XmlTransient
     private List<Route> routes;
 
     public Location(){
