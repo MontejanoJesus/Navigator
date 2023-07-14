@@ -1,0 +1,48 @@
+{
+  "routeList" : [ {
+    "locationA" : {
+      "name" : "Charleston"
+    },
+    "locationB" : {
+      "name" : "Washington DC"
+    },
+    "duration" : 1,
+    "transportation" : {
+      "cost" : 100,
+      "vehicleNumber" : 101,
+      "transportationType" : {
+        "type" : "Plane"
+      }
+    }
+  }, {
+    "locationA" : {
+      "name" : "Washington DC"
+    },
+    "locationB" : {
+      "name" : "Salt Lake City"
+    },
+    "duration" : 9,
+    "transportation" : {
+      "cost" : 100,
+      "vehicleNumber" : 101,
+      "transportationType" : {
+        "type" : "Boat"
+      }
+    }
+  }, {
+    "locationA" : {
+      "name" : "Salt Lake City"
+    },
+    "locationB" : {
+      "name" : "Sacramento"
+    },
+    "duration" : 7,
+    "transportation" : {
+      "cost" : 100,
+      "vehicleNumber" : 101,
+      "transportationType" : {
+        "type" : "Bus"
+      }
+    }
+  } ]
+}

@@ -1,6 +1,5 @@
 package com.solvd.navigator.algo;
 
-import com.solvd.navigator.App;
 import com.solvd.navigator.model.Location;
 import com.solvd.navigator.model.Result;
 import com.solvd.navigator.model.Route;
@@ -69,7 +68,7 @@ public class Dijkstra {
             printPathWithTransportation(previous, previousLocation);
             for(Route route : previousLocation.getRoutes()){
                 if(route.getLocationB().getName().equals(destination.getName())) {
-                    logger.info(" --| " + route.getTransportation().getTransportationType().getType()+" (" + route.getDuration()+") |--> "+ destination.getName());
+                    logger.info(" --| " + route.getTransportation().getTransportationType().getType()+" (" + route.getDuration()+"hrs) |--> "+ destination.getName());
                     return;
                 }
             }

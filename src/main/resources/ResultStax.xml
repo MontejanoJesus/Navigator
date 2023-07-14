@@ -2,10 +2,38 @@
 <Result>
  <Route>
   <Location>
-   <name>Los Angeles</name>
+   <name>Charleston</name>
   </Location>
   <Location>
-   <name>San Fransico</name>
+   <name>Washington DC</name>
+  </Location>
+  <Transportation>
+   <TransportationType>
+    <Type>Plane</Type>
+   </TransportationType>
+   <vehicleNumber>101</vehicleNumber>
+  </Transportation>
+  <duration>1</duration>
+ </Route> <Route>
+  <Location>
+   <name>Washington DC</name>
+  </Location>
+  <Location>
+   <name>Salt Lake City</name>
+  </Location>
+  <Transportation>
+   <TransportationType>
+    <Type>Boat</Type>
+   </TransportationType>
+   <vehicleNumber>101</vehicleNumber>
+  </Transportation>
+  <duration>9</duration>
+ </Route> <Route>
+  <Location>
+   <name>Salt Lake City</name>
+  </Location>
+  <Location>
+   <name>Sacramento</name>
   </Location>
   <Transportation>
    <TransportationType>
@@ -13,34 +41,6 @@
    </TransportationType>
    <vehicleNumber>101</vehicleNumber>
   </Transportation>
-  <duration>10</duration>
- </Route> <Route>
-  <Location>
-   <name>San Fransico</name>
-  </Location>
-  <Location>
-   <name>New York</name>
-  </Location>
-  <Transportation>
-   <TransportationType>
-    <Type>Plane</Type>
-   </TransportationType>
-   <vehicleNumber>747</vehicleNumber>
-  </Transportation>
-  <duration>50</duration>
- </Route> <Route>
-  <Location>
-   <name>New York</name>
-  </Location>
-  <Location>
-   <name>Miami</name>
-  </Location>
-  <Transportation>
-   <TransportationType>
-    <Type>Taxi</Type>
-   </TransportationType>
-   <vehicleNumber>59</vehicleNumber>
-  </Transportation>
-  <duration>5</duration>
+  <duration>7</duration>
  </Route>
 </Result>

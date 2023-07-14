@@ -1,6 +1,6 @@
 package com.solvd.navigator.service;
 
-import com.solvd.navigator.App;
+import com.solvd.navigator.tests.AppTest;
 import com.solvd.navigator.dao.*;
 import com.solvd.navigator.factory.AbstractFactory;
 import com.solvd.navigator.factory.DaoType;
@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class ServiceTest {
 
-    private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(App.class);
+    private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(AppTest.class);
     private static final Random random = new Random();
     private  static AbstractFactory daoFactory = FactoryGenerator.getFactory(FactoryType.JDBC);
 
