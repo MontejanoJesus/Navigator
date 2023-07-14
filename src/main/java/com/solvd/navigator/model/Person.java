@@ -1,11 +1,13 @@
 package com.solvd.navigator.model;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
 	private Long id;
 	private String name;
+	@XmlTransient
 	private DriverLicense driverLicense;
 
 	public Person() {

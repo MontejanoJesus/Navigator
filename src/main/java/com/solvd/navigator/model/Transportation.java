@@ -2,13 +2,22 @@ package com.solvd.navigator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.xml.bind.annotation.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Transportation")
 public class Transportation {
 	@JsonIgnore
+	@XmlTransient
 	private Long id;
+	@XmlTransient
 	private Integer cost;
 	private Integer vehicleNumber;
 	@JsonIgnore
+	@XmlTransient
 	private Person driver;
+
+	@XmlElement(name="TransportationType")
 	private TransportationType transportationType;
 
 	public Transportation() {

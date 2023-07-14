@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Result>
     <Route>
         <Location>
@@ -7,13 +7,13 @@
         <Location>
             <name>Washington DC</name>
         </Location>
-        <Transportation>
-            <TransportationType>
-                <Type>Plane</Type>
-            </TransportationType>
-            <vehicleNumber>101</vehicleNumber>
-        </Transportation>
         <duration>1</duration>
+        <Transportation>
+            <vehicleNumber>101</vehicleNumber>
+            <TransportationType>
+                <type>Plane</type>
+            </TransportationType>
+        </Transportation>
     </Route>
     <Route>
         <Location>
@@ -22,13 +22,13 @@
         <Location>
             <name>Salt Lake City</name>
         </Location>
-        <Transportation>
-            <TransportationType>
-                <Type>Boat</Type>
-            </TransportationType>
-            <vehicleNumber>101</vehicleNumber>
-        </Transportation>
         <duration>9</duration>
+        <Transportation>
+            <vehicleNumber>101</vehicleNumber>
+            <TransportationType>
+                <type>Boat</type>
+            </TransportationType>
+        </Transportation>
     </Route>
     <Route>
         <Location>
@@ -37,12 +37,12 @@
         <Location>
             <name>Sacramento</name>
         </Location>
-        <Transportation>
-            <TransportationType>
-                <Type>Bus</Type>
-            </TransportationType>
-            <vehicleNumber>101</vehicleNumber>
-        </Transportation>
         <duration>7</duration>
+        <Transportation>
+            <vehicleNumber>101</vehicleNumber>
+            <TransportationType>
+                <type>Bus</type>
+            </TransportationType>
+        </Transportation>
     </Route>
 </Result>
