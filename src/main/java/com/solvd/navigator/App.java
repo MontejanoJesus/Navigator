@@ -6,6 +6,7 @@ import com.solvd.navigator.factory.JDBCFactory;
 import com.solvd.navigator.model.Location;
 import com.solvd.navigator.model.Result;
 import com.solvd.navigator.model.Route;
+import com.solvd.navigator.parsers.DOMWriter;
 import com.solvd.navigator.parsers.JsonParser;
 import com.solvd.navigator.parsers.StaxWriter;
 import com.solvd.navigator.service.imple.LocationService;
@@ -102,6 +103,10 @@ public class App {
         // Json Parser
         JsonParser jsonParser = new JsonParser();
         jsonParser.writeToJson(finalResult);
+
+        //DOM Parser
+        DOMWriter domWriter = new DOMWriter();
+        domWriter.writeToXml(finalResult);
 
     }
 
