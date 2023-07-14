@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Result>
+    <Route>
+        <Location>
+            <name>Miami</name>
+        </Location>
+        <Location>
+            <name>Austin</name>
+        </Location>
+        <Transportation>
+            <TransportationType>
+                <Type>Bus</Type>
+            </TransportationType>
+            <vehicleNumber>101</vehicleNumber>
+        </Transportation>
+        <duration>10</duration>
+    </Route>
+</Result>
